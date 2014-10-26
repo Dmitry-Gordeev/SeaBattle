@@ -1,0 +1,9 @@
+D:\Диплом\Game\SeaBattle\SeaBattle\SeaBattle\bin\x86\Debug\SeaBattle.exe
+D:\Диплом\Game\SeaBattle\SeaBattle\SeaBattle\bin\x86\Debug\SeaBattle.pdb
+D:\Диплом\Game\SeaBattle\SeaBattle\SeaBattle\obj\x86\Debug\SeaBattle.csprojResolveAssemblyReference.cache
+D:\Диплом\Game\SeaBattle\SeaBattle\SeaBattle\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+D:\Диплом\Game\SeaBattle\SeaBattle\SeaBattle\obj\x86\Debug\SeaBattle.exe
+D:\Диплом\Game\SeaBattle\SeaBattle\SeaBattle\obj\x86\Debug\SeaBattle.pdb
+D:\Диплом\Game\SeaBattle\SeaBattle\SeaBattle\bin\x86\Debug\SeaBattle.Objects.dll
+D:\Диплом\Game\SeaBattle\SeaBattle\SeaBattle\bin\x86\Debug\SeaBattle.Objects.pdb
+D:\Диплом\Game\SeaBattle\SeaBattle\SeaBattle\bin\x86\Debug\Content\Ships\Lugger.xnb

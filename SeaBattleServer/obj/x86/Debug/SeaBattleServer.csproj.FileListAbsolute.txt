@@ -1,0 +1,12 @@
+D:\Диплом\Game\SeaBattle\SeaBattleServer\bin\Debug\SeaBattleServer.exe
+D:\Диплом\Game\SeaBattle\SeaBattleServer\bin\Debug\SeaBattleServer.pdb
+D:\Диплом\Game\SeaBattle\SeaBattleServer\obj\x86\Debug\SeaBattleServer.exe
+D:\Диплом\Game\SeaBattle\SeaBattleServer\obj\x86\Debug\SeaBattleServer.pdb
+D:\Диплом\Game\SeaBattle\SeaBattleServer\bin\Debug\System.Net.Http.dll
+D:\Диплом\Game\SeaBattle\SeaBattleServer\bin\Debug\System.Net.Http.Formatting.dll
+D:\Диплом\Game\SeaBattle\SeaBattleServer\bin\Debug\Newtonsoft.Json.dll
+D:\Диплом\Game\SeaBattle\SeaBattleServer\bin\Debug\System.Net.Http.xml
+D:\Диплом\Game\SeaBattle\SeaBattleServer\bin\Debug\System.Net.Http.Formatting.xml
+D:\Диплом\Game\SeaBattle\SeaBattleServer\bin\Debug\ru\System.Net.Http.resources.dll
+D:\Диплом\Game\SeaBattle\SeaBattleServer\bin\Debug\ru\System.Net.Http.Formatting.resources.dll
+D:\Диплом\Game\SeaBattle\SeaBattleServer\obj\x86\Debug\SeaBattleServer.csprojResolveAssemblyReference.cache
