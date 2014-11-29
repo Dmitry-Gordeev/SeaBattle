@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SeaBattle.Objects.ShipSupplies
 {
-    class Compass
+    public class Compass
     {
     }
 }
