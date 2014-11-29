@@ -33,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,11 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
+    <Compile Include="Connections\Constants.cs" />
+    <Compile Include="GameEvents\AGameEvent.cs" />
+    <Compile Include="GameEvents\Constants.cs" />
+    <Compile Include="GameEvents\GameEvents.cs" />
     <Compile Include="Interfaces\IObject.cs" />
+    <Compile Include="Service\Constants.cs" />
+    <Compile Include="Service\ISeaBattleService.cs" />
     <Compile Include="Interfaces\IShip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

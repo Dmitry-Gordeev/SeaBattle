@@ -29,8 +29,8 @@ namespace SeaBattle.Objects.Ships
         protected int Gunners;
         protected int Sailors;
         protected int PirateFighters;
-        protected Cannons Cannons;
-        
+        protected Supplies ShipSupplies;
+
         #endregion
 
         #region Properties

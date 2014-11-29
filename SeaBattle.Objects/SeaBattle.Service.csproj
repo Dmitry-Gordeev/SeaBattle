@@ -62,11 +62,13 @@
     <Compile Include="ShipSupplies\Compass.cs" />
     <Compile Include="ShipSupplies\Sails.cs" />
     <Compile Include="ShipSupplies\ShipHold.cs" />
+    <Compile Include="ShipSupplies\Supplies.cs" />
     <Compile Include="ShipSupplies\WindVane.cs" />
     <Compile Include="Ships\Lugger.cs" />
     <Compile Include="Ships\ShipBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Session\" />
     <Folder Include="StaticObjects\" />
   </ItemGroup>
   <ItemGroup>
