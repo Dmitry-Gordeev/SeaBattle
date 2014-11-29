@@ -1,4 +1,4 @@
-﻿namespace SeaBattle.Common
+﻿namespace SeaBattle.Common.Connections
 {
     class Constants
     {

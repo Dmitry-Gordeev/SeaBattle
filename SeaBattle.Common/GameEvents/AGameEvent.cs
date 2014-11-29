@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SeaBattle.Common.GameEvents
 {
-    class AGameEvent
+    public class AGameEvent
     {
         public long TimeStamp { get; private set; }
 

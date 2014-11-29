@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using SeaBattle.Common.Service;
+using SeaBattle.Common.GameEvents;
+using SeaBattle.Common.Session;
 
-namespace SeaBattle.Common.Interfaces
+namespace SeaBattle.Common.Service
 {
     [ServiceContract]
     public interface ISeaBattleService
@@ -20,6 +18,52 @@ namespace SeaBattle.Common.Interfaces
 
         [OperationContract]
         AccountManagerErrorCode Logout();
+
+        [OperationContract]
+        GameDescription[] GetGameList();
+
+        [OperationContract]
+        GameDescription CreateGame(int maxPlayers, int teams);
+
+        [OperationContract]
+        bool JoinGame(GameDescription game);
+
+        [OperationContract]
+        void LeaveGame();
+
+        /// <summary>
+        /// проверка началась ли игра
+        /// </summary>
+        /// <param name="gameId">идентификатор игры</param>
+        /// <returns>если игра не началась возвращает null</returns>
+        [OperationContract]
+        GameLevel GameStart(int gameId);
+
+        [OperationContract]
+        long GetServerGameTime();
+
+        /// <summary>
+        /// возвращает список игроков
+        /// </summary>
+        /// <returns>массив имен игроков</returns>
+        [OperationContract]
+        String[] PlayerListUpdate();
+
+        #endregion
+
+        #region процесс игры
+
+        [OperationContract]
+        void Move();
+
+        [OperationContract]
+        void Shoot();
+
+        [OperationContract]
+        void ChangeAmmunition();
+
+        [OperationContract]
+        AGameEvent[] GetEvents();
 
         #endregion
     }
