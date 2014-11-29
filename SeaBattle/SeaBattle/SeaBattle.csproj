@@ -111,7 +111,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Ships\ClientShipBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
