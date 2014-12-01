@@ -72,9 +72,9 @@
     <Folder Include="StaticObjects\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SeaBattle.Common\SeaBattle.Contracts.csproj">
+    <ProjectReference Include="..\SeaBattle.Common\SeaBattle.Common.csproj">
       <Project>{33B52FC2-27DD-4610-888B-E3EB890448C6}</Project>
-      <Name>SeaBattle.Contracts</Name>
+      <Name>SeaBattle.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

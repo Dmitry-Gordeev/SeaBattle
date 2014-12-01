@@ -23,7 +23,7 @@ namespace SeaBattle.Common.Service
         GameDescription[] GetGameList();
 
         [OperationContract]
-        GameDescription CreateGame(int maxPlayers, int teams);
+        GameDescription CreateGame(GameMode mode, int maxPlayers, int teams);
 
         [OperationContract]
         bool JoinGame(GameDescription game);
@@ -52,15 +52,6 @@ namespace SeaBattle.Common.Service
         #endregion
 
         #region процесс игры
-
-        [OperationContract]
-        void Move();
-
-        [OperationContract]
-        void Shoot();
-
-        [OperationContract]
-        void ChangeAmmunition();
 
         [OperationContract]
         AGameEvent[] GetEvents();

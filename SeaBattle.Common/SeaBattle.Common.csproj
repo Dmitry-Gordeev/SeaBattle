@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections\Constants.cs" />
+    <Compile Include="ErrorHandler\ErrorHelper.cs" />
     <Compile Include="GameEvents\AGameEvent.cs" />
     <Compile Include="GameEvents\Constants.cs" />
     <Compile Include="GameEvents\GameEvents.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="Service\ISeaBattleService.cs" />
     <Compile Include="Interfaces\IShip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Session\Constants.cs" />
     <Compile Include="Session\GameDescription.cs" />
     <Compile Include="Session\GameLevel.cs" />
   </ItemGroup>

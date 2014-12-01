@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattleServer", "SeaBattl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.Service", "SeaBattle.Objects\SeaBattle.Service.csproj", "{915E039D-C7B4-4F7D-A4E2-9CECE6DDBA08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.Contracts", "SeaBattle.Common\SeaBattle.Contracts.csproj", "{33B52FC2-27DD-4610-888B-E3EB890448C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBattle.Common", "SeaBattle.Common\SeaBattle.Common.csproj", "{33B52FC2-27DD-4610-888B-E3EB890448C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
