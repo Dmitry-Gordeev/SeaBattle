@@ -8,12 +8,11 @@ namespace SeaBattle.Common.Session
         {
         }
 
-        public GameDescription(List<string> players, int maxPlayersAllowed, int gameId, int teams)
+        public GameDescription(List<string> players, int maxPlayersAllowed, int gameId)
         {
             GameId = gameId;
             Players = players;
             MaximumPlayersAllowed = maxPlayersAllowed;
-            Teams = teams;
         }
 
         public int GameId { get; set; }
@@ -22,11 +21,9 @@ namespace SeaBattle.Common.Session
 
         public int MaximumPlayersAllowed { get; set; }
 
-        public int Teams { get; set; }
-
         public override string ToString()
         {
-            return string.Format("[ {0}/{1} ; {2}]", Players.Count, MaximumPlayersAllowed, Teams);
+            return string.Format("[ {0}/{1} ]", Players.Count, MaximumPlayersAllowed);
         }
     }
 }

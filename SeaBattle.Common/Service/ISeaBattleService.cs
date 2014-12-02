@@ -23,7 +23,7 @@ namespace SeaBattle.Common.Service
         GameDescription[] GetGameList();
 
         [OperationContract]
-        GameDescription CreateGame(GameMode mode, int maxPlayers, int teams);
+        GameDescription CreateGame(GameMode mode, int maxPlayers);
 
         [OperationContract]
         bool JoinGame(GameDescription game);

@@ -55,6 +55,7 @@
     <Compile Include="Session\Constants.cs" />
     <Compile Include="Session\GameDescription.cs" />
     <Compile Include="Session\GameLevel.cs" />
+    <Compile Include="Utils\TimeHelper.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

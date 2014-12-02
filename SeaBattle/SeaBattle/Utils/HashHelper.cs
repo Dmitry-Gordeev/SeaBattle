@@ -19,9 +19,9 @@ namespace SeaBattle.Utils
 
             var sBuilder = new StringBuilder();
 
-            for (int i = 0; i < data.Length; i++)
+            foreach (byte elem in data)
             {
-                sBuilder.Append(data[i].ToString("x2"));
+                sBuilder.Append(elem.ToString("x2"));
             }
 
             return sBuilder.ToString();
