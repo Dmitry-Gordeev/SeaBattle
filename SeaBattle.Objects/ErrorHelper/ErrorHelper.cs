@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace SeaBattle.Objects.ErrorHelper
+namespace SeaBattle.Service.ErrorHelper
 {
     public class ErrorHelper
     {

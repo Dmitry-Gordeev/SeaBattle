@@ -8,7 +8,7 @@ namespace SeaBattle.Common.Objects
 {
     public interface IPlayer : ISerializableObject
     {
-        byte ID { get; set; }
+        int ID { get; set; }
         string Name { get; set; }
         IShip Ship { get; }
     }

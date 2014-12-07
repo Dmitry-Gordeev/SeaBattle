@@ -8,7 +8,7 @@ namespace SeaBattle.Common.Objects
 {
     public interface ISerializableObject
     {
-        object DeSerialize(ref long position);
+        object DeSerialize(ref long position, byte[] dataBytes);
         byte[] Serialize(ref long position);
         void GetObjectData();
     }

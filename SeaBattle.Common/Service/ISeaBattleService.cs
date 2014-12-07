@@ -8,7 +8,7 @@ namespace SeaBattle.Common.Service
     [ServiceContract]
     public interface ISeaBattleService
     {
-        #region регистрация, логин и создание игры
+        #region регистрация, аутентификация
 
         [OperationContract(IsInitiating = true)]
         AccountManagerErrorCode Register(string username, string password);
@@ -18,6 +18,10 @@ namespace SeaBattle.Common.Service
 
         [OperationContract]
         AccountManagerErrorCode Logout();
+
+        #endregion
+
+        #region Основные методы инициализации игры
 
         [OperationContract]
         GameDescription[] GetGameList();
@@ -39,6 +43,10 @@ namespace SeaBattle.Common.Service
         [OperationContract]
         GameLevel GameStart(int gameId);
 
+        #endregion
+        
+        #region процесс игры
+
         [OperationContract]
         long GetServerGameTime();
 
@@ -49,15 +57,9 @@ namespace SeaBattle.Common.Service
         [OperationContract]
         String[] PlayerListUpdate();
 
-        #endregion
-
-        #region процесс игры
-
         [OperationContract]
         AGameEvent[] GetEvents();
 
         #endregion
-
-        
     }
 }

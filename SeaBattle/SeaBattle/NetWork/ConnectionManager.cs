@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
-using SeaBattle.Objects.ErrorHelper;
+using SeaBattle.Service.ErrorHelper;
 using SeaBattle.Utils;
 
 namespace SeaBattle.NetWork

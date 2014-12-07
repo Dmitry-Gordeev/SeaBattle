@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.Contracts;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace SeaBattle.Objects.ShipSupplies
+namespace SeaBattle.Service.ShipSupplies
 {
     public class Cannons
     {

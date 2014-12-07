@@ -1,33 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Net;
 using SeaBattle.Common.Objects;
 
-namespace SeaBattle.Objects.Player
+namespace SeaBattle.Service.Player
 {
     public class Player : IPlayer
     {
-        public byte ID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public IShip Ship { get; private set; }
 
         #region Constructors
 
-        public Player(IShip ship)
+        public Player(IShip ship, int id, string name )
         {
             Ship = ship;
+            ID = id;
+            Name = name;
         }
 
         #endregion
 
         #region Serialization
 
-        public object DeSerialize(ref long position)
+        public object DeSerialize(ref long position, byte[] dataBytes)
         {
             throw new NotImplementedException();
         }

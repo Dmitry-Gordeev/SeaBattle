@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Net;
-using SeaBattle.Objects.Ships;
+using SeaBattle.Service.Ships;
 
 namespace SeaBattle
 {
@@ -25,10 +25,6 @@ namespace SeaBattle
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             _myLugger = new Lugger();
-
-            Components.Add(new GamerServicesComponent(this));
-
-            Session = NetworkSession.Create(NetworkSessionType.SystemLink, 8, 5);
         }
 
         /// <summary>
