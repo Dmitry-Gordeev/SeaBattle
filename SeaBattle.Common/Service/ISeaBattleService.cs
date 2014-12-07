@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
-using SeaBattle.Common.GameEvents;
+using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Common.Service
@@ -23,7 +23,7 @@ namespace SeaBattle.Common.Service
         GameDescription[] GetGameList();
 
         [OperationContract]
-        GameDescription CreateGame(GameMode mode, int maxPlayers);
+        GameDescription CreateGame(GameMode mode, int maxPlayers, int teams);
 
         [OperationContract]
         bool JoinGame(GameDescription game);
@@ -57,5 +57,7 @@ namespace SeaBattle.Common.Service
         AGameEvent[] GetEvents();
 
         #endregion
+
+        
     }
 }

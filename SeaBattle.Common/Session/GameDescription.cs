@@ -6,6 +6,7 @@ namespace SeaBattle.Common.Session
     {
         public GameDescription()
         {
+
         }
 
         public GameDescription(List<string> players, int maxPlayersAllowed, int gameId)

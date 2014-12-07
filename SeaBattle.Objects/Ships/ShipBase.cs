@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SeaBattle.Common.Interfaces;
+using SeaBattle.Common.Objects;
 using SeaBattle.Objects.ShipSupplies;
 
 namespace SeaBattle.Objects.Ships
@@ -37,6 +37,7 @@ namespace SeaBattle.Objects.Ships
 
         public bool IsStatic { get { return false; } }
         public abstract float Height { get; }
+        public Vector2 Coordinates { get; set; }
 
         public int NumberOfPeople
         {
@@ -61,6 +62,23 @@ namespace SeaBattle.Objects.Ships
 
         #endregion
 
-        
+        #region Serialization
+
+        public object DeSerialize(ref long position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] Serialize(ref long position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetObjectData()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

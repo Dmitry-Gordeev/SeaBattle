@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Microsoft.Xna.Framework;
-using SeaBattle.Common.GameEvents;
+using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Service;
-using SeaBattle.Common.ErrorHandler;
 using SeaBattle.Common.Session;
+using SeaBattle.Objects.ErrorHelper;
 using SeaBattle.Utils;
 
 namespace SeaBattle.NetWork
@@ -60,7 +60,6 @@ namespace SeaBattle.NetWork
         {
 
         }
-
 
         #region run/stop thread, initialization
 
