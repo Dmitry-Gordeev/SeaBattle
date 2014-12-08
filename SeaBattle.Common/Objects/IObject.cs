@@ -5,6 +5,6 @@ namespace SeaBattle.Common.Objects
     public interface IObject
     {
         bool IsStatic { get; }
-        float Height { get; }
+        int ID { get; }
     }
 }

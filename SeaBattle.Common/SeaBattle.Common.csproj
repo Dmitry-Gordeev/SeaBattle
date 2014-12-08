@@ -46,6 +46,7 @@
     <Compile Include="Connections\Constants.cs" />
     <Compile Include="GameEvent\AGameEvent.cs" />
     <Compile Include="GameEvent\Constants.cs" />
+    <Compile Include="Objects\IBullet.cs" />
     <Compile Include="Objects\IObject.cs" />
     <Compile Include="Objects\IPlayer.cs" />
     <Compile Include="Objects\ISerializableObject.cs" />

@@ -65,6 +65,7 @@
     <Compile Include="SeaBattleService.cs" />
     <Compile Include="Session\GameSession.cs" />
     <Compile Include="Session\SessionManager.cs" />
+    <Compile Include="ShipSupplies\Bullet.cs" />
     <Compile Include="ShipSupplies\Cannons.cs" />
     <Compile Include="ShipSupplies\Compass.cs" />
     <Compile Include="ShipSupplies\Sails.cs" />

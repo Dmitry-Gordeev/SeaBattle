@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace SeaBattle.Common.Objects
 {
-    public interface IShip : IObject, ISerializableObject
+    public interface IShip : ISerializableObject
     {
         float FullWeight { get; }
     }
