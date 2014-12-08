@@ -5,8 +5,13 @@ using System.Text;
 
 namespace SeaBattle.Common.Utils
 {
-    class CommonSerializer
+    public class CommonSerializer
     {
-
+        public static float GetFloat(ref int position, byte[] dataBytes)
+        {
+            var result = BitConverter.ToSingle(dataBytes, position);
+            position += 4;
+            return result;
+        }
     }
 }

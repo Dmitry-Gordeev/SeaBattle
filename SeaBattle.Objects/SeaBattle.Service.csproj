@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorHelper\ErrorHelper.cs" />
+    <Compile Include="Goods\Good.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeaBattleService.cs" />

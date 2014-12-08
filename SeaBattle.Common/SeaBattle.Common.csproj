@@ -57,6 +57,7 @@
     <Compile Include="Session\GameDescription.cs" />
     <Compile Include="Session\GameLevel.cs" />
     <Compile Include="Utils\CommonSerializer.cs" />
+    <Compile Include="Utils\Converter.cs" />
     <Compile Include="Utils\TimeHelper.cs" />
   </ItemGroup>
   <ItemGroup />

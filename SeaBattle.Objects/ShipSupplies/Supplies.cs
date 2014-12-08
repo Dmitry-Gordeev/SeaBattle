@@ -22,7 +22,7 @@ namespace SeaBattle.Service.ShipSupplies
        
         #endregion
 
-        public object DeSerialize(ref long position, byte[] dataBytes)
+        public void DeSerialize(ref int position, byte[] dataBytes)
         {
             throw new System.NotImplementedException();
         }

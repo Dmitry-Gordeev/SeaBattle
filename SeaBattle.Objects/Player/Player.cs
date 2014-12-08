@@ -1,5 +1,6 @@
 ﻿using System;
 using SeaBattle.Common.Objects;
+using SeaBattle.Service.Ships;
 
 namespace SeaBattle.Service.Player
 {
@@ -23,9 +24,9 @@ namespace SeaBattle.Service.Player
 
         #region Serialization
 
-        public object DeSerialize(ref long position, byte[] dataBytes)
+        public void DeSerialize(ref int position, byte[] dataBytes)
         {
-            throw new NotImplementedException();
+            Ship.DeSerialize(ref position, dataBytes);
         }
 
         public byte[] Serialize()

@@ -1,4 +1,6 @@
-﻿using SeaBattle.Common.Objects;
+﻿using System;
+using System.Linq;
+using SeaBattle.Common.Objects;
 
 namespace SeaBattle.Service.ShipSupplies
 {
@@ -6,14 +8,25 @@ namespace SeaBattle.Service.ShipSupplies
     {
         public bool SomethingChanged { get; set; }
 
-        public object DeSerialize(ref long position, byte[] dataBytes)
+        private byte _sailsState;
+
+        #region Methods
+
+        #endregion
+
+        public void DeSerialize(ref int position, byte[] dataBytes)
         {
             throw new System.NotImplementedException();
         }
 
         public byte[] Serialize()
         {
-            throw new System.NotImplementedException();
+            if (!SomethingChanged) return new byte[] { 0 };
+            var result = new byte[] { 1 };
+
+            result = (byte[]) result.Concat(new Byte[]{_sailsState});
+
+            return result;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using SeaBattle.Common.Objects;
+using SeaBattle.Common.Utils;
 using SeaBattle.Service.ShipSupplies;
 
 namespace SeaBattle.Service.Ships
@@ -20,6 +21,7 @@ namespace SeaBattle.Service.Ships
 
         #region Fields
 
+        protected Type typeOfShip;
         protected string Name;
         protected float ShipWeight;
 
@@ -33,9 +35,14 @@ namespace SeaBattle.Service.Ships
         public bool SomethingChanged { get; set; }
         public bool IsStatic { get { return false; } }
         public abstract float Height { get; }
-        public Vector2 Coordinates { get; set; }
+        public Vector2 Coordinates;
 
         public float FullWeight { get { return ShipWeight + ShipSupplies.ShipHold.LoadWeight; } }
+
+        public Type TypeOfShip
+        {
+            get { return typeOfShip; }
+        }
 
         #endregion
 
@@ -47,9 +54,18 @@ namespace SeaBattle.Service.Ships
 
         #region Serialization
 
-        public object DeSerialize(ref long position, byte[] dataBytes)
+        public void DeSerialize(ref int position, byte[] dataBytes)
         {
-            throw new NotImplementedException();
+            if (dataBytes[position] == 0)
+            {
+                position++;
+                return;
+            }
+            //Recieve coordinates
+            Coordinates.X = CommonSerializer.GetFloat(ref position, dataBytes);
+            Coordinates.Y = CommonSerializer.GetFloat(ref position, dataBytes);
+            ShipCrew.DeSerialize(ref position, dataBytes);
+            ShipSupplies.DeSerialize(ref position, dataBytes);
         }
 
         public byte[] Serialize()

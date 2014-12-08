@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SeaBattle.Common.Objects;
+using SeaBattle.Common.Utils;
 
 namespace SeaBattle.Service.ShipSupplies
 {
@@ -76,7 +78,7 @@ namespace SeaBattle.Service.ShipSupplies
 
         private int GetNumberOfCannons(IEnumerable<bool> cannons)
         {
-            return cannons.Sum(cannon => cannon ? 1 : 0);
+            return cannons.Sum(cannon => cannon ? 0 : 1);
         }
 
         private void Initialization()
@@ -86,14 +88,23 @@ namespace SeaBattle.Service.ShipSupplies
 
         #endregion
 
-        public object DeSerialize(ref long position, byte[] dataBytes)
+        public void DeSerialize(ref int position, byte[] dataBytes)
         {
             throw new System.NotImplementedException();
         }
 
         public byte[] Serialize()
         {
-            throw new System.NotImplementedException();
+            if (!SomethingChanged) return new byte[] { 0 };
+            var result = new byte[] { 1 };
+
+            result = (byte[])result.Concat(Converter.BoolArrToBytes(LeftSideCannons));
+            result = (byte[])result.Concat(Converter.BoolArrToBytes(RightSideCannons));
+            result = (byte[])result.Concat(Converter.BoolArrToBytes(ForePartCannons));
+            result = (byte[])result.Concat(Converter.BoolArrToBytes(RearPartCannons));
+
+            SomethingChanged = false;
+            return result;
         }
     }
 }
