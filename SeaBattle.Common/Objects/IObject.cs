@@ -6,6 +6,5 @@ namespace SeaBattle.Common.Objects
     {
         bool IsStatic { get; }
         float Height { get; }
-        Vector2 Coordinates { get; set; }
     }
 }

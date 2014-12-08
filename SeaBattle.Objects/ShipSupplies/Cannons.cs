@@ -90,7 +90,12 @@ namespace SeaBattle.Service.ShipSupplies
 
         public void DeSerialize(ref int position, byte[] dataBytes)
         {
-            throw new System.NotImplementedException();
+            if (dataBytes[position++] == 0) return;
+
+            LeftSideCannons = CommonSerializer.BytesArrToBools(ref position, dataBytes, LeftSideCannons.Count());
+            RightSideCannons = CommonSerializer.BytesArrToBools(ref position, dataBytes, RightSideCannons.Count());
+            ForePartCannons = CommonSerializer.BytesArrToBools(ref position, dataBytes, ForePartCannons.Count());
+            RearPartCannons = CommonSerializer.BytesArrToBools(ref position, dataBytes, RearPartCannons.Count());
         }
 
         public byte[] Serialize()

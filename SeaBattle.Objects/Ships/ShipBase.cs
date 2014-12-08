@@ -21,7 +21,6 @@ namespace SeaBattle.Service.Ships
 
         #region Fields
 
-        protected Type typeOfShip;
         protected string Name;
         protected float ShipWeight;
 
@@ -38,12 +37,7 @@ namespace SeaBattle.Service.Ships
         public Vector2 Coordinates;
 
         public float FullWeight { get { return ShipWeight + ShipSupplies.ShipHold.LoadWeight; } }
-
-        public Type TypeOfShip
-        {
-            get { return typeOfShip; }
-        }
-
+        
         #endregion
 
         #region Methods
@@ -56,11 +50,8 @@ namespace SeaBattle.Service.Ships
 
         public void DeSerialize(ref int position, byte[] dataBytes)
         {
-            if (dataBytes[position] == 0)
-            {
-                position++;
-                return;
-            }
+            if (dataBytes[position++] == 0) return;
+
             //Recieve coordinates
             Coordinates.X = CommonSerializer.GetFloat(ref position, dataBytes);
             Coordinates.Y = CommonSerializer.GetFloat(ref position, dataBytes);

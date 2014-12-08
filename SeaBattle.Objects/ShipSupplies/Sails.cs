@@ -16,7 +16,7 @@ namespace SeaBattle.Service.ShipSupplies
 
         public void DeSerialize(ref int position, byte[] dataBytes)
         {
-            throw new System.NotImplementedException();
+            _sailsState = dataBytes[position++];
         }
 
         public byte[] Serialize()
