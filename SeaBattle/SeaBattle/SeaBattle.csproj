@@ -111,16 +111,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Ships\ClientShipBase.cs" />
+    <Compile Include="Utils\HashHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SeaBattle.Common\SeaBattle.Contracts.csproj">
+    <ProjectReference Include="..\..\SeaBattle.Common\SeaBattle.Common.csproj">
       <Project>{33B52FC2-27DD-4610-888B-E3EB890448C6}</Project>
-      <Name>SeaBattle.Contracts</Name>
+      <Name>SeaBattle.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SeaBattle.Objects\SeaBattle.Service.csproj">
       <Project>{915E039D-C7B4-4F7D-A4E2-9CECE6DDBA08}</Project>

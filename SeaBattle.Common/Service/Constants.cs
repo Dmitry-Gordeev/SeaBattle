@@ -7,6 +7,8 @@ namespace SeaBattle.Common.Service
 {
     class Constants
     {
+        private const int EventTimerDelayTime = 25;
+        private const int SynchroFrameDelayTime = 500;
     }
 
     public enum AccountManagerErrorCode

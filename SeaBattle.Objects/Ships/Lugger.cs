@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content.Pipeline;
-using Microsoft.Xna.Framework.Graphics;
-using SeaBattle;
-
-namespace SeaBattle.Objects.Ships
+﻿namespace SeaBattle.Service.Ships
 {
     public class Lugger : ShipBase
     {
         public Lugger()
         {
+            typeOfShip = (typeof(Lugger));
             InicializeFields();
         }
 
@@ -27,10 +19,10 @@ namespace SeaBattle.Objects.Ships
         {
             Name = "Lugger";
             ShipWeight = 1000;
-            Rowers = 8;
-            Sailors = 24;
-            PirateFighters = 10;
-            Gunners = 16;
+            ShipCrew.Rowers = 8;
+            ShipCrew.Sailors = 24;
+            ShipCrew.PirateFighters = 10;
+            ShipCrew.Gunners = 16;
         }
 
         #endregion

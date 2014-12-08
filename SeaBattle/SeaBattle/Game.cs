@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using SeaBattle.Objects.Ships;
+using Microsoft.Xna.Framework.Net;
+using SeaBattle.Service.Ships;
 
 namespace SeaBattle
 {
@@ -13,6 +15,10 @@ namespace SeaBattle
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         Lugger _myLugger;
+        // networking objects
+        NetworkSession Session;
+        PacketWriter packetWriter = new PacketWriter();
+        PacketReader packetReader = new PacketReader();
 
         public Game()
         {
@@ -67,9 +73,25 @@ namespace SeaBattle
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            foreach (LocalNetworkGamer gamer in Session.LocalGamers)
+            {
+                // Keep reading while packets are available.
+                while (gamer.IsDataAvailable)
+                {
+                    NetworkGamer sender;
+
+                    // Read a single packet.
+                    gamer.ReceiveData(packetReader, out sender);
+                    // Discard the data, or use packetReader.Read* to process the data.
+                }
+                gamer.SendData(packetWriter, SendDataOptions.None);
+
+            }
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
+
         }
 
         /// <summary>

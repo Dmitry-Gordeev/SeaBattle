@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using SeaBattle.Common.Service;
+using SeaBattle.Common.GameEvent;
+using SeaBattle.Common.Session;
 
-namespace SeaBattle.Common.Interfaces
+namespace SeaBattle.Common.Service
 {
     [ServiceContract]
     public interface ISeaBattleService
     {
-        #region регистрация, логин и создание игры
+        #region регистрация, аутентификация
 
         [OperationContract(IsInitiating = true)]
         AccountManagerErrorCode Register(string username, string password);
@@ -20,6 +18,47 @@ namespace SeaBattle.Common.Interfaces
 
         [OperationContract]
         AccountManagerErrorCode Logout();
+
+        #endregion
+
+        #region Основные методы инициализации игры
+
+        [OperationContract]
+        GameDescription[] GetGameList();
+
+        [OperationContract]
+        GameDescription CreateGame(GameMode mode, int maxPlayers, int teams);
+
+        [OperationContract]
+        bool JoinGame(GameDescription game);
+
+        [OperationContract]
+        void LeaveGame();
+
+        /// <summary>
+        /// проверка началась ли игра
+        /// </summary>
+        /// <param name="gameId">идентификатор игры</param>
+        /// <returns>если игра не началась возвращает null</returns>
+        [OperationContract]
+        GameLevel GameStart(int gameId);
+
+        #endregion
+        
+        #region процесс игры
+
+        [OperationContract]
+        long GetServerGameTime();
+
+        /// <summary>
+        /// возвращает список игроков
+        /// </summary>
+        /// <returns>массив имен игроков</returns>
+        [OperationContract]
+        String[] PlayerListUpdate();
+
+        [OperationContract]
+        AGameEvent[] GetEvents();
 
         #endregion
     }

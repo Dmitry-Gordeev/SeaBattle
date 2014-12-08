@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using SeaBattle.Common.Interfaces;
-using SeaBattle.Objects.ShipSupplies;
+using SeaBattle.Common.Objects;
+using SeaBattle.Common.Utils;
+using SeaBattle.Service.ShipSupplies;
 
-namespace SeaBattle.Objects.Ships
+namespace SeaBattle.Service.Ships
 {
     public abstract class ShipBase : IShip
     {
@@ -22,36 +21,28 @@ namespace SeaBattle.Objects.Ships
 
         #region Fields
 
+        protected Type typeOfShip;
         protected string Name;
         protected float ShipWeight;
-        
-        protected int Rowers;
-        protected int Gunners;
-        protected int Sailors;
-        protected int PirateFighters;
+
+        protected ShipCrew ShipCrew;
         protected Supplies ShipSupplies;
 
         #endregion
 
         #region Properties
 
+        public bool SomethingChanged { get; set; }
         public bool IsStatic { get { return false; } }
         public abstract float Height { get; }
+        public Vector2 Coordinates;
 
-        public int NumberOfPeople
-        {
-            get
-            {
-                return Rowers + Gunners + Sailors + PirateFighters;
-            }
-        }
-        
-        public float LoadWeight
-        {
-            get { return 10f; }
-        }
+        public float FullWeight { get { return ShipWeight + ShipSupplies.ShipHold.LoadWeight; } }
 
-        public float FullWeight { get { return ShipWeight + LoadWeight; } }
+        public Type TypeOfShip
+        {
+            get { return typeOfShip; }
+        }
 
         #endregion
 
@@ -61,6 +52,36 @@ namespace SeaBattle.Objects.Ships
 
         #endregion
 
-        
+        #region Serialization
+
+        public void DeSerialize(ref int position, byte[] dataBytes)
+        {
+            if (dataBytes[position] == 0)
+            {
+                position++;
+                return;
+            }
+            //Recieve coordinates
+            Coordinates.X = CommonSerializer.GetFloat(ref position, dataBytes);
+            Coordinates.Y = CommonSerializer.GetFloat(ref position, dataBytes);
+            ShipCrew.DeSerialize(ref position, dataBytes);
+            ShipSupplies.DeSerialize(ref position, dataBytes);
+        }
+
+        public byte[] Serialize()
+        {
+            if (!SomethingChanged) return new byte[]{0};
+            var result = new byte[] {1};
+
+            result = (byte[])result.Concat(BitConverter.GetBytes(Coordinates.X));
+            result = (byte[])result.Concat(BitConverter.GetBytes(Coordinates.Y));
+            result = (byte[])result.Concat(ShipCrew.Serialize());
+            result = (byte[])result.Concat(ShipSupplies.Serialize());
+
+            SomethingChanged = false;
+            return result;
+        }
+
+        #endregion
     }
 }

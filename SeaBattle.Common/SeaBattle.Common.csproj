@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -43,14 +44,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections\Constants.cs" />
-    <Compile Include="GameEvents\AGameEvent.cs" />
-    <Compile Include="GameEvents\Constants.cs" />
-    <Compile Include="GameEvents\GameEvents.cs" />
-    <Compile Include="Interfaces\IObject.cs" />
+    <Compile Include="GameEvent\AGameEvent.cs" />
+    <Compile Include="GameEvent\Constants.cs" />
+    <Compile Include="Objects\IObject.cs" />
+    <Compile Include="Objects\IPlayer.cs" />
+    <Compile Include="Objects\ISerializableObject.cs" />
     <Compile Include="Service\Constants.cs" />
     <Compile Include="Service\ISeaBattleService.cs" />
-    <Compile Include="Interfaces\IShip.cs" />
+    <Compile Include="Objects\IShip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Session\Constants.cs" />
+    <Compile Include="Session\GameDescription.cs" />
+    <Compile Include="Session\GameLevel.cs" />
+    <Compile Include="Utils\CommonSerializer.cs" />
+    <Compile Include="Utils\Converter.cs" />
+    <Compile Include="Utils\TimeHelper.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
