@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 
@@ -13,6 +14,8 @@ namespace SeaBattle.Service.ShipSupplies
         public int ID { get; private set; }
         public BulletType Type { get; private set; }
         public bool SomethingChanged { get; set; }
+        public Vector2 CoordinatesFrom;
+        public Vector2 CoordinatesTo;
 
         public Bullet(int id, BulletType bulletType)
         {
@@ -27,8 +30,12 @@ namespace SeaBattle.Service.ShipSupplies
 
         public byte[] Serialize()
         {
+            var result = new byte[]{};
+            result = (byte[]) result.Concat(BitConverter.GetBytes(ID));
+            result = (byte[]) result.Concat(BitConverter.GetBytes((byte)Type));
+            
 
-            return null;
+            return result;
         }
     }
 }

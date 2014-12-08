@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace SeaBattle.Common.Utils
 {
@@ -35,6 +36,16 @@ namespace SeaBattle.Common.Utils
         public static bool[] BytesArrToBools(ref int position, byte[] bools, int boolsLength)
         {
             return null;
+        }
+
+        public static bool[] Vector2ToBytesArr(ref int position, byte[] bools)
+        {
+            return null;
+        }
+
+        public static Vector2 GetVector2(ref int position, byte[] bools)
+        {
+            return new Vector2(10f, 10f);
         }
     }
 }
