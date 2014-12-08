@@ -5,8 +5,9 @@ namespace SeaBattle.Service.Player
 {
     public class Player : IPlayer
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
+        public bool SomethingChanged { get; set; }
+        public int ID { get; private set; }
+        public string Name { get; private set; }
         public IShip Ship { get; private set; }
 
         #region Constructors
@@ -27,16 +28,11 @@ namespace SeaBattle.Service.Player
             throw new NotImplementedException();
         }
 
-        public byte[] Serialize(ref long position)
+        public byte[] Serialize()
         {
-            throw new NotImplementedException();
+            return Ship.Serialize();
         }
-
-        public void GetObjectData()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         #endregion
     }
 }

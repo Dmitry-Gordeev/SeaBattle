@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using SeaBattle.Common.Objects;
 using SeaBattle.Service.ShipSupplies;
@@ -20,35 +22,20 @@ namespace SeaBattle.Service.Ships
 
         protected string Name;
         protected float ShipWeight;
-        
-        protected int Rowers;
-        protected int Gunners;
-        protected int Sailors;
-        protected int PirateFighters;
+
+        protected ShipCrew ShipCrew;
         protected Supplies ShipSupplies;
 
         #endregion
 
         #region Properties
 
+        public bool SomethingChanged { get; set; }
         public bool IsStatic { get { return false; } }
         public abstract float Height { get; }
         public Vector2 Coordinates { get; set; }
 
-        public int NumberOfPeople
-        {
-            get
-            {
-                return Rowers + Gunners + Sailors + PirateFighters;
-            }
-        }
-        
-        public float LoadWeight
-        {
-            get { return 10f; }
-        }
-
-        public float FullWeight { get { return ShipWeight + LoadWeight; } }
+        public float FullWeight { get { return ShipWeight + ShipSupplies.ShipHold.LoadWeight; } }
 
         #endregion
 
@@ -60,19 +47,23 @@ namespace SeaBattle.Service.Ships
 
         #region Serialization
 
-        public object DeSerialize(ref long position)
+        public object DeSerialize(ref long position, byte[] dataBytes)
         {
             throw new NotImplementedException();
         }
 
-        public byte[] Serialize(ref long position)
+        public byte[] Serialize()
         {
-            throw new NotImplementedException();
-        }
+            if (!SomethingChanged) return new byte[]{0};
+            var result = new byte[] {1};
 
-        public void GetObjectData()
-        {
-            throw new NotImplementedException();
+            result = (byte[])result.Concat(BitConverter.GetBytes(Coordinates.X));
+            result = (byte[])result.Concat(BitConverter.GetBytes(Coordinates.Y));
+            result = (byte[])result.Concat(ShipCrew.Serialize());
+            result = (byte[])result.Concat(ShipSupplies.Serialize());
+
+            SomethingChanged = false;
+            return result;
         }
 
         #endregion

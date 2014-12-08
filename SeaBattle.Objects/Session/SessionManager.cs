@@ -37,39 +37,22 @@ namespace SeaBattle.Service.Session
         /// <summary>
         /// Добавляем игрока в текущую игру.
         /// </summary>
-        public bool JoinGame(GameDescription game, MainSkyShootService player)
+        public bool JoinGame(GameDescription game, SeaBattleService player)
         {
             GameSession session = _gameSessions.Find(curGame => curGame.LocalGameDescription.GameId == game.GameId);
-            SessionTable.Add(player.Id, session);
-            return session.AddPlayer(player);
-
+            return false;
         }
 
         /// <summary>
         /// Создаем новую игру
         /// </summary>
-        public GameDescription CreateGame(GameMode mode, int maxPlayers, MainSkyShootService client, TileSet tileSet, int teams)
+        public GameDescription CreateGame(GameMode mode, int maxPlayers, SeaBattleService client, int teams)
         {
             GameSession gameSession;
 
-            if (mode == GameMode.Coop)
-            {
-                gameSession = new CoopSession(tileSet, maxPlayers, mode, _gameId, teams);
-            }
-            else if (mode == GameMode.Deathmatch)
-            {
-                gameSession = new DeathmatchSession(tileSet, maxPlayers, mode, _gameId, teams);
-            }
-            else
-            {
-                gameSession = new GameSession(tileSet, maxPlayers, mode, _gameId, teams);
-            }
-            _gameSessions.Add(gameSession);
-            SessionTable.Add(client.Id, gameSession);
-            _gameId++;
-            gameSession.AddPlayer(client);
+            
 
-            return gameSession.LocalGameDescription;
+            return null;
         }
 
         /// <summary>
@@ -85,21 +68,12 @@ namespace SeaBattle.Service.Session
         /// <summary>
         /// Ищем игру, в которой находится игрок и удаляем его оттуда.
         /// </summary>
-        public bool LeaveGame(MainSkyShootService player)
+        public bool LeaveGame(SeaBattleService player)
         {
             try
             {
                 GameSession game;
-                SessionTable.TryGetValue(player.Id, out game);
-                var leavingPlayer = player;
-                game.PlayerLeave(leavingPlayer);
-                if (game.PlayersCount() == 0)
-                {
-                    game.Stop();
-                    System.Console.WriteLine("Game over.");
-                    _gameSessions.Remove(game);
-                }
-                SessionTable.Remove(player.Id);
+                
                 return true;
             }
             catch (Exception)

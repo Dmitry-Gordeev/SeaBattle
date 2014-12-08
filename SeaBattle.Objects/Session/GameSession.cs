@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Timers;
 using Microsoft.Xna.Framework;
+using SeaBattle.Common.Objects;
 using SeaBattle.Common.Session;
 using SeaBattle.Common.Utils;
 
@@ -14,17 +15,10 @@ namespace SeaBattle.Service.Session
     {
         #region private fields
 
-        protected readonly List<AGameObject> _gameObjects;
-        protected readonly List<AGameObject> _newObjects;
-
-        protected readonly SpiderFactory _spiderFactory;
-        protected readonly BonusFactory _bonusFactory;
-        protected readonly WallFactory _wallFactory;
-
-        protected readonly TeamsList _sessionTeamsList = new TeamsList();
+        protected readonly List<IObject> _gameObjects;
+        protected readonly List<IObject> _newObjects;
 
         protected long _timerCounter;
-        protected long _intervalToSpawn;
 
         protected long _lastUpdate;
         protected long _updateDelay;

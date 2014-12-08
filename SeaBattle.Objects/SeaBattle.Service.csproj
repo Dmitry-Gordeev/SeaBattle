@@ -67,6 +67,7 @@
     <Compile Include="ShipSupplies\Cannons.cs" />
     <Compile Include="ShipSupplies\Compass.cs" />
     <Compile Include="ShipSupplies\Sails.cs" />
+    <Compile Include="ShipSupplies\ShipCrew.cs" />
     <Compile Include="ShipSupplies\ShipHold.cs" />
     <Compile Include="ShipSupplies\Supplies.cs" />
     <Compile Include="ShipSupplies\WindVane.cs" />

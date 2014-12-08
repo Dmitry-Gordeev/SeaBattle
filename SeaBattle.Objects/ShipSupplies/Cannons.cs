@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SeaBattle.Common.Objects;
 
 namespace SeaBattle.Service.ShipSupplies
 {
-    public class Cannons
+    public class Cannons : ISerializableObject
     {
+        public bool SomethingChanged { get; set; }
+
         #region Constructors
 
         public Cannons(int leftSideCount, int rightSideCount, int forePartCount, int rearPartCount)
@@ -82,5 +85,15 @@ namespace SeaBattle.Service.ShipSupplies
         }
 
         #endregion
+
+        public object DeSerialize(ref long position, byte[] dataBytes)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public byte[] Serialize()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
