@@ -17,14 +17,17 @@ namespace SeaBattle.Service.ShipSupplies
 
         #region Not serializable
 
-        public Compass Compass;
         public WindVane WindVane;
        
         #endregion
 
         public void DeSerialize(ref int position, byte[] dataBytes)
         {
-            throw new System.NotImplementedException();
+            if (dataBytes[position++] == 0) return;
+
+            Cannons.DeSerialize(ref position, dataBytes);
+            ShipHold.DeSerialize(ref position, dataBytes);
+            Sails.DeSerialize(ref position, dataBytes);
         }
 
         public byte[] Serialize()

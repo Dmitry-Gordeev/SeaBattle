@@ -4,7 +4,6 @@
     {
         public Lugger()
         {
-            typeOfShip = (typeof(Lugger));
             InicializeFields();
         }
 

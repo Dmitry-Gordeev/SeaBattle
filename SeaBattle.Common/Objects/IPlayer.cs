@@ -6,9 +6,8 @@ using System.Text;
 
 namespace SeaBattle.Common.Objects
 {
-    public interface IPlayer : ISerializableObject
+    public interface IPlayer : ISerializableObject, IObject
     {
-        int ID { get;}
         string Name { get;}
         IShip Ship { get; }
     }

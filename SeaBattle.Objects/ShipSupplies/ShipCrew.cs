@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using SeaBattle.Common.Objects;
+using SeaBattle.Common.Utils;
 
 namespace SeaBattle.Service.ShipSupplies
 {
@@ -33,7 +34,12 @@ namespace SeaBattle.Service.ShipSupplies
 
         public void DeSerialize(ref int position, byte[] dataBytes)
         {
-            throw new NotImplementedException();
+            if (dataBytes[position++] == 0) return;
+
+            Rowers = CommonSerializer.GetInt(ref position, dataBytes);
+            Gunners = CommonSerializer.GetInt(ref position, dataBytes);
+            Sailors = CommonSerializer.GetInt(ref position, dataBytes);
+            PirateFighters = CommonSerializer.GetInt(ref position, dataBytes);
         }
 
         public byte[] Serialize()

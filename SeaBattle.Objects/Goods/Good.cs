@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SeaBattle.Common.Objects;
+using SeaBattle.Common.Utils;
 
 namespace SeaBattle.Service.Goods
 {
@@ -20,7 +21,9 @@ namespace SeaBattle.Service.Goods
 
         public void DeSerialize(ref int position, byte[] dataBytes)
         {
-            throw new NotImplementedException();
+            Name = CommonSerializer.GetString(ref position, dataBytes);
+            Count = CommonSerializer.GetInt(ref position, dataBytes);
+            Weight = CommonSerializer.GetFloat(ref position, dataBytes);
         }
 
         public byte[] Serialize()

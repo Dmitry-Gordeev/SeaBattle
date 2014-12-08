@@ -26,10 +26,5 @@ namespace SeaBattle.Common.Utils
             }
             return result;
         }
-
-        public static bool[] BytesArrToBools(bool[] bools, int boolsLength)
-        {
-            return null;
-        }
     }
 }

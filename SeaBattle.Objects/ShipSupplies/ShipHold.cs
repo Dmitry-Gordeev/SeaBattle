@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SeaBattle.Common.Objects;
+using SeaBattle.Common.Utils;
 using SeaBattle.Service.Goods;
 
 namespace SeaBattle.Service.ShipSupplies
@@ -31,7 +32,17 @@ namespace SeaBattle.Service.ShipSupplies
 
         public void DeSerialize(ref int position, byte[] dataBytes)
         {
-            throw new System.NotImplementedException();
+            if (dataBytes[position++] == 0) return;
+
+            var count = CommonSerializer.GetInt(ref position, dataBytes);
+            Goods = new List<Good>();
+
+            for (int i = 0; i < count; i++)
+            {
+                var tmpGood = new Good();
+                tmpGood.DeSerialize(ref position, dataBytes);
+                Goods.Add(tmpGood);
+            }
         }
 
         public byte[] Serialize()
@@ -41,9 +52,9 @@ namespace SeaBattle.Service.ShipSupplies
 
             result = (byte[])result.Concat(BitConverter.GetBytes(Goods.Count));
 
-            foreach (Good good in Goods)
+            for (int i = 0; i < Goods.Count; i++)
             {
-                result = (byte[]) result.Concat(good.Serialize());
+                result = (byte[]) result.Concat(Goods[i].Serialize());
             }
 
             SomethingChanged = false;
