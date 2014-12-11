@@ -38,7 +38,7 @@ namespace SeaBattle.Common.Utils
             return null;
         }
 
-        public static bool[] Vector2ToBytesArr(ref int position, byte[] bools)
+        public static byte[] Vector2ToBytesArr(Vector2 vector)
         {
             return null;
         }

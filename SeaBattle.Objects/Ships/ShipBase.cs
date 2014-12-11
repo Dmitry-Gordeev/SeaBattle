@@ -52,7 +52,6 @@ namespace SeaBattle.Service.Ships
         {
             if (dataBytes[position++] == 0) return;
 
-            //Recieve coordinates
             Coordinates = CommonSerializer.GetVector2(ref position, dataBytes);
             ShipCrew.DeSerialize(ref position, dataBytes);
             ShipSupplies.DeSerialize(ref position, dataBytes);
@@ -63,7 +62,7 @@ namespace SeaBattle.Service.Ships
             if (!SomethingChanged) return new byte[]{0};
             var result = new byte[] {1};
 
-            result = (byte[])result.Concat(CommonSerializer.);
+            result = (byte[])result.Concat(CommonSerializer.Vector2ToBytesArr(Coordinates));
             result = (byte[])result.Concat(ShipCrew.Serialize());
             result = (byte[])result.Concat(ShipSupplies.Serialize());
 
