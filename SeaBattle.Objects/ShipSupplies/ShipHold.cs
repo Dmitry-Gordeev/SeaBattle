@@ -10,6 +10,7 @@ namespace SeaBattle.Service.ShipSupplies
     public class ShipHold : ISerializableObject
     {
         public bool SomethingChanged { get; set; }
+        public object Lock { get; set; }
         private List<Good> _goods;
 
         #region Properties
@@ -50,11 +51,11 @@ namespace SeaBattle.Service.ShipSupplies
             if (!SomethingChanged) return new byte[] { 0 };
             var result = new byte[] { 1 };
 
-            result = (byte[])result.Concat(BitConverter.GetBytes(Goods.Count));
+            result = result.Concat(BitConverter.GetBytes(Goods.Count)).ToArray();
 
             for (int i = 0; i < Goods.Count; i++)
             {
-                result = (byte[]) result.Concat(Goods[i].Serialize());
+                result = result.Concat(Goods[i].Serialize()).ToArray();
             }
 
             SomethingChanged = false;

@@ -9,6 +9,7 @@ namespace SeaBattle.Service.ShipSupplies
     public class Cannons : ISerializableObject
     {
         public bool SomethingChanged { get; set; }
+        public object Lock { get; set; }
 
         #region Constructors
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using SeaBattle.Common.GameEvent;
+using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
 
@@ -87,7 +88,7 @@ namespace SeaBattle.Service
             throw new NotImplementedException();
         }
 
-        public string[] PlayerListUpdate()
+        public IPlayer[] PlayerListUpdate()
         {
             throw new NotImplementedException();
         }

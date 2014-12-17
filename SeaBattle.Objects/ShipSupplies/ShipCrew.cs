@@ -11,6 +11,7 @@ namespace SeaBattle.Service.ShipSupplies
     public class ShipCrew : ISerializableObject
     {
         public bool SomethingChanged { get; set; }
+        public object Lock { get; set; }
         public int Rowers { get; set; }
         public int Gunners { get; set; }
         public int Sailors { get; set; }
@@ -47,10 +48,10 @@ namespace SeaBattle.Service.ShipSupplies
             if (!SomethingChanged) return new byte[] { 0 };
             var result = new byte[] { 1 };
 
-            result = (byte[])result.Concat(BitConverter.GetBytes(Rowers));
-            result = (byte[])result.Concat(BitConverter.GetBytes(Gunners));
-            result = (byte[])result.Concat(BitConverter.GetBytes(Sailors));
-            result = (byte[])result.Concat(BitConverter.GetBytes(PirateFighters));
+            result = result.Concat(BitConverter.GetBytes(Rowers)).ToArray();
+            result = result.Concat(BitConverter.GetBytes(Gunners)).ToArray();
+            result = result.Concat(BitConverter.GetBytes(Sailors)).ToArray();
+            result = result.Concat(BitConverter.GetBytes(PirateFighters)).ToArray();
 
             SomethingChanged = false;
             return result;

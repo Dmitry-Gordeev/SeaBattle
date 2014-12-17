@@ -14,6 +14,7 @@ namespace SeaBattle.Service.ShipSupplies
         public int ID { get; private set; }
         public BulletType Type { get; private set; }
         public bool SomethingChanged { get; set; }
+        public object Lock { get; set; }
         public Vector2 CoordinatesFrom;
         public Vector2 CoordinatesTo;
 

@@ -10,6 +10,7 @@ namespace SeaBattle.Service.Goods
     public class Good : ISerializableObject
     {
         public bool SomethingChanged { get; set; }
+        public object Lock { get; set; }
         public string Name;
         public int Count;
         public float Weight;
@@ -30,10 +31,10 @@ namespace SeaBattle.Service.Goods
         {
             var result = new byte[] {};
 
-            result = (byte[])result.Concat(BitConverter.GetBytes(Name.Length));
-            result = (byte[])result.Concat(Encoding.Unicode.GetBytes(Name));
-            result = (byte[])result.Concat(BitConverter.GetBytes(Count));
-            result = (byte[])result.Concat(BitConverter.GetBytes(Weight));
+            result = result.Concat(BitConverter.GetBytes(Name.Length)).ToArray();
+            result = result.Concat(Encoding.Unicode.GetBytes(Name)).ToArray();
+            result = result.Concat(BitConverter.GetBytes(Count)).ToArray();
+            result = result.Concat(BitConverter.GetBytes(Weight)).ToArray();
 
             return result;
         }

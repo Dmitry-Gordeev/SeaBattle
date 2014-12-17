@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorHelper\ErrorHelper.cs" />
-    <Compile Include="Player\Good.cs" />
+    <Compile Include="Goods\Good.cs" />
     <Compile Include="Player\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeaBattleService.cs" />
@@ -77,7 +77,6 @@
     <Compile Include="Ships\ShipBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Goods\" />
     <Folder Include="StaticObjects\" />
   </ItemGroup>
   <ItemGroup>
