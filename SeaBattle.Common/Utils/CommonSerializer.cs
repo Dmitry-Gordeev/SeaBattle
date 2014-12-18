@@ -37,6 +37,14 @@ namespace SeaBattle.Common.Utils
             return null;
         }
 
+        public static byte[] StringToBytesArr(string str)
+        {
+            var result = BitConverter.GetBytes(str.Length);
+            result = result.Concat(Encoding.Unicode.GetBytes(str)).ToArray();
+
+            return result;
+        }
+
         public static byte[] Vector2ToBytesArr(Vector2 vector)
         {
             var result = BitConverter.GetBytes(vector.X);
@@ -52,6 +60,26 @@ namespace SeaBattle.Common.Utils
             result.X = GetFloat(ref position, bytes);
             result.Y = GetFloat(ref position, bytes);
 
+            return result;
+        }
+
+        public static byte[] BoolArrToBytes(bool[] bools)
+        {
+            int bytes = bools.Length / 8;
+            if ((bools.Length % 8) != 0) bytes++;
+            var result = new byte[bytes];
+            int bitIndex = 0, byteIndex = 0;
+            for (int i = 0; i < bools.Length; i++)
+            {
+                if (bools[i])
+                {
+                    result[byteIndex] |= (byte)(1 << bitIndex);
+                }
+                bitIndex++;
+                if (bitIndex != 8) continue;
+                bitIndex = 0;
+                byteIndex++;
+            }
             return result;
         }
     }

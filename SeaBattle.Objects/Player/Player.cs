@@ -38,8 +38,7 @@ namespace SeaBattle.Service.Player
         public byte[] Serialize()
         {
             var result = new byte[]{};
-            result = result.Concat(BitConverter.GetBytes(Name.Length)).ToArray();
-            result = result.Concat(Encoding.Unicode.GetBytes(Name)).ToArray();
+            result = result.Concat(CommonSerializer.StringToBytesArr(Name)).ToArray();
             result = result.Concat(Ship.Serialize()).ToArray();
 
             return result;

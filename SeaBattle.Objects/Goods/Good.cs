@@ -31,8 +31,7 @@ namespace SeaBattle.Service.Goods
         {
             var result = new byte[] {};
 
-            result = result.Concat(BitConverter.GetBytes(Name.Length)).ToArray();
-            result = result.Concat(Encoding.Unicode.GetBytes(Name)).ToArray();
+            result = result.Concat(CommonSerializer.StringToBytesArr(Name)).ToArray();
             result = result.Concat(BitConverter.GetBytes(Count)).ToArray();
             result = result.Concat(BitConverter.GetBytes(Weight)).ToArray();
 

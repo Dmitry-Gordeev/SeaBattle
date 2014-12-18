@@ -10,7 +10,7 @@ namespace SeaBattle.Common.Session
 
         }
 
-        public GameDescription(List<IPlayer> players, int maxPlayersAllowed, int gameId)
+        public GameDescription(List<IPlayer> players, int maxPlayersAllowed, int gameId, int teams)
         {
             GameId = gameId;
             Players = players;

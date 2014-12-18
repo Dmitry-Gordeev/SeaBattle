@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using Microsoft.Xna.Framework;
@@ -58,7 +59,16 @@ namespace SeaBattle.NetWork
 
         private void InitializeConnection()
         {
+            try
+            {
+                var channelFactory = new ChannelFactory<ISeaBattleService>("SeaBattleEndpoint");
+                _service = channelFactory.CreateChannel();
 
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+            }
         }
 
         #region run/stop thread, initialization

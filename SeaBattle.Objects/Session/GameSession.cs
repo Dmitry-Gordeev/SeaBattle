@@ -42,7 +42,7 @@ namespace SeaBattle.Service.Session
 
             var players = new List<IPlayer>();
 
-            LocalGameDescription = new GameDescription(players, maxPlayersAllowed, gameID);
+            LocalGameDescription = new GameDescription(players, maxPlayersAllowed, gameID, teams);
         }
 
         #region private methods

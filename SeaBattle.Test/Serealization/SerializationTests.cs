@@ -13,7 +13,7 @@ namespace SeaBattle.Test.Serealization
     public class SerializationTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void SerializanionTest()
         {
             var player = new Player(new Lugger(), 1, "Name")
             {
