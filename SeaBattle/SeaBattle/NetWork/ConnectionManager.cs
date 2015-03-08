@@ -272,7 +272,7 @@ namespace SeaBattle.NetWork
         {
             try
             {
-                _service.LeaveGame();
+                _service.LeaveGame(1,1);
             }
             catch (Exception e)
             {

@@ -1,7 +1,4 @@
-﻿using System;
-using SeaBattle;
-
-namespace SeaBattleClient
+﻿namespace SeaBattle
 {
 #if WINDOWS || XBOX
     static class Program
@@ -11,9 +8,9 @@ namespace SeaBattleClient
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game game = new Game())
+            using (SeaBattleGame seaBattleGame = new SeaBattleGame())
             {
-                game.Run();
+                seaBattleGame.Run();
             }
         }
     }

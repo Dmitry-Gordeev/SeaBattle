@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.GamerServices;
+﻿using System;
+using System.ServiceModel;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Net;
+using SeaBattle.Common.Service;
 using SeaBattle.Service.Ships;
 
 namespace SeaBattle
@@ -10,17 +11,35 @@ namespace SeaBattle
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game : Microsoft.Xna.Framework.Game
+    public class SeaBattleGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         Lugger _myLugger;
+        ChannelFactory<ISeaBattleService> myChannelFactory;
+        ISeaBattleService client;
 
-        public Game()
+        private MouseState _currentMouseState, _lastMouseState;
+
+        
+        public SeaBattleGame()
         {
+            _currentMouseState = Mouse.GetState();
+            _lastMouseState = Mouse.GetState();
+
+
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _myLugger = new Lugger();
+            
+            myChannelFactory = new ChannelFactory<ISeaBattleService>("SeaBattleEndpoint");
+            try
+            {
+                client = myChannelFactory.CreateChannel();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         /// <summary>
@@ -42,11 +61,8 @@ namespace SeaBattle
         /// </summary>
         protected override void LoadContent()
         {
-            
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
         }
 
         /// <summary>
@@ -65,12 +81,15 @@ namespace SeaBattle
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            _lastMouseState = _currentMouseState;
+            _currentMouseState = Mouse.GetState();
+
+            if (_currentMouseState.LeftButton == ButtonState.Pressed && _lastMouseState.LeftButton == ButtonState.Released)
+            {
+                client.LeaveGame(_currentMouseState.X, _currentMouseState.Y);
+            }
 
             base.Update(gameTime);
-
         }
 
         /// <summary>
@@ -82,8 +101,6 @@ namespace SeaBattle
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-
-
             
             _spriteBatch.End();
 

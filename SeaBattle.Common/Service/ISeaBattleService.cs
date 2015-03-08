@@ -34,7 +34,7 @@ namespace SeaBattle.Common.Service
         bool JoinGame(GameDescription game);
 
         [OperationContract]
-        void LeaveGame();
+        void LeaveGame(int x, int y);
 
         /// <summary>
         /// проверка началась ли игра

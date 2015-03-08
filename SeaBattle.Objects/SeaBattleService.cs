@@ -26,11 +26,13 @@ namespace SeaBattle.Service
 
         public SeaBattleService()
 		{
+            Console.WriteLine("Login");
 			_channelContext = OperationContext.Current.InstanceContext;
 			_channelContext.Faulted += OnChannelStopped;
 			_channelContext.Closed += OnChannelStopped;
 			_localID = _globalID;
-			_globalID++;
+            _globalID++; 
+            Console.WriteLine("Global ID: " + _globalID);
 		}
 
         #region регистрация, аутентификация
@@ -47,7 +49,8 @@ namespace SeaBattle.Service
 
         public AccountManagerErrorCode Logout()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Logout");
+            return AccountManagerErrorCode.Ok;
         }
 
         #endregion
@@ -69,9 +72,9 @@ namespace SeaBattle.Service
             throw new NotImplementedException();
         }
 
-        public void LeaveGame()
+        public void LeaveGame(int x, int y)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("X: " + x + " Y: " + y);
         }
 
         public GameLevel GameStart(int gameId)
@@ -106,7 +109,7 @@ namespace SeaBattle.Service
         {
             _channelContext.Faulted -= OnChannelStopped;
             _channelContext.Closed -= OnChannelStopped;
-            LeaveGame();
+            LeaveGame(0,0);
             Logout();
         }
 

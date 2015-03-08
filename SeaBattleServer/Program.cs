@@ -51,12 +51,7 @@ namespace SeaBattleServer
                 throw;
             }
         }
-
-        private static NetworkSessionType GetNetworkSessionType(bool isLocalGame)
-        {
-            return isLocalGame ? NetworkSessionType.Local : NetworkSessionType.SystemLink;
-        }
-
+        
         static void host_Faulted(object sender, EventArgs e)
         {
 
