@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using SeaBattle.Common.GameEvent;
+using SeaBattle.Common.Objects;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Common.Service
@@ -33,7 +34,7 @@ namespace SeaBattle.Common.Service
         bool JoinGame(GameDescription game);
 
         [OperationContract]
-        void LeaveGame();
+        void LeaveGame(int x, int y);
 
         /// <summary>
         /// проверка началась ли игра
@@ -53,9 +54,8 @@ namespace SeaBattle.Common.Service
         /// <summary>
         /// возвращает список игроков
         /// </summary>
-        /// <returns>массив имен игроков</returns>
         [OperationContract]
-        String[] PlayerListUpdate();
+        IPlayer[] PlayerListUpdate();
 
         [OperationContract]
         AGameEvent[] GetEvents();

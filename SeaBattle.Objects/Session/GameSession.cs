@@ -40,9 +40,9 @@ namespace SeaBattle.Service.Session
             IsStarted = false;
             GameLevel = new GameLevel(Constants.LevelWidth, Constants.LevelHeigh);
 
-            var playerNames = new List<string>();
+            var players = new List<IPlayer>();
 
-            LocalGameDescription = new GameDescription(playerNames, maxPlayersAllowed, gameID);
+            LocalGameDescription = new GameDescription(players, maxPlayersAllowed, gameID, teams);
         }
 
         #region private methods

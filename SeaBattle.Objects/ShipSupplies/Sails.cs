@@ -7,6 +7,7 @@ namespace SeaBattle.Service.ShipSupplies
     public class Sails : ISerializableObject
     {
         public bool SomethingChanged { get; set; }
+        public object Lock { get; set; }
 
         private byte _sailsState;
 
@@ -24,7 +25,7 @@ namespace SeaBattle.Service.ShipSupplies
             if (!SomethingChanged) return new byte[] { 0 };
             var result = new byte[] { 1 };
 
-            result = (byte[]) result.Concat(new Byte[]{_sailsState});
+            result = result.Concat(new Byte[]{_sailsState}).ToArray();
 
             return result;
         }

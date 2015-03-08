@@ -32,12 +32,19 @@ namespace SeaBattle.Service.Ships
         #region Properties
 
         public bool SomethingChanged { get; set; }
+        public object Lock { get; set; }
         public bool IsStatic { get { return false; } }
         public abstract float Height { get; }
-        public Vector2 Coordinates;
+        private Vector2 _coordinates;
 
         public float FullWeight { get { return ShipWeight + ShipSupplies.ShipHold.LoadWeight; } }
-        
+
+        public Vector2 Coordinates
+        {
+            get { return _coordinates; } 
+            set { _coordinates = value; }
+        }
+
         #endregion
 
         #region Methods
@@ -52,7 +59,6 @@ namespace SeaBattle.Service.Ships
         {
             if (dataBytes[position++] == 0) return;
 
-            //Recieve coordinates
             Coordinates = CommonSerializer.GetVector2(ref position, dataBytes);
             ShipCrew.DeSerialize(ref position, dataBytes);
             ShipSupplies.DeSerialize(ref position, dataBytes);
@@ -63,9 +69,9 @@ namespace SeaBattle.Service.Ships
             if (!SomethingChanged) return new byte[]{0};
             var result = new byte[] {1};
 
-            result = (byte[])result.Concat(CommonSerializer.);
-            result = (byte[])result.Concat(ShipCrew.Serialize());
-            result = (byte[])result.Concat(ShipSupplies.Serialize());
+            result = result.Concat(CommonSerializer.Vector2ToBytesArr(Coordinates)).ToArray();
+            result = result.Concat(ShipCrew.Serialize()).ToArray();
+            result = result.Concat(ShipSupplies.Serialize()).ToArray();
 
             SomethingChanged = false;
             return result;

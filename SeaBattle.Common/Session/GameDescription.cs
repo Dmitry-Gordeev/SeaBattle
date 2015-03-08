@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SeaBattle.Common.Objects;
 
 namespace SeaBattle.Common.Session
 {
@@ -9,7 +10,7 @@ namespace SeaBattle.Common.Session
 
         }
 
-        public GameDescription(List<string> players, int maxPlayersAllowed, int gameId)
+        public GameDescription(List<IPlayer> players, int maxPlayersAllowed, int gameId, int teams)
         {
             GameId = gameId;
             Players = players;
@@ -18,7 +19,7 @@ namespace SeaBattle.Common.Session
 
         public int GameId { get; set; }
 
-        public List<string> Players { get; set; }
+        public List<IPlayer> Players { get; set; }
 
         public int MaximumPlayersAllowed { get; set; }
 

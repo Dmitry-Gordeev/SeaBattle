@@ -6,6 +6,14 @@ namespace SeaBattle.Service.ShipSupplies
     public class Supplies : ISerializableObject
     {
         public bool SomethingChanged { get; set; }
+        public object Lock { get; set; }
+
+        public Supplies(Cannons cannons, ShipHold shipHold, Sails sails)
+        {
+            Cannons = cannons;
+            ShipHold = shipHold;
+            Sails = sails;
+        }
 
         #region Serializable
 
@@ -35,9 +43,9 @@ namespace SeaBattle.Service.ShipSupplies
             if (!SomethingChanged) return new byte[] { 0 };
             var result = new byte[] { 1 };
 
-            result = (byte[])result.Concat(Cannons.Serialize());
-            result = (byte[])result.Concat(ShipHold.Serialize());
-            result = (byte[])result.Concat(Sails.Serialize());
+            result = result.Concat(Cannons.Serialize()).ToArray();
+            result = result.Concat(ShipHold.Serialize()).ToArray();
+            result = result.Concat(Sails.Serialize()).ToArray();
 
             SomethingChanged = false;
             return result;

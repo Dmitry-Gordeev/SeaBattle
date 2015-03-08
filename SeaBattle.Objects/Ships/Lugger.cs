@@ -1,4 +1,6 @@
-﻿namespace SeaBattle.Service.Ships
+﻿using SeaBattle.Service.ShipSupplies;
+
+namespace SeaBattle.Service.Ships
 {
     public class Lugger : ShipBase
     {
@@ -16,12 +18,10 @@
         
         protected override sealed void InicializeFields()
         {
+            ShipCrew = new ShipCrew(10, 24, 16, 8);
             Name = "Lugger";
             ShipWeight = 1000;
-            ShipCrew.Rowers = 8;
-            ShipCrew.Sailors = 24;
-            ShipCrew.PirateFighters = 10;
-            ShipCrew.Gunners = 16;
+            ShipSupplies = new Supplies(new Cannons(4, 4, 2, 2), new ShipHold(), new Sails());
         }
 
         #endregion
