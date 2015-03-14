@@ -31,7 +31,7 @@ namespace SeaBattle.Service
 			_channelContext.Faulted += OnChannelStopped;
 			_channelContext.Closed += OnChannelStopped;
 			_localID = _globalID;
-            _globalID++; 
+            _globalID++;
             Console.WriteLine("Global ID: " + _globalID);
 		}
 

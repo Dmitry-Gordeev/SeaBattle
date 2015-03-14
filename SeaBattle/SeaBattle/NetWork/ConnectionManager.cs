@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using System.Threading;
-using Microsoft.Xna.Framework;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
@@ -18,7 +14,7 @@ namespace SeaBattle.NetWork
     {
         private static ConnectionManager _localInstance;
 
-        public static ConnectionManager Instanse
+        public static ConnectionManager Instance
         {
             get { return _localInstance ?? (_localInstance = new ConnectionManager()); }
         }
@@ -41,7 +37,6 @@ namespace SeaBattle.NetWork
         #region game events
 
         // received from server
-        private List<AGameEvent> _lastServerGameEvents;
         private Queue<AGameEvent> _lastClientGameEvents;
 
         private readonly object _gameEventLocker = new object();
@@ -50,9 +45,6 @@ namespace SeaBattle.NetWork
 
         #region timers
 
-        private readonly Timer _eventTimer;
-        private readonly Timer _synchroFrameTimer;
-        private readonly Timer _pingTimer;
         private ISeaBattleService _service;
 
         #endregion
@@ -63,7 +55,6 @@ namespace SeaBattle.NetWork
             {
                 var channelFactory = new ChannelFactory<ISeaBattleService>("SeaBattleEndpoint");
                 _service = channelFactory.CreateChannel();
-
             }
             catch (Exception e)
             {
@@ -112,7 +103,6 @@ namespace SeaBattle.NetWork
             // stopping thread
             AddClientGameEvent(null);
             _thread.Join();
-
         }
 
         public void Dispose()
@@ -123,23 +113,10 @@ namespace SeaBattle.NetWork
 
             // close EventWaitHandle
             _queue.Close();
-
-            _eventTimer.Dispose();
-            _synchroFrameTimer.Dispose();
-            _pingTimer.Dispose();
         }
 
         #endregion
-
-        #region getting the last synchroFrame and game events from server
-
-        public void GetLatestServerGameEvents()
-        {
-
-        }
-
-        #endregion
-
+        
         #region sending client game events
 
         private void AddClientGameEvent(AGameEvent gameEvent)
@@ -159,19 +136,12 @@ namespace SeaBattle.NetWork
         #region service implementation
 
         /// <summary>
-        /// Возвращает последние события от сервера, которые были получены с помощью другого потока
+        /// Возвращает последние данные от сервера, которые были получены с помощью другого потока
         /// Используется клиентом
         /// </summary>
-        public AGameEvent[] GetEvents()
+        public byte[] GetInfo()
         {
-            AGameEvent[] events;
-            lock (_gameEventLocker)
-            {
-                events = _lastServerGameEvents.ToArray();
-                _lastServerGameEvents.Clear();
-            }
-            // Logger.PrintEvents(events);
-            return events;
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -190,7 +160,7 @@ namespace SeaBattle.NetWork
             catch (Exception e)
             {
                 ErrorHelper.FatalError(e);
-                return AccountManagerErrorCode.UnknownExceptionOccured;
+                return AccountManagerErrorCode.ServerUnavailable;
             }
         }
 

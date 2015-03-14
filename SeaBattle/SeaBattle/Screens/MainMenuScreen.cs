@@ -1,0 +1,124 @@
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Nuclex.UserInterface;
+using Nuclex.UserInterface.Controls.Desktop;
+using SeaBattle.Common.Localization;
+using SeaBattle.Common.Service;
+using SeaBattle.Game;
+
+namespace SeaBattle.Screens
+{
+    internal class MainMenuScreen : GameScreen
+    {
+        private static Texture2D _texture;
+
+        private ButtonControl _playGameButton;
+        private ButtonControl _optionsButton;
+        private ButtonControl _logoffButton;
+
+        public MainMenuScreen()
+        {
+            CreateControls();
+            InitializeControls();
+        }
+
+        public override void LoadContent()
+        {
+            _texture = ContentManager.Load<Texture2D>("Textures/screens/main_back_ground_screen");
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            SpriteBatch.Begin();
+            SpriteBatch.Draw(_texture, Vector2.Zero, Color.White);
+            SpriteBatch.End();
+        }
+
+        private void CreateControls()
+        {
+            _playGameButton = new ButtonControl
+            {
+                Text = "Multiplayer",
+                Bounds =
+                    new UniRectangle(
+                        new UniScalar(0.30f, 0),
+                        new UniScalar(0.2f, 0),
+                        new UniScalar(0.4f, 0),
+                        new UniScalar(0.1f, 0)),
+            };
+
+            _optionsButton = new ButtonControl
+            {
+                Text = "Options",
+                Bounds =
+                    new UniRectangle(
+                        new UniScalar(0.30f, 0),
+                        new UniScalar(0.35f, 0),
+                        new UniScalar(0.4f, 0),
+                        new UniScalar(0.1f, 0)),
+            };
+
+            _logoffButton = new ButtonControl
+            {
+                Text = "Logoff",
+                Bounds =
+                    new UniRectangle(
+                        new UniScalar(0.30f, 0),
+                        new UniScalar(0.5f, 0),
+                        new UniScalar(0.4f, 0),
+                        new UniScalar(0.1f, 0)),
+            };
+        }
+
+        private void InitializeControls()
+        {
+            Desktop.Children.Add(_playGameButton);
+            Desktop.Children.Add(_optionsButton);
+            Desktop.Children.Add(_logoffButton);
+
+            ScreenManager.Instance.Controller.AddListener(_playGameButton, PlayGameButtonPressed);
+            ScreenManager.Instance.Controller.AddListener(_optionsButton, OptionsButtonPressed);
+            ScreenManager.Instance.Controller.AddListener(_logoffButton, LogoffMenuButtonPressed);
+        }
+
+        private void PlayGameButtonPressed(object sender, EventArgs e)
+        {
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MultiplayerScreen);
+        }
+
+        private void OptionsButtonPressed(object sender, EventArgs e)
+        {
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.OptionsMenuScreen);
+        }
+
+        private void LogoffMenuButtonPressed(object sender, EventArgs e)
+        {
+            AccountManagerErrorCode errorCode = GameController.Instance.Logout();
+            if (errorCode != AccountManagerErrorCode.Ok)
+            {
+                string message;
+                switch (errorCode)
+                {
+                    case AccountManagerErrorCode.UnknownExceptionOccured:
+                        message = Strings.Unknoun_Exception;
+                        break;
+                    case AccountManagerErrorCode.UserIsAlreadyOffline:
+                        message = Strings.Already_Offline;
+                        break;
+                    case AccountManagerErrorCode.UnknownError:
+                        message = Strings.Unknoun_Error;
+                        break;
+                    default:
+                        message = Strings.Unexpected_Error;
+                        break;
+                }
+                MessageBox.Message = message;
+                MessageBox.Next = ScreenManager.ScreenEnum.LoginScreen;
+                ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MessageBoxScreen);
+            }
+
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
+        }
+    }
+}

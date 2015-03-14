@@ -8,7 +8,7 @@
         /// </summary>
         static void Main(string[] args)
         {
-            using (SeaBattleGame seaBattleGame = new SeaBattleGame())
+            using (var seaBattleGame = new SeaBattleGame())
             {
                 seaBattleGame.Run();
             }

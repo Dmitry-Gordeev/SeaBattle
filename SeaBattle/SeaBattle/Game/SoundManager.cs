@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
 
-namespace SeaBattle
+namespace SeaBattle.Game
 {
     class SoundManager
     {
@@ -46,7 +43,7 @@ namespace SeaBattle
 
         public void LoadSounds()
         {
-            _engine = new AudioEngine("Content\\Sounds\\BackSounds.xgs");
+            /*_engine = new AudioEngine("Content\\Sounds\\BackSounds.xgs");
             _soundBank = new SoundBank(_engine, "Content\\Sounds\\Sound Bank.xsb");
             _waveBank = new WaveBank(_engine, "Content\\Sounds\\Wave Bank.xwb");
             _engine.GetCategory("Music");
@@ -63,12 +60,12 @@ namespace SeaBattle
             Sounds.Add(SoundEnum.MainTheme, _soundBank.GetCue("STARWARS"));
             Sounds.Add(SoundEnum.Sand, _soundBank.GetCue("wind03"));
             Sounds.Add(SoundEnum.Snow, _soundBank.GetCue("wind01b"));
-            Sounds.Add(SoundEnum.Spider, _soundBank.GetCue("angry"));
+            Sounds.Add(SoundEnum.Spider, _soundBank.GetCue("angry"));*/
         }
 
         public void SoundPlay(SoundEnum sound)
         {
-            switch (sound)
+            /*switch (sound)
             {
                 case SoundEnum.Click:
                     Sounds[SoundEnum.Click] = _soundBank.GetCue("RICOCHET");
@@ -126,24 +123,24 @@ namespace SeaBattle
                     Sounds[SoundEnum.MainTheme] = _soundBank.GetCue("STARWARS");
                     Sounds[SoundEnum.MainTheme].Play();
                     break;
-            }
+            }*/
 
             //sounds[Sound].Play();
         }
 
         public void CuePause(SoundEnum sound)
         {
-            Sounds[sound].Pause();
+            //Sounds[sound].Pause();
         }
 
         public void CueResume(SoundEnum sound)
         {
-            Sounds[sound].Resume();
+            //Sounds[sound].Resume();
         }
 
         public void CueStop(SoundEnum sound)
         {
-            Sounds[sound].Stop(AudioStopOptions.AsAuthored);
+            //Sounds[sound].Stop(AudioStopOptions.AsAuthored);
         }
     }
 }

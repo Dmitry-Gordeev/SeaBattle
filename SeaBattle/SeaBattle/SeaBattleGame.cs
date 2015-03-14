@@ -4,7 +4,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SeaBattle.Common.Service;
+using SeaBattle.NetWork;
+using SeaBattle.Screens;
 using SeaBattle.Service.Ships;
+using SeaBattle.View;
 
 namespace SeaBattle
 {
@@ -13,33 +16,38 @@ namespace SeaBattle
     /// </summary>
     public class SeaBattleGame : Microsoft.Xna.Framework.Game
     {
+        private ScreenManager _screenManager;
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         Lugger _myLugger;
-        ChannelFactory<ISeaBattleService> myChannelFactory;
-        ISeaBattleService client;
+        readonly ISeaBattleService _client;
 
         private MouseState _currentMouseState, _lastMouseState;
 
         
         public SeaBattleGame()
         {
+            // Mouse init
             _currentMouseState = Mouse.GetState();
             _lastMouseState = Mouse.GetState();
+            IsMouseVisible = false;
 
-
+            // Graphics init
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            
-            myChannelFactory = new ChannelFactory<ISeaBattleService>("SeaBattleEndpoint");
+            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferHeight = 600;
+
+            /* Connection init
+            var myChannelFactory = new ChannelFactory<ISeaBattleService>("SeaBattleEndpoint");
             try
             {
-                client = myChannelFactory.CreateChannel();
+                _client = myChannelFactory.CreateChannel();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-            }
+            }*/
         }
 
         /// <summary>
@@ -50,9 +58,15 @@ namespace SeaBattle
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            Textures.GraphicsDevice = GraphicsDevice;
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            ScreenManager.Init(this);
+            _screenManager = ScreenManager.Instance;
+            Components.Add(_screenManager);
 
             base.Initialize();
+
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
         }
 
         /// <summary>
@@ -61,8 +75,10 @@ namespace SeaBattle
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Textures.Arrow = Content.Load<Texture2D>("Textures/Cursors/Arrow");
+            Textures.Plus = Content.Load<Texture2D>("Textures/Cursors/Plus");
+            Textures.Cross = Content.Load<Texture2D>("Textures/Cursors/Cross");
+            Textures.Target = Content.Load<Texture2D>("Textures/Cursors/Target");
         }
 
         /// <summary>
@@ -83,12 +99,12 @@ namespace SeaBattle
         {
             _lastMouseState = _currentMouseState;
             _currentMouseState = Mouse.GetState();
-
+            /*
             if (_currentMouseState.LeftButton == ButtonState.Pressed && _lastMouseState.LeftButton == ButtonState.Released)
             {
-                client.LeaveGame(_currentMouseState.X, _currentMouseState.Y);
-            }
-
+                _client.LeaveGame(_currentMouseState.X, _currentMouseState.Y);
+            }*/
+            
             base.Update(gameTime);
         }
 
@@ -98,13 +114,13 @@ namespace SeaBattle
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            _spriteBatch.Begin();
-            
-            _spriteBatch.End();
-
+            GraphicsDevice.Clear(Color.Black);
             base.Draw(gameTime);
+
+            _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
+            Vector2 mousePosition = ScreenManager.Instance.GetMousePosition();
+            _spriteBatch.Draw(Textures.ActiveCursor, Textures.GetCursorPosition(mousePosition.X, mousePosition.Y), Color.White);
+            _spriteBatch.End();
         }
     }
 }

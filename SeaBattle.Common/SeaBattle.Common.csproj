@@ -46,6 +46,12 @@
     <Compile Include="Connections\Constants.cs" />
     <Compile Include="GameEvent\AGameEvent.cs" />
     <Compile Include="GameEvent\Constants.cs" />
+    <Compile Include="Localization\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="Objects\IBullet.cs" />
     <Compile Include="Objects\IObject.cs" />
     <Compile Include="Objects\IPlayer.cs" />
@@ -61,7 +67,14 @@
     <Compile Include="Utils\Converter.cs" />
     <Compile Include="Utils\TimeHelper.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
