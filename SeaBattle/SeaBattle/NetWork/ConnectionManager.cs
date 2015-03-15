@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using System.Threading;
-using Microsoft.Xna.Framework;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
@@ -14,11 +10,11 @@ using SeaBattle.Utils;
 
 namespace SeaBattle.NetWork
 {
-    class ConnectionManager
+    class ConnectionManager : ISeaBattleService
     {
         private static ConnectionManager _localInstance;
 
-        public static ConnectionManager Instanse
+        public static ConnectionManager Instance
         {
             get { return _localInstance ?? (_localInstance = new ConnectionManager()); }
         }
@@ -41,21 +37,14 @@ namespace SeaBattle.NetWork
         #region game events
 
         // received from server
-        private List<AGameEvent> _lastServerGameEvents;
         private Queue<AGameEvent> _lastClientGameEvents;
 
         private readonly object _gameEventLocker = new object();
 
         #endregion
 
-        #region timers
-
-        private readonly Timer _eventTimer;
-        private readonly Timer _synchroFrameTimer;
-        private readonly Timer _pingTimer;
         private ISeaBattleService _service;
 
-        #endregion
 
         private void InitializeConnection()
         {
@@ -63,7 +52,6 @@ namespace SeaBattle.NetWork
             {
                 var channelFactory = new ChannelFactory<ISeaBattleService>("SeaBattleEndpoint");
                 _service = channelFactory.CreateChannel();
-
             }
             catch (Exception e)
             {
@@ -112,7 +100,6 @@ namespace SeaBattle.NetWork
             // stopping thread
             AddClientGameEvent(null);
             _thread.Join();
-
         }
 
         public void Dispose()
@@ -123,23 +110,10 @@ namespace SeaBattle.NetWork
 
             // close EventWaitHandle
             _queue.Close();
-
-            _eventTimer.Dispose();
-            _synchroFrameTimer.Dispose();
-            _pingTimer.Dispose();
         }
 
         #endregion
-
-        #region getting the last synchroFrame and game events from server
-
-        public void GetLatestServerGameEvents()
-        {
-
-        }
-
-        #endregion
-
+        
         #region sending client game events
 
         private void AddClientGameEvent(AGameEvent gameEvent)
@@ -159,19 +133,12 @@ namespace SeaBattle.NetWork
         #region service implementation
 
         /// <summary>
-        /// Возвращает последние события от сервера, которые были получены с помощью другого потока
+        /// Возвращает последние данные от сервера, которые были получены с помощью другого потока
         /// Используется клиентом
         /// </summary>
-        public AGameEvent[] GetEvents()
+        public byte[] GetInfo()
         {
-            AGameEvent[] events;
-            lock (_gameEventLocker)
-            {
-                events = _lastServerGameEvents.ToArray();
-                _lastServerGameEvents.Clear();
-            }
-            // Logger.PrintEvents(events);
-            return events;
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -190,46 +157,51 @@ namespace SeaBattle.NetWork
             catch (Exception e)
             {
                 ErrorHelper.FatalError(e);
-                return AccountManagerErrorCode.UnknownExceptionOccured;
+                return AccountManagerErrorCode.UnknownError;
             }
         }
 
-        public Guid? Login(string username, string password, out AccountManagerErrorCode accountManagerErrorCode)
+        public AccountManagerErrorCode Login(string username, string password)
         {
             // initialize connection
             InitializeConnection();
+            var errorCode = AccountManagerErrorCode.Ok;
 
-            accountManagerErrorCode = AccountManagerErrorCode.Ok;
-
-            Guid? login = null;
             try
             {
-                login = _service.Login(username, HashHelper.GetMd5Hash(password), out accountManagerErrorCode);
+                errorCode = _service.Login(username, HashHelper.GetMd5Hash(password));
+
+                if (errorCode == AccountManagerErrorCode.InvalidUsernameOrPassword)
+                {
+                    _service.Logout();
+                }
+
+                return errorCode;
             }
             catch (Exception e)
             {
                 ErrorHelper.FatalError(e);
+                if (errorCode != AccountManagerErrorCode.InvalidUsernameOrPassword)
+                {
+                    errorCode = AccountManagerErrorCode.UnknownExceptionOccured;
+                }
             }
-
-            return login;
-        }
-
-        public AccountManagerErrorCode Logout()
-        {
-            var errorCode = AccountManagerErrorCode.UnknownError;
-            try
-            {
-                errorCode = _service.Logout();
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-            }
-
             return errorCode;
         }
 
-        public GameDescription[] GetGameList()
+        public void Logout()
+        {
+            try
+            {
+                _service.Logout();
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+            }
+        }
+
+        public List<GameDescription> GetGameList()
         {
             try
             {
@@ -242,11 +214,37 @@ namespace SeaBattle.NetWork
             }
         }
 
-        public GameDescription CreateGame(GameMode mode, int maxPlayers, int teams)
+        public int CreateGame(GameMode mode, int maxPlayers)
         {
             try
             {
-                return _service.CreateGame(mode, maxPlayers, teams);
+                return _service.CreateGame(mode, maxPlayers);
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+                return -1;
+            }
+        }
+
+        public bool JoinGame(int gameId)
+        {
+            try
+            {
+                return _service.JoinGame(gameId);
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+                return false;
+            }
+        }
+        
+        public GameLevel GameStart(int gameId)
+        {
+            try
+            {
+                return _service.GameStart(gameId);
             }
             catch (Exception e)
             {
@@ -255,24 +253,34 @@ namespace SeaBattle.NetWork
             }
         }
 
-        public bool JoinGame(GameDescription game)
+        public long GetServerGameTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> PlayerListUpdate()
         {
             try
             {
-                return _service.JoinGame(game);
+                return _service.PlayerListUpdate();
             }
             catch (Exception e)
             {
                 ErrorHelper.FatalError(e);
-                return false;
-            }
+                return null;
+            };
+        }
+
+        public AGameEvent[] GetEvents()
+        {
+            throw new NotImplementedException();
         }
 
         public void LeaveGame()
         {
             try
             {
-                _service.LeaveGame(1,1);
+                _service.LeaveGame();
             }
             catch (Exception e)
             {

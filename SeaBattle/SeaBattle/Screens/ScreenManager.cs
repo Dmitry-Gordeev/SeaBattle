@@ -13,17 +13,17 @@ namespace SeaBattle.Screens
     {
         public enum ScreenEnum
         {
-            CreateGameScreen,
-            GameMenuScreen,
-            GameplayScreen,
-            LoadingScreen,
-            LoginScreen,
-            MainMenuScreen,
             MessageBoxScreen,
-            MultiplayerScreen,
+            LoginScreen,
             NewAccountScreen,
+            MainMenuScreen,
+            MultiplayerScreen,
             OptionsMenuScreen,
-            WaitScreen
+            GameplayScreen,
+            WaitScreen,
+            CreateGameScreen,
+            LoadingScreen,
+            GameMenuScreen
         }
 
         private static ScreenManager _instance;
@@ -34,7 +34,7 @@ namespace SeaBattle.Screens
 
         private GameScreen _activeScreen;
 
-        private ScreenManager(Game game)
+        private ScreenManager(Microsoft.Xna.Framework.Game game)
             : base(game)
         {
             _gui = new GuiManager(Game.Services) { Visible = false };
@@ -69,7 +69,7 @@ namespace SeaBattle.Screens
             get { return GraphicsDevice.Viewport.Width; }
         }
 
-        public static void Init(Game game)
+        public static void Init(Microsoft.Xna.Framework.Game game)
         {
             if (_instance == null)
                 _instance = new ScreenManager(game);
@@ -141,7 +141,7 @@ namespace SeaBattle.Screens
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             Font = ContentManager.Load<SpriteFont>("menufont");
 
-            /*
+            
             RegisterScreen(ScreenEnum.LoginScreen, new LoginScreen());
             RegisterScreen(ScreenEnum.MessageBoxScreen, new MessageBox());
             RegisterScreen(ScreenEnum.MainMenuScreen, new MainMenuScreen());
@@ -153,11 +153,11 @@ namespace SeaBattle.Screens
             RegisterScreen(ScreenEnum.LoadingScreen, new LoadingScreen());
             RegisterScreen(ScreenEnum.GameplayScreen, new GameplayScreen());
             RegisterScreen(ScreenEnum.GameMenuScreen, new GameMenuScreen());
-
+            
             foreach (var gameScreen in _screens.Values)
             {
                 gameScreen.LoadContent();
-            }*/
+            }
         }
 
         protected override void UnloadContent()

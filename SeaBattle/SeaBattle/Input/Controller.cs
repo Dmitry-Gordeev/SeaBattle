@@ -1,4 +1,5 @@
-﻿using SeaBattle.Screens;
+﻿using SeaBattle.Game;
+using SeaBattle.Screens;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

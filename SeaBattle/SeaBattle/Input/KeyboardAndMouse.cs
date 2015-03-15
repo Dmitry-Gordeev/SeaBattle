@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Input;
 using Nuclex.Input;
 using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
-using SeaBattle.Screens;
 
 namespace SeaBattle.Input
 {
@@ -103,7 +102,7 @@ namespace SeaBattle.Input
 
             if (IsNewKeyPressed(Keys.Escape))
             {
-                ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameMenuScreen);
+                //ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameMenuScreen);
             }
         }
 

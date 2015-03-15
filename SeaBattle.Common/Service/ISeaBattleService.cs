@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Objects;
@@ -15,26 +16,26 @@ namespace SeaBattle.Common.Service
         AccountManagerErrorCode Register(string username, string password);
 
         [OperationContract(IsInitiating = true)]
-        Guid? Login(string username, string password, out AccountManagerErrorCode errorCode);
+        AccountManagerErrorCode Login(string username, string password);
 
         [OperationContract]
-        AccountManagerErrorCode Logout();
+        void Logout();
 
         #endregion
 
         #region Основные методы инициализации игры
 
         [OperationContract]
-        GameDescription[] GetGameList();
+        List<GameDescription> GetGameList();
 
         [OperationContract]
-        GameDescription CreateGame(GameMode mode, int maxPlayers, int teams);
+        int CreateGame(GameMode mode, int maxPlayers);
 
         [OperationContract]
-        bool JoinGame(GameDescription game);
+        bool JoinGame(int gameId);
 
         [OperationContract]
-        void LeaveGame(int x, int y);
+        void LeaveGame();
 
         /// <summary>
         /// проверка началась ли игра
@@ -55,7 +56,7 @@ namespace SeaBattle.Common.Service
         /// возвращает список игроков
         /// </summary>
         [OperationContract]
-        IPlayer[] PlayerListUpdate();
+        List<string> PlayerListUpdate();
 
         [OperationContract]
         AGameEvent[] GetEvents();

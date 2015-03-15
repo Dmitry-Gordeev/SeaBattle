@@ -1,49 +1,25 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Runtime.Serialization;
 using SeaBattle.Common.Objects;
-using SeaBattle.Common.Utils;
-using SeaBattle.Service.Ships;
+using SeaBattle.Common.Session;
 
 namespace SeaBattle.Service.Player
 {
+    [DataContract]
     public class Player : IPlayer
     {
-        public bool SomethingChanged { get; set; }
-        public object Lock { get; set; }
-        public bool IsStatic { get; private set; }
-        public int ID { get; private set; }
-        public string Name { get; private set; }
-        public IShip Ship { get; private set; }
+        public string Name { get; set; }
+        public string Login { get; private set; }
+        public ShipTypes ShipType { get; set; }
 
         #region Constructors
 
-        public Player(IShip ship, int id, string name )
+        public Player(string name, ShipTypes shipType)
         {
-            Ship = ship;
-            ID = id;
+            Login = name;
             Name = name;
+            ShipType = shipType;
         }
 
-        #endregion
-
-        #region Serialization
-
-        public void DeSerialize(ref int position, byte[] dataBytes)
-        {
-            Name = CommonSerializer.GetString(ref position, dataBytes);
-            Ship.DeSerialize(ref position, dataBytes);
-        }
-
-        public byte[] Serialize()
-        {
-            var result = new byte[]{};
-            result = result.Concat(CommonSerializer.StringToBytesArr(Name)).ToArray();
-            result = result.Concat(Ship.Serialize()).ToArray();
-
-            return result;
-        }
-        
         #endregion
     }
 }

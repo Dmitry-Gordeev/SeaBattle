@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Description;
-using Microsoft.Xna.Framework.Net;
 using SeaBattle.Common.Service;
 using SeaBattle.Service;
 
@@ -18,10 +17,10 @@ namespace SeaBattleServer
 
                 host.AddServiceEndpoint(typeof(ISeaBattleService), new NetTcpBinding(SecurityMode.None)
                 {
-                    ReceiveTimeout = new TimeSpan(0, 0, 0, 10),
-                    CloseTimeout = new TimeSpan(0, 0, 0, 10),
-                    OpenTimeout = new TimeSpan(0, 0, 0, 10),
-                    SendTimeout = new TimeSpan(0, 0, 0, 10),
+                    ReceiveTimeout = new TimeSpan(0, 0, 0, 300),
+                    CloseTimeout = new TimeSpan(0, 0, 0, 300),
+                    OpenTimeout = new TimeSpan(0, 0, 0, 300),
+                    SendTimeout = new TimeSpan(0, 0, 0, 300),
                 }, "SeaBattleService");
                 host.CloseTimeout = new TimeSpan(0, 0, 0, 10);
                 host.Closed += new EventHandler(host_Closed);
