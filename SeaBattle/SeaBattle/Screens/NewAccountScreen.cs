@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
+using SeaBattle.Common.Localization;
 using SeaBattle.Common.Service;
 using SeaBattle.Game;
 using SeaBattle.NetWork;
@@ -116,13 +114,13 @@ namespace SeaBattle.Screens
         {
             if (_loginBox.Text.Length < 3)
             {
-                MessageBox.Message = "Username is too short!\nPress Ok to continue";
+                MessageBox.Message = Strings.Short_Login_Data;
                 MessageBox.Next = ScreenManager.ScreenEnum.NewAccountScreen;
                 ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MessageBoxScreen);
             }
             else if (_passwordBox.Text.Length < 3)
             {
-                MessageBox.Message = "Password is too short!\nPress Ok to continue";
+                MessageBox.Message = Strings.Short_Login_Data;
                 MessageBox.Next = ScreenManager.ScreenEnum.NewAccountScreen;
                 ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MessageBoxScreen);
             }
@@ -136,10 +134,7 @@ namespace SeaBattle.Screens
 
                 if (errorCode == AccountManagerErrorCode.Ok)
                 {
-                    if (GameController.Instance.Login(_loginBox.Text, _passwordBox.RealText, out errorCode).HasValue)
-                    {
-                        ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
-                    }
+                    ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
                 }
                 else
                 {
@@ -163,6 +158,7 @@ namespace SeaBattle.Screens
                     MessageBox.Next = ScreenManager.ScreenEnum.LoginScreen;
                     ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MessageBoxScreen);
                 }
+                ConnectionManager.Instance.Logout();
             }
         }
     }

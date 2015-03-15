@@ -3,8 +3,14 @@
     internal class InputControl : Nuclex.UserInterface.Controls.Desktop.InputControl
     {
         private int _maxLength = 1000;
+        private string _realText = string.Empty;
         public bool IsHidden { get; set; }
-        public string RealText { get; set; }
+
+        public string RealText
+        {
+            get { return _realText; }
+            set { _realText = value; }
+        }
 
         public int MaxLength
         {

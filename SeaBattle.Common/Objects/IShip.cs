@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace SeaBattle.Common.Objects
 {
@@ -8,5 +6,6 @@ namespace SeaBattle.Common.Objects
     {
         float FullWeight { get; }
         Vector2 Coordinates { get; set; }
+        IPlayer Player { get; set; }
     }
 }

@@ -43,7 +43,7 @@ namespace SeaBattle.Screens
 
             SpriteBatch.Begin();
             SpriteBatch.Draw(_texture, backgroundRectangle, Color.White);
-            SpriteBatch.DrawString(font, Message, textPosition, Color.White);
+            SpriteBatch.DrawString(font, Message, textPosition, Color.Black);
             SpriteBatch.End();
         }
 

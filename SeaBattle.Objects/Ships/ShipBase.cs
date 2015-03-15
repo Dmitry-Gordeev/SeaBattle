@@ -12,9 +12,9 @@ namespace SeaBattle.Service.Ships
     {
         #region Constructors
 
-        protected ShipBase()
+        protected ShipBase(IPlayer player)
         {
-            
+            Player = player;
         }
 
         #endregion
@@ -44,6 +44,8 @@ namespace SeaBattle.Service.Ships
             get { return _coordinates; } 
             set { _coordinates = value; }
         }
+
+        public IPlayer Player { get; set; }
 
         #endregion
 

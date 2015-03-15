@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Timers;
-using Microsoft.Xna.Framework;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Session;
 using SeaBattle.Common.Utils;
@@ -35,14 +31,14 @@ namespace SeaBattle.Service.Session
         public GameLevel GameLevel { get; private set; }
 
         public GameSession(int maxPlayersAllowed,
-            GameMode gameType, int gameID, int teams)
+            GameMode gameType, int gameID)
         {
             IsStarted = false;
             GameLevel = new GameLevel(Constants.LevelWidth, Constants.LevelHeigh);
 
             var players = new List<IPlayer>();
 
-            LocalGameDescription = new GameDescription(players, maxPlayersAllowed, gameID, teams);
+            LocalGameDescription = new GameDescription(players, maxPlayersAllowed, gameID);
         }
 
         #region private methods

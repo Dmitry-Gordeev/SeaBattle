@@ -139,12 +139,11 @@ namespace SeaBattle.Screens
                 Settings.Default.password = _passwordBox.RealText;
                 Settings.Default.Save();
 
-                AccountManagerErrorCode errorCode;
+                AccountManagerErrorCode errorCode = GameController.Instance.Login(_loginBox.Text, _passwordBox.RealText);
 
-                if (GameController.Instance.Login(_loginBox.Text, _passwordBox.RealText, out errorCode).HasValue &&
-                    errorCode == AccountManagerErrorCode.Ok)
+                if (errorCode == AccountManagerErrorCode.Ok)
                 {
-                    //ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
+                    ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
                 }
                 else
                 {
@@ -176,7 +175,7 @@ namespace SeaBattle.Screens
 
         private void NewAccountButtonPressed(object sender, EventArgs args)
         {
-            //ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.NewAccountScreen);
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.NewAccountScreen);
         }
     }
 }

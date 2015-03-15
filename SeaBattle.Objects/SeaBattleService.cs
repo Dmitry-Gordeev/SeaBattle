@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
+using SeaBattle.Service.DA;
 
 namespace SeaBattle.Service
 {
@@ -13,10 +15,15 @@ namespace SeaBattle.Service
         #region private fields
 
         private static readonly List<SeaBattleService> ClientsList = new List<SeaBattleService>();
+        private static readonly List<GameDescription> GamesList = new List<GameDescription>();
 
-        private static int _globalID;
+        private static int _globalServiceID;
+        private static int _globalGameID;
 
-        private int _localID;
+        private readonly int _localID;
+        private int _currentGameId = -1;
+
+        public IPlayer Player { get; set; }
 
         private readonly InstanceContext _channelContext;
 
@@ -26,60 +33,97 @@ namespace SeaBattle.Service
 
         public SeaBattleService()
 		{
-            Console.WriteLine("Login");
 			_channelContext = OperationContext.Current.InstanceContext;
 			_channelContext.Faulted += OnChannelStopped;
 			_channelContext.Closed += OnChannelStopped;
-			_localID = _globalID;
-            _globalID++;
-            Console.WriteLine("Global ID: " + _globalID);
+			_localID = _globalServiceID;
+            ClientsList.Add(this);
+            Console.WriteLine("Global ID: " + _globalServiceID);
+            Console.WriteLine("ClientsList count: " + ClientsList.Count);
+            _globalServiceID++;
 		}
 
         #region регистрация, аутентификация
 
         public AccountManagerErrorCode Register(string username, string password)
         {
-            throw new NotImplementedException();
+            return DataBaseAdapter.Instance.RegisterPlayer(username, password);
         }
 
-        public Guid? Login(string username, string password, out AccountManagerErrorCode errorCode)
+        public AccountManagerErrorCode Login(string username, string password)
         {
-            throw new NotImplementedException();
+            var errorCode = DataBaseAdapter.Instance.GetPlayerStatus(username, password);
+            if (errorCode == AccountManagerErrorCode.Ok)
+            {
+                Player = new Player.Player(username, ShipTypes.Lugger);
+            }
+
+            return errorCode;
         }
 
-        public AccountManagerErrorCode Logout()
+        public void Logout()
         {
             Console.WriteLine("Logout");
-            return AccountManagerErrorCode.Ok;
+            _channelContext.Abort();
         }
 
         #endregion
 
         #region Основные методы инициализации игры
 
-        public GameDescription[] GetGameList()
+        public List<GameDescription> GetGameList()
         {
-            throw new NotImplementedException();
+            return GamesList;
         }
 
-        public GameDescription CreateGame(GameMode mode, int maxPlayers, int teams)
+        public int CreateGame(GameMode mode, int maxPlayers)
         {
-            throw new NotImplementedException();
+            _currentGameId = _globalGameID;
+            var gameDescription = new GameDescription(new List<IPlayer>{Player}, maxPlayers, _globalGameID++);
+            GamesList.Add(gameDescription);
+
+            return gameDescription.GameId;
         }
 
-        public bool JoinGame(GameDescription game)
+        public bool JoinGame(int gameId)
         {
-            throw new NotImplementedException();
+            var currentGame = GamesList.FirstOrDefault(game => game.GameId == gameId);
+
+            if (currentGame == null || currentGame.Players.Count >= currentGame.MaximumPlayersAllowed) return false;
+
+            _currentGameId = gameId;
+            currentGame.Players.Add(Player.Name);
+            return true;
         }
 
-        public void LeaveGame(int x, int y)
+        public void LeaveGame()
         {
-            Console.WriteLine("X: " + x + " Y: " + y);
+            if (_currentGameId == -1)
+            {
+                Console.WriteLine("Player with localID: " + _localID + "\nNot in game");
+                return;
+            }
+            var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
+            if (currentGame != null)
+            {
+                currentGame.Players.Remove(Player.Name);
+                if (currentGame.Players.Count == 0)
+                {
+                    GamesList.Remove(currentGame);
+                }
+            }
+
+            Console.WriteLine("LeaveGame with localID: " + _localID + "\nAnd GameID: " + _currentGameId );
+            _currentGameId = -1;
         }
 
         public GameLevel GameStart(int gameId)
         {
-            throw new NotImplementedException();
+            GameLevel gameLevel = null;
+
+            var currentGame = GamesList.FirstOrDefault(game => game.GameId == gameId);
+
+            return gameLevel;
         }
 
         #endregion
@@ -91,9 +135,11 @@ namespace SeaBattle.Service
             throw new NotImplementedException();
         }
 
-        public IPlayer[] PlayerListUpdate()
+        public List<string> PlayerListUpdate()
         {
-            throw new NotImplementedException();
+            var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
+
+            return currentGame != null ? currentGame.Players : null;
         }
 
         public AGameEvent[] GetEvents()
@@ -109,8 +155,9 @@ namespace SeaBattle.Service
         {
             _channelContext.Faulted -= OnChannelStopped;
             _channelContext.Closed -= OnChannelStopped;
-            LeaveGame(0,0);
-            Logout();
+            ClientsList.RemoveAll(service => service._localID == _localID);
+
+            LeaveGame();
         }
 
         #endregion

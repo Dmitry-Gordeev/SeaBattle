@@ -19,7 +19,11 @@ namespace SeaBattle.Screens
             MainMenuScreen,
             MultiplayerScreen,
             OptionsMenuScreen,
-            GameplayScreen
+            GameplayScreen,
+            WaitScreen,
+            CreateGameScreen,
+            LoadingScreen,
+            GameMenuScreen
         }
 
         private static ScreenManager _instance;
@@ -142,14 +146,14 @@ namespace SeaBattle.Screens
             RegisterScreen(ScreenEnum.MessageBoxScreen, new MessageBox());
             RegisterScreen(ScreenEnum.MainMenuScreen, new MainMenuScreen());
             RegisterScreen(ScreenEnum.OptionsMenuScreen, new OptionsMenuScreen());
-            RegisterScreen(ScreenEnum.NewAccountScreen, new NewAccountScreen());/*
+            RegisterScreen(ScreenEnum.NewAccountScreen, new NewAccountScreen());
             RegisterScreen(ScreenEnum.MultiplayerScreen, new MultiplayerScreen());
             RegisterScreen(ScreenEnum.CreateGameScreen, new CreateGameScreen());
             RegisterScreen(ScreenEnum.WaitScreen, new WaitScreen());
             RegisterScreen(ScreenEnum.LoadingScreen, new LoadingScreen());
             RegisterScreen(ScreenEnum.GameplayScreen, new GameplayScreen());
             RegisterScreen(ScreenEnum.GameMenuScreen, new GameMenuScreen());
-            */
+            
             foreach (var gameScreen in _screens.Values)
             {
                 gameScreen.LoadContent();

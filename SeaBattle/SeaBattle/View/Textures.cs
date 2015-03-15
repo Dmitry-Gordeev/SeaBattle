@@ -11,11 +11,7 @@ namespace SeaBattle.View
         public static GraphicsDevice GraphicsDevice;
 
         // Landscape textures
-        public static Texture2D SandLandscape;
-        public static Texture2D GrassLandscape;
-        public static Texture2D SnowLandscape;
-        public static Texture2D DesertLandscape;
-        public static Texture2D VolcanicLandscape;
+        public static Texture2D SeaFromAir;
 
         // cursor textures
         public static Texture2D Arrow;

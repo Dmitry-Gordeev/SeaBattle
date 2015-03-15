@@ -1,21 +1,5 @@
 Content\Textures\Ships\Lugger.xnb
-Content\Textures\screens\message_box.xnb
-Content\Textures\screens\screen_01.xnb
-Content\Textures\screens\screen_02.xnb
-Content\Textures\screens\screen_02_fix.xnb
-Content\Textures\screens\screen_03.xnb
-Content\Textures\screens\screen_04.xnb
-Content\Textures\screens\screen_05.xnb
 Content\Textures\screens\main_back_ground_screen.xnb
-Content\Textures\screens\screen_06.xnb
-Content\Textures\BonusesIcons\Bomb.xnb
-Content\Textures\BonusesIcons\DoubleDamage.xnb
-Content\Textures\BonusesIcons\Fire.xnb
-Content\Textures\BonusesIcons\Frozen.xnb
-Content\Textures\BonusesIcons\MedChest.xnb
-Content\Textures\BonusesIcons\Mirror.xnb
-Content\Textures\BonusesIcons\Protection.xnb
-Content\Textures\BonusesIcons\Speed.xnb
 Content\Textures\Cursors\Arrow.xnb
 Content\Textures\Cursors\Cross.xnb
 Content\Textures\Cursors\Plus.xnb
@@ -35,6 +19,9 @@ Content\Textures\Landscapes\VolcanicLandscape.xnb
 Content\Textures\Landscapes\VolcanicLandscape_old.xnb
 Content\Textures\Main_menu_background\ex_01.xnb
 Content\Textures\Main_menu_background\ex_02.xnb
+Content\Textures\screens\main_back_ground_screen_large.xnb
+Content\Textures\Landscapes\SeaFromAir.xnb
+Content\Textures\screens\message_box.xnb
 Content\menufont.xnb
 Content\Times New Roman.xnb
 Localization\Strings.resx

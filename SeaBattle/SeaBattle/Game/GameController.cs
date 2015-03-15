@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SeaBattle.Common.Service;
+using SeaBattle.Common.Session;
+using SeaBattle.Common.Utils;
 using SeaBattle.Input;
 using SeaBattle.NetWork;
+using SeaBattle.Screens;
 
 namespace SeaBattle.Game
 {
@@ -27,8 +31,6 @@ namespace SeaBattle.Game
 
         //private GameModel _gameModel;
 
-        public static Guid MyId { get; private set; }
-
         // todo temporary
         public static long StartTime { get; set; }
 
@@ -46,24 +48,14 @@ namespace SeaBattle.Game
             //ConnectionManager.Instance.Move(TypeConverter.Xna2XnaLite(direction));
         }
 
-        public void GameStart(int gameId)
+        public void GameStart(int gameId, GameLevel level)
         {
-            /*ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameplayScreen);
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameplayScreen);
 
             var timeHelper = new TimeHelper(StartTime);
 
-            var logger = new Logger(Logger.SolutionPath + "\\logs\\client_game_" + gameId + ".txt", timeHelper);
-
-            _gameModel = new GameModel(GameFactory.CreateClientGameLevel(arena), timeHelper);
-
-            _gameModel.Update(new GameTime());
-
-            Trace.Listeners.Add(logger);
-            Trace.WriteLine("Game initialized (model created, first synchroframe applied)");
-            Trace.Listeners.Remove(Logger.ClientLogger);
-
-            // GameModel initialized, set boolean flag  
-            IsGameStarted = true;*/
+            // GameModel initialized, set boolean flag
+            IsGameStarted = true;
         }
 
         public void GameOver()
@@ -106,20 +98,14 @@ namespace SeaBattle.Game
 
         #endregion
 
-        public Guid? Login(string username, string password, out AccountManagerErrorCode errorCode)
+        public AccountManagerErrorCode Login(string username, string password)
         {
-            // TODO check for null
-            Guid? id = ConnectionManager.Instance.Login(username, password, out errorCode);
-            if (id.HasValue)
-            {
-                MyId = id.Value;
-            }
-            return MyId;
+            return ConnectionManager.Instance.Login(username, password);;
         }
 
-        public AccountManagerErrorCode Logout()
+        public void Logout()
         {
-            return ConnectionManager.Instance.Logout();
+            ConnectionManager.Instance.Logout();
         }
     }
 }

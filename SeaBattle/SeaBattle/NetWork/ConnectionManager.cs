@@ -10,7 +10,7 @@ using SeaBattle.Utils;
 
 namespace SeaBattle.NetWork
 {
-    class ConnectionManager
+    class ConnectionManager : ISeaBattleService
     {
         private static ConnectionManager _localInstance;
 
@@ -43,11 +43,8 @@ namespace SeaBattle.NetWork
 
         #endregion
 
-        #region timers
-
         private ISeaBattleService _service;
 
-        #endregion
 
         private void InitializeConnection()
         {
@@ -160,46 +157,51 @@ namespace SeaBattle.NetWork
             catch (Exception e)
             {
                 ErrorHelper.FatalError(e);
-                return AccountManagerErrorCode.ServerUnavailable;
+                return AccountManagerErrorCode.UnknownError;
             }
         }
 
-        public Guid? Login(string username, string password, out AccountManagerErrorCode accountManagerErrorCode)
+        public AccountManagerErrorCode Login(string username, string password)
         {
             // initialize connection
             InitializeConnection();
+            var errorCode = AccountManagerErrorCode.Ok;
 
-            accountManagerErrorCode = AccountManagerErrorCode.Ok;
-
-            Guid? login = null;
             try
             {
-                login = _service.Login(username, HashHelper.GetMd5Hash(password), out accountManagerErrorCode);
+                errorCode = _service.Login(username, HashHelper.GetMd5Hash(password));
+
+                if (errorCode == AccountManagerErrorCode.InvalidUsernameOrPassword)
+                {
+                    _service.Logout();
+                }
+
+                return errorCode;
             }
             catch (Exception e)
             {
                 ErrorHelper.FatalError(e);
+                if (errorCode != AccountManagerErrorCode.InvalidUsernameOrPassword)
+                {
+                    errorCode = AccountManagerErrorCode.UnknownExceptionOccured;
+                }
             }
-
-            return login;
-        }
-
-        public AccountManagerErrorCode Logout()
-        {
-            var errorCode = AccountManagerErrorCode.UnknownError;
-            try
-            {
-                errorCode = _service.Logout();
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-            }
-
             return errorCode;
         }
 
-        public GameDescription[] GetGameList()
+        public void Logout()
+        {
+            try
+            {
+                _service.Logout();
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+            }
+        }
+
+        public List<GameDescription> GetGameList()
         {
             try
             {
@@ -212,11 +214,37 @@ namespace SeaBattle.NetWork
             }
         }
 
-        public GameDescription CreateGame(GameMode mode, int maxPlayers, int teams)
+        public int CreateGame(GameMode mode, int maxPlayers)
         {
             try
             {
-                return _service.CreateGame(mode, maxPlayers, teams);
+                return _service.CreateGame(mode, maxPlayers);
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+                return -1;
+            }
+        }
+
+        public bool JoinGame(int gameId)
+        {
+            try
+            {
+                return _service.JoinGame(gameId);
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+                return false;
+            }
+        }
+        
+        public GameLevel GameStart(int gameId)
+        {
+            try
+            {
+                return _service.GameStart(gameId);
             }
             catch (Exception e)
             {
@@ -225,24 +253,34 @@ namespace SeaBattle.NetWork
             }
         }
 
-        public bool JoinGame(GameDescription game)
+        public long GetServerGameTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> PlayerListUpdate()
         {
             try
             {
-                return _service.JoinGame(game);
+                return _service.PlayerListUpdate();
             }
             catch (Exception e)
             {
                 ErrorHelper.FatalError(e);
-                return false;
-            }
+                return null;
+            };
+        }
+
+        public AGameEvent[] GetEvents()
+        {
+            throw new NotImplementedException();
         }
 
         public void LeaveGame()
         {
             try
             {
-                _service.LeaveGame(1,1);
+                _service.LeaveGame();
             }
             catch (Exception e)
             {

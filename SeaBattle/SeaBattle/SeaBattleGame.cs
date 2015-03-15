@@ -21,33 +21,16 @@ namespace SeaBattle
         SpriteBatch _spriteBatch;
         Lugger _myLugger;
         readonly ISeaBattleService _client;
-
-        private MouseState _currentMouseState, _lastMouseState;
-
         
         public SeaBattleGame()
         {
-            // Mouse init
-            _currentMouseState = Mouse.GetState();
-            _lastMouseState = Mouse.GetState();
-            IsMouseVisible = false;
+            //IsMouseVisible = false;
 
             // Graphics init
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _graphics.PreferredBackBufferWidth = 800;
+            _graphics.PreferredBackBufferWidth = 960;
             _graphics.PreferredBackBufferHeight = 600;
-
-            /* Connection init
-            var myChannelFactory = new ChannelFactory<ISeaBattleService>("SeaBattleEndpoint");
-            try
-            {
-                _client = myChannelFactory.CreateChannel();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }*/
         }
 
         /// <summary>
@@ -97,13 +80,6 @@ namespace SeaBattle
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            _lastMouseState = _currentMouseState;
-            _currentMouseState = Mouse.GetState();
-            /*
-            if (_currentMouseState.LeftButton == ButtonState.Pressed && _lastMouseState.LeftButton == ButtonState.Released)
-            {
-                _client.LeaveGame(_currentMouseState.X, _currentMouseState.Y);
-            }*/
             
             base.Update(gameTime);
         }

@@ -94,30 +94,7 @@ namespace SeaBattle.Screens
 
         private void LogoffMenuButtonPressed(object sender, EventArgs e)
         {
-            AccountManagerErrorCode errorCode = GameController.Instance.Logout();
-            if (errorCode != AccountManagerErrorCode.Ok)
-            {
-                string message;
-                switch (errorCode)
-                {
-                    case AccountManagerErrorCode.UnknownExceptionOccured:
-                        message = Strings.Unknoun_Exception;
-                        break;
-                    case AccountManagerErrorCode.UserIsAlreadyOffline:
-                        message = Strings.Already_Offline;
-                        break;
-                    case AccountManagerErrorCode.UnknownError:
-                        message = Strings.Unknoun_Error;
-                        break;
-                    default:
-                        message = Strings.Unexpected_Error;
-                        break;
-                }
-                MessageBox.Message = message;
-                MessageBox.Next = ScreenManager.ScreenEnum.LoginScreen;
-                ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MessageBoxScreen);
-            }
-
+            GameController.Instance.Logout();
             ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.LoginScreen);
         }
     }
