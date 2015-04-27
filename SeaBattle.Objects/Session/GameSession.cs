@@ -11,8 +11,9 @@ namespace SeaBattle.Service.Session
     {
         #region private fields
 
-        protected readonly List<IObject> _gameObjects;
-        protected readonly List<IObject> _newObjects;
+        protected readonly List<ICustomSerializable> _staticObjects;
+        protected readonly List<IShip> _ships;
+        protected readonly List<IBullet> _bullets;
 
         protected long _timerCounter;
 
@@ -31,14 +32,14 @@ namespace SeaBattle.Service.Session
         public GameLevel GameLevel { get; private set; }
 
         public GameSession(int maxPlayersAllowed,
-            GameMode gameType, int gameID)
+            GameModes gameMode, int gameID, MapSet mapType)
         {
             IsStarted = false;
             GameLevel = new GameLevel(Constants.LevelWidth, Constants.LevelHeigh);
 
             var players = new List<IPlayer>();
 
-            LocalGameDescription = new GameDescription(players, maxPlayersAllowed, gameID);
+            LocalGameDescription = new GameDescription(players, maxPlayersAllowed, gameID, mapType, gameMode);
         }
 
         #region private methods
@@ -46,6 +47,8 @@ namespace SeaBattle.Service.Session
         public virtual void Start()
         {
             #region инициализация объектов
+
+
 
             #endregion
 
@@ -59,7 +62,7 @@ namespace SeaBattle.Service.Session
 
             _gameTimer.Start();
 
-            Trace.WriteLine("Game Started");
+            Trace.WriteLine("Game " + LocalGameDescription.GameId + " Started");
 
             IsStarted = true;
         }

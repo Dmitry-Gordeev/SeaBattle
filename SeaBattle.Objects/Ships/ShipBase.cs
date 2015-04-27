@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.Xna.Framework;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Utils;
@@ -34,6 +32,7 @@ namespace SeaBattle.Service.Ships
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }
         public bool IsStatic { get { return false; } }
+        public int ID { get; private set; }
         public abstract float Height { get; }
         private Vector2 _coordinates;
 

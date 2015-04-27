@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Utils;
 
 namespace SeaBattle.Service.ShipSupplies
 {
-    public class Cannons : ISerializableObject
+    public class Cannons : ICustomSerializable
     {
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }

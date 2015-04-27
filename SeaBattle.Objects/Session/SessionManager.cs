@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Service.Session
@@ -46,7 +45,7 @@ namespace SeaBattle.Service.Session
         /// <summary>
         /// Создаем новую игру
         /// </summary>
-        public GameDescription CreateGame(GameMode mode, int maxPlayers, SeaBattleService client, int teams)
+        public GameDescription CreateGame(GameModes modes, int maxPlayers, SeaBattleService client, int teams)
         {
             GameSession gameSession;
 

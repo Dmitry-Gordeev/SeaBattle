@@ -4,7 +4,7 @@ using SeaBattle.Common.Objects;
 
 namespace SeaBattle.Service.ShipSupplies
 {
-    public class Sails : ISerializableObject
+    public class Sails : ICustomSerializable
     {
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }

@@ -7,7 +7,7 @@ using SeaBattle.Service.Goods;
 
 namespace SeaBattle.Service.ShipSupplies
 {
-    public class ShipHold : ISerializableObject
+    public class ShipHold : ICustomSerializable
     {
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }

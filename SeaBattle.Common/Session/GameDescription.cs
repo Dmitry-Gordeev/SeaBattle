@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using SeaBattle.Common.Objects;
 
@@ -12,7 +13,7 @@ namespace SeaBattle.Common.Session
 
         }
 
-        public GameDescription(IEnumerable<IPlayer> players, int maxPlayersAllowed, int gameId)
+        public GameDescription(IEnumerable<IPlayer> players, int maxPlayersAllowed, int gameId, MapSet mapType, GameModes gameMode)
         {
             GameId = gameId;
             Players = new List<string>{};
@@ -21,10 +22,18 @@ namespace SeaBattle.Common.Session
                 Players.Add(player.Name);
             }
             MaximumPlayersAllowed = maxPlayersAllowed;
+            MapType = mapType;
+            GameMode = gameMode;
         }
 
         [DataMember]
         public int GameId { get; set; }
+
+        [DataMember]
+        public MapSet MapType { get; set; }
+
+        [DataMember]
+        public GameModes GameMode { get; set; }
 
         [DataMember]
         public List<string> Players { get; set; }
@@ -34,7 +43,7 @@ namespace SeaBattle.Common.Session
 
         public override string ToString()
         {
-            return string.Format("[ {0}/{1} ]", Players.Count, MaximumPlayersAllowed);
+            return string.Format("{0} [ {1}/{2} ]", Players.FirstOrDefault() ?? string.Empty, Players.Count, MaximumPlayersAllowed);
         }
     }
 }

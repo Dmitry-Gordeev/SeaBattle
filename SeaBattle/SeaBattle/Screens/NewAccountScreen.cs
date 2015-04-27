@@ -6,7 +6,6 @@ using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
 using SeaBattle.Common.Localization;
 using SeaBattle.Common.Service;
-using SeaBattle.Game;
 using SeaBattle.NetWork;
 using InputControl = SeaBattle.Input.InputControl;
 
@@ -138,20 +137,20 @@ namespace SeaBattle.Screens
                 }
                 else
                 {
-                    string message = "Registration failed: ";
+                    string message = Strings.Registration_Failed;
                     switch (errorCode)
                     {
                         case AccountManagerErrorCode.UnknownExceptionOccured:
-                            message += "Unknown exception occured";
+                            message += Strings.Unexpected_Error;
                             break;
                         case AccountManagerErrorCode.UsernameTaken:
-                            message += "This username is already taken, please try another";
+                            message += Strings.Username_Is_Already_Taken;
                             break;
                         case AccountManagerErrorCode.UnknownError:
-                            message += "Unknown error occured";
+                            message += Strings.Unknoun_Error;
                             break;
                         default:
-                            message += "Unexpected error code returned";
+                            message += Strings.Unexpected_Error;
                             break;
                     }
                     MessageBox.Message = message;

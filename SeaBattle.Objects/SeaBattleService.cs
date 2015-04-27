@@ -57,7 +57,7 @@ namespace SeaBattle.Service
             {
                 Player = new Player.Player(username, ShipTypes.Lugger);
             }
-
+            Console.WriteLine("Player name: " + Player.Name + " entered");
             return errorCode;
         }
 
@@ -76,10 +76,10 @@ namespace SeaBattle.Service
             return GamesList;
         }
 
-        public int CreateGame(GameMode mode, int maxPlayers)
+        public int CreateGame(GameModes mode, int maxPlayers, MapSet mapType)
         {
             _currentGameId = _globalGameID;
-            var gameDescription = new GameDescription(new List<IPlayer>{Player}, maxPlayers, _globalGameID++);
+            var gameDescription = new GameDescription(new List<IPlayer> { Player }, maxPlayers, _globalGameID++, mapType, mode);
             GamesList.Add(gameDescription);
 
             return gameDescription.GameId;
@@ -98,6 +98,10 @@ namespace SeaBattle.Service
 
         public void LeaveGame()
         {
+            if (Player != null)
+            {
+                Console.WriteLine("Player " + Player.Name + " leave");
+            }
             if (_currentGameId == -1)
             {
                 Console.WriteLine("Player with localID: " + _localID + "\nNot in game");

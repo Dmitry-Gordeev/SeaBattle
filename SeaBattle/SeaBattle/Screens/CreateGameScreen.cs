@@ -6,7 +6,6 @@ using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
 using SeaBattle.Common.Session;
 using SeaBattle.NetWork;
-using SeaBattle.Service.Player;
 
 namespace SeaBattle.Screens
 {
@@ -194,27 +193,43 @@ namespace SeaBattle.Screens
 
         private void CreateButtonPressed(object sender, EventArgs args)
         {
-            GameMode mode;
+            GameModes mode;
             switch (_gameMode.Text)
             {
                 case "Simple":
-                    mode = GameMode.Simple;
+                    mode = GameModes.Simple;
                     break;
                 case "Real":
-                    mode = GameMode.Real;
+                    mode = GameModes.Real;
                     break;
                 default:
-                    mode = GameMode.Simple;
+                    mode = GameModes.Simple;
+                    break;
+            }
+
+            MapSet mapType;
+            switch (_tile.Text)
+            {
+                case "Empty":
+                    mapType = MapSet.Empty;
+                    break;
+                case "With stones":
+                    mapType = MapSet.WithStones;
+                    break;
+                default:
+                    mapType = MapSet.Empty;
                     break;
             }
 
             int gameId =
-                ConnectionManager.Instance.CreateGame(mode, Convert.ToInt32(_maxPlayers.Text));
+                ConnectionManager.Instance.CreateGame(mode, Convert.ToInt32(_maxPlayers.Text), mapType);
             if (gameId == -1)
                 return;
             WaitScreen.GameMode = _gameMode.Text;
             WaitScreen.MaxPlayers = _maxPlayers.Text;
             WaitScreen.GameId = gameId;
+            WaitScreen.Map = mapType.ToString();
+            WaitScreen.GameMode = mode.ToString();
 
             ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WaitScreen);
         }

@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 
 namespace SeaBattle.Service.ShipSupplies
 {
-    class Bullet : IBullet, ISerializableObject
+    class Bullet : IBullet
     {
         public bool IsStatic {get { return false; }}
         public int ID { get; private set; }
         public BulletType Type { get; private set; }
+        public Vector2 Coordinates { get; set; }
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }
         public Vector2 CoordinatesFrom;

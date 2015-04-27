@@ -125,7 +125,7 @@ namespace SeaBattle.NetWork
 
         private void SendClientGameEvent(AGameEvent gameEvent)
         {
-
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -214,11 +214,11 @@ namespace SeaBattle.NetWork
             }
         }
 
-        public int CreateGame(GameMode mode, int maxPlayers)
+        public int CreateGame(GameModes modes, int maxPlayers, MapSet mapType)
         {
             try
             {
-                return _service.CreateGame(mode, maxPlayers);
+                return _service.CreateGame(modes, maxPlayers, mapType);
             }
             catch (Exception e)
             {
@@ -269,11 +269,6 @@ namespace SeaBattle.NetWork
                 ErrorHelper.FatalError(e);
                 return null;
             };
-        }
-
-        public AGameEvent[] GetEvents()
-        {
-            throw new NotImplementedException();
         }
 
         public void LeaveGame()

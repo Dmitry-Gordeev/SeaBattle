@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls.Desktop;
-using SeaBattle.Common.Objects;
 using SeaBattle.Common.Session;
 using SeaBattle.Game;
 using SeaBattle.NetWork;
@@ -64,11 +63,11 @@ namespace SeaBattle.Screens
 
             DrawString("Players", 20f, 25f, Color.Red);
             DrawString("Map: ", 280f, 260f, Color.Red);
-            //DrawString(Map, 400f, 260f, Color.Red);
+            DrawString(Map, 400f, 260f, Color.Red);
             DrawString("Game Mode:", 280f, 290f, Color.Red);
-            //DrawString(GameMode, 400f, 290f, Color.Red);
+            DrawString(GameMode, 400f, 290f, Color.Red);
             DrawString("Max Players:", 280f, 320f, Color.Red);
-            //DrawString(MaxPlayers, 400f, 320f, Color.Red);
+            DrawString(MaxPlayers, 400f, 320f, Color.Red);
 
             SpriteBatch.End();
         }

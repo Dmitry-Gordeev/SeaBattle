@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SeaBattle.Common.Session;
 using SeaBattle.Service.Player;
 using SeaBattle.Service.Ships;

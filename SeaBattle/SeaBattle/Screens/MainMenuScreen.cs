@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls.Desktop;
-using SeaBattle.Common.Localization;
-using SeaBattle.Common.Service;
 using SeaBattle.Game;
 
 namespace SeaBattle.Screens

@@ -1,13 +1,10 @@
-﻿using System;
-using System.ServiceModel;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using SeaBattle.Common.Service;
-using SeaBattle.NetWork;
 using SeaBattle.Screens;
 using SeaBattle.Service.Ships;
 using SeaBattle.View;
+using SeaBattle.Common.Session;
 
 namespace SeaBattle
 {
@@ -29,8 +26,8 @@ namespace SeaBattle
             // Graphics init
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            _graphics.PreferredBackBufferWidth = 960;
-            _graphics.PreferredBackBufferHeight = 600;
+            _graphics.PreferredBackBufferWidth = Constants.LevelWidth;
+            _graphics.PreferredBackBufferHeight = Constants.LevelHeigh;
         }
 
         /// <summary>

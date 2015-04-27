@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
-using SeaBattle.Common.GameEvent;
-using SeaBattle.Common.Objects;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Common.Service
@@ -29,7 +26,7 @@ namespace SeaBattle.Common.Service
         List<GameDescription> GetGameList();
 
         [OperationContract]
-        int CreateGame(GameMode mode, int maxPlayers);
+        int CreateGame(GameModes modes, int maxPlayers, MapSet mapType);
 
         [OperationContract]
         bool JoinGame(int gameId);
@@ -57,9 +54,6 @@ namespace SeaBattle.Common.Service
         /// </summary>
         [OperationContract]
         List<string> PlayerListUpdate();
-
-        [OperationContract]
-        AGameEvent[] GetEvents();
 
         #endregion
     }

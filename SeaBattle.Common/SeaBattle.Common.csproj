@@ -53,9 +53,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Objects\IBullet.cs" />
+    <Compile Include="Objects\IStaticObject.cs" />
     <Compile Include="Objects\IObject.cs" />
     <Compile Include="Objects\IPlayer.cs" />
-    <Compile Include="Objects\ISerializableObject.cs" />
+    <Compile Include="Objects\ICustomSerializable.cs" />
     <Compile Include="Service\Constants.cs" />
     <Compile Include="Service\ISeaBattleService.cs" />
     <Compile Include="Objects\IShip.cs" />

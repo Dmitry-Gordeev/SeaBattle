@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SeaBattle.Service.ShipSupplies
 {
-    public class Supplies : ISerializableObject
+    public class Supplies : ICustomSerializable
     {
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }

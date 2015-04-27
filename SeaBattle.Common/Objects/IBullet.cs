@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 using SeaBattle.Common.Service;
 
 namespace SeaBattle.Common.Objects
 {
-    public interface IBullet : IObject
+    public interface IBullet : ICustomSerializable, IObject
     {
         BulletType Type { get; }
+        Vector2 Coordinates { get; set; }
     }
 }
