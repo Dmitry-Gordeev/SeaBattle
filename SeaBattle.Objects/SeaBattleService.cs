@@ -151,6 +151,11 @@ namespace SeaBattle.Service
             throw new NotImplementedException();
         }
 
+        public byte[] GetInfo()
+        {
+            return _currentGameId == -1 ? null : SessionManager.Instance.GetInfo(_currentGameId);
+        }
+
         public List<string> PlayerListUpdate()
         {
             var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);

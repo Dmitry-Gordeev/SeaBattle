@@ -60,6 +60,18 @@ namespace SeaBattle.Game
         {
             var timeHelper = new TimeHelper(StartTime);
 
+            UpdateWorld(dataBytes);
+            
+            // GameModel initialized, set boolean flag
+            IsGameStarted = true;
+
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameplayScreen);
+        }
+
+        public void UpdateWorld(byte[] dataBytes)
+        {
+            if (dataBytes == null) return;
+
             int pos = 0;
             for (int i = 0; i < 4; i++)
             {
@@ -76,11 +88,6 @@ namespace SeaBattle.Game
                     Ships[i] = new Lugger(new Player("", ShipType.Lugger));
                 Ships[i].DeSerialize(ref pos, dataBytes);
             }
-            
-            // GameModel initialized, set boolean flag
-            IsGameStarted = true;
-
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameplayScreen);
         }
 
         public void GameOver()

@@ -55,6 +55,9 @@ namespace SeaBattle.Common.Service
         [OperationContract]
         long GetServerGameTime();
 
+        [OperationContract]
+        byte[] GetInfo();
+
         /// <summary>
         /// возвращает список игроков
         /// </summary>

@@ -34,6 +34,13 @@ namespace SeaBattle.Service.Session
             return gameSession.GetInfo();
         }
 
+        public byte[] GetInfo(int gameId)
+        {
+            var game = _gameSessions.Find(x => x.LocalGameDescription.GameId == gameId);
+
+            return game.GetInfo();
+        }
+
         /// <summary>
         /// Ищем игру, в которой находится игрок и удаляем его оттуда.
         /// </summary>

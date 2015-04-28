@@ -138,7 +138,15 @@ namespace SeaBattle.NetWork
         /// </summary>
         public byte[] GetInfo()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _service.GetInfo();
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+                return null;
+            }
         }
 
         #endregion

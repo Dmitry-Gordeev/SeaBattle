@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SeaBattle.Game;
 using SeaBattle.Input;
+using SeaBattle.NetWork;
 using SeaBattle.View;
 
 namespace SeaBattle.Screens
@@ -40,6 +41,8 @@ namespace SeaBattle.Screens
             base.Update(gameTime);
 
             GameController.Instance.UpdateWorld(gameTime);
+
+            GameController.Instance.UpdateWorld(ConnectionManager.Instance.GetInfo());
         }
 
         public override void Draw(GameTime gameTime)
