@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
+using SeaBattle.Common.Objects;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Common.Service
@@ -53,7 +54,7 @@ namespace SeaBattle.Common.Service
         /// возвращает список игроков
         /// </summary>
         [OperationContract]
-        List<string> PlayerListUpdate();
+        List<IPlayer> PlayerListUpdate();
 
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Session;
 
@@ -10,6 +11,7 @@ namespace SeaBattle.Service.Player
         public string Name { get; set; }
         public string Login { get; private set; }
         public ShipTypes ShipType { get; set; }
+        public Guid ID { get; set; }
 
         #region Constructors
 
@@ -18,6 +20,7 @@ namespace SeaBattle.Service.Player
             Login = name;
             Name = name;
             ShipType = shipType;
+            ID = new Guid();
         }
 
         #endregion

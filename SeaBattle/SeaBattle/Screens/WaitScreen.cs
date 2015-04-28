@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls.Desktop;
+using SeaBattle.Common.Objects;
 using SeaBattle.Common.Session;
 using SeaBattle.Game;
 using SeaBattle.NetWork;
@@ -18,7 +19,7 @@ namespace SeaBattle.Screens
         private ListControl _playersList;
         private ButtonControl _leaveButton;
 
-        private List<string> _players;
+        private List<IPlayer> _players;
         private SpriteFont _spriteFont;
 
         private int _updateCount;
@@ -45,12 +46,12 @@ namespace SeaBattle.Screens
             _spriteFont = ContentManager.Load<SpriteFont>("Times New Roman");
         }
 
-        public void ChangePlayerList(List<string> players)
+        public void ChangePlayerList(List<IPlayer> players)
         {
             _playersList.Items.Clear();
             foreach (var player in players)
             {
-                _playersList.Items.Add(player);
+                _playersList.Items.Add(player.Name);
             }
         }
 
@@ -93,7 +94,7 @@ namespace SeaBattle.Screens
 
             foreach (var player in _players)
             {
-                _playersList.Items.Add(player);
+                _playersList.Items.Add(player.Name);
             }
         }
 

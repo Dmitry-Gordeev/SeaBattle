@@ -92,7 +92,7 @@ namespace SeaBattle.Service
             if (currentGame == null || currentGame.Players.Count >= currentGame.MaximumPlayersAllowed) return false;
 
             _currentGameId = gameId;
-            currentGame.Players.Add(Player.Name);
+            currentGame.Players.Add(Player);
             return true;
         }
 
@@ -110,7 +110,7 @@ namespace SeaBattle.Service
             var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
             if (currentGame != null)
             {
-                currentGame.Players.Remove(Player.Name);
+                currentGame.Players.Remove(Player);
                 if (currentGame.Players.Count == 0)
                 {
                     GamesList.Remove(currentGame);
@@ -139,7 +139,7 @@ namespace SeaBattle.Service
             throw new NotImplementedException();
         }
 
-        public List<string> PlayerListUpdate()
+        public List<IPlayer> PlayerListUpdate()
         {
             var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
 

@@ -8,18 +8,13 @@ namespace SeaBattle.Common.Session
     [DataContract]
     public class GameDescription
     {
-        public GameDescription()
-        {
-
-        }
-
         public GameDescription(IEnumerable<IPlayer> players, int maxPlayersAllowed, int gameId, MapSet mapType, GameModes gameMode)
         {
             GameId = gameId;
-            Players = new List<string>{};
+            Players = new List<IPlayer> { };
             foreach (var player in players)
             {
-                Players.Add(player.Name);
+                Players.Add(player);
             }
             MaximumPlayersAllowed = maxPlayersAllowed;
             MapType = mapType;
@@ -36,14 +31,17 @@ namespace SeaBattle.Common.Session
         public GameModes GameMode { get; set; }
 
         [DataMember]
-        public List<string> Players { get; set; }
+        public List<IPlayer> Players { get; set; }
 
         [DataMember]
         public int MaximumPlayersAllowed { get; set; }
 
         public override string ToString()
         {
-            return string.Format("{0} [ {1}/{2} ]", Players.FirstOrDefault() ?? string.Empty, Players.Count, MaximumPlayersAllowed);
+            var firstOrDefault = Players.FirstOrDefault();
+            if (firstOrDefault != null)
+                return string.Format("{0} [ {1}/{2} ]", firstOrDefault.Name ?? string.Empty, Players.Count, MaximumPlayersAllowed);
+            return string.Empty;
         }
     }
 }
