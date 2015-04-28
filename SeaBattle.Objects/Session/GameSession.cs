@@ -1,9 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Timers;
+using Microsoft.Xna.Framework;
 using SeaBattle.Common.Objects;
+using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
 using SeaBattle.Common.Utils;
+using SeaBattle.Service.Ships;
+using SeaBattle.Service.ShipSupplies;
+using SeaBattle.Service.StaticObjects;
 
 namespace SeaBattle.Service.Session
 {
@@ -11,43 +18,54 @@ namespace SeaBattle.Service.Session
     {
         #region private fields
 
-        protected readonly List<ICustomSerializable> _staticObjects;
-        protected readonly List<IShip> _ships;
-        protected readonly List<IBullet> _bullets;
+        private readonly List<ICustomSerializable> StaticObjects;
+        private readonly List<ShipBase> Ships;
+        private readonly List<IBullet> _bullets;
 
-        protected long _timerCounter;
 
-        protected long _lastUpdate;
-        protected long _updateDelay;
 
-        protected Timer _gameTimer;
-        protected object _updating;
+        private long _timerCounter;
 
-        protected TimeHelper _timeHelper;
+        private long _lastUpdate;
+        private long _updateDelay;
+
+        private Timer _gameTimer;
+        private object _updating;
+
+        private TimeHelper _timeHelper;
 
         #endregion
 
         public GameDescription LocalGameDescription { get; private set; }
-        public bool IsStarted { get; protected set; }
         public GameLevel GameLevel { get; private set; }
+        public Compass Compass { get; set; }
 
-        public GameSession(int maxPlayersAllowed,
-            GameModes gameMode, int gameID, MapSet mapType)
+
+
+        public GameSession(GameDescription gameDescription)
         {
-            IsStarted = false;
             GameLevel = new GameLevel(Constants.LevelWidth, Constants.LevelHeigh);
+            LocalGameDescription = gameDescription;
+            StaticObjects = InitializeBorders();
+            Ships = InitializeShips();
 
-            var players = new List<IPlayer>();
 
-            LocalGameDescription = new GameDescription(players, maxPlayersAllowed, gameID, mapType, gameMode);
+            Start();
+        }
+
+        public byte[] GetInfo()
+        {
+
+            return null;
         }
 
         #region private methods
 
-        public virtual void Start()
+        private void Start()
         {
             #region инициализация объектов
 
+            
 
 
             #endregion
@@ -62,10 +80,40 @@ namespace SeaBattle.Service.Session
 
             _gameTimer.Start();
 
+
+
             Trace.WriteLine("Game " + LocalGameDescription.GameId + " Started");
 
-            IsStarted = true;
         }
+
+        private List<ICustomSerializable> InitializeBorders()
+        {
+            var borders = new List<ICustomSerializable>
+            {
+                new Border(Side.Top),
+                new Border(Side.Right),
+                new Border(Side.Bottom),
+                new Border(Side.Left)
+            };
+
+            return borders;
+        }
+
+        private List<ShipBase> InitializeShips()
+        {
+            var ships = new List<ShipBase>{};
+            var rnd = new Random();
+
+            ships.AddRange(LocalGameDescription.Players.Select(player => 
+                new Lugger(new Player.Player(player, ShipType.Lugger))
+                {
+                    Coordinates = new Vector2(rnd.Next(100, Constants.LevelWidth - 100), 
+                        rnd.Next(100, Constants.LevelHeigh - 100))
+                }));
+
+            return ships;
+        }
+
         #endregion
     }
 }

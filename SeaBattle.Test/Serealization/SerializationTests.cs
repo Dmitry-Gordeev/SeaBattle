@@ -11,7 +11,7 @@ namespace SeaBattle.Test.Serealization
         [TestMethod]
         public void SerializanionTest()
         {
-            var player = new Player("name", ShipTypes.Lugger);
+            var player = new Player("name", ShipType.Lugger);
             var ship1 = new Lugger(player);
             var bytes = ship1.Serialize();
 

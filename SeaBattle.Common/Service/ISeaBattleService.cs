@@ -33,6 +33,9 @@ namespace SeaBattle.Common.Service
         bool JoinGame(int gameId);
 
         [OperationContract]
+        bool IsHost();
+
+        [OperationContract]
         void LeaveGame();
 
         /// <summary>
@@ -42,6 +45,9 @@ namespace SeaBattle.Common.Service
         /// <returns>если игра не началась возвращает null</returns>
         [OperationContract]
         GameLevel GameStart(int gameId);
+
+        [OperationContract]
+        bool StartGameSession();
 
         #endregion
         
@@ -54,7 +60,7 @@ namespace SeaBattle.Common.Service
         /// возвращает список игроков
         /// </summary>
         [OperationContract]
-        List<IPlayer> PlayerListUpdate();
+        List<string> PlayerListUpdate();
 
         #endregion
     }

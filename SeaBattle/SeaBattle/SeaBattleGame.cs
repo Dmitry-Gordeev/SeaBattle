@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SeaBattle.Common.Service;
 using SeaBattle.Screens;
-using SeaBattle.Service.Ships;
 using SeaBattle.View;
 using SeaBattle.Common.Session;
 
@@ -16,9 +14,7 @@ namespace SeaBattle
         private ScreenManager _screenManager;
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
-        Lugger _myLugger;
-        readonly ISeaBattleService _client;
-        
+
         public SeaBattleGame()
         {
             //IsMouseVisible = false;

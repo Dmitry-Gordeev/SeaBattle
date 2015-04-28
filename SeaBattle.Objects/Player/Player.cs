@@ -10,17 +10,15 @@ namespace SeaBattle.Service.Player
     {
         public string Name { get; set; }
         public string Login { get; private set; }
-        public ShipTypes ShipType { get; set; }
-        public Guid ID { get; set; }
+        public ShipType ShipType { get; set; }
 
         #region Constructors
 
-        public Player(string name, ShipTypes shipType)
+        public Player(string name, ShipType shipType)
         {
             Login = name;
             Name = name;
             ShipType = shipType;
-            ID = new Guid();
         }
 
         #endregion

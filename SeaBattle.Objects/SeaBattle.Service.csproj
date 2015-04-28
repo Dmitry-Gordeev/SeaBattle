@@ -84,10 +84,9 @@
     <Compile Include="ShipSupplies\WindVane.cs" />
     <Compile Include="Ships\Lugger.cs" />
     <Compile Include="Ships\ShipBase.cs" />
+    <Compile Include="StaticObjects\Border.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="StaticObjects\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\SeaBattle.Common\SeaBattle.Common.csproj">
       <Project>{33B52FC2-27DD-4610-888B-E3EB890448C6}</Project>

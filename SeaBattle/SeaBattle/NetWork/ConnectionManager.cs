@@ -254,12 +254,25 @@ namespace SeaBattle.NetWork
             }
         }
 
+        public bool StartGameSession()
+        {
+            try
+            {
+                return _service.StartGameSession();
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+                return false;
+            }
+        }
+
         public long GetServerGameTime()
         {
             throw new NotImplementedException();
         }
 
-        public List<IPlayer> PlayerListUpdate()
+        public List<string> PlayerListUpdate()
         {
             try
             {
@@ -270,6 +283,19 @@ namespace SeaBattle.NetWork
                 ErrorHelper.FatalError(e);
                 return null;
             };
+        }
+
+        public bool IsHost()
+        {
+            try
+            {
+                return _service.IsHost();
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+                return false;
+            }
         }
 
         public void LeaveGame()

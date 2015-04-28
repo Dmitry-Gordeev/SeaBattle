@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Service.Session
@@ -14,18 +13,9 @@ namespace SeaBattle.Service.Session
         /// </summary>
         private readonly List<GameSession> _gameSessions;
 
-        /// <summary>
-        /// Уникальный идентификатор, который присваивается каждой игре при её создании
-        /// </summary>
-        private int _gameId;
-
-        public Dictionary<Guid, GameSession> SessionTable;
-
         private SessionManager()
         {
-            SessionTable = new Dictionary<Guid, GameSession>();
             _gameSessions = new List<GameSession>();
-            _gameId = 1;
         }
 
         public static SessionManager Instance
@@ -34,34 +24,14 @@ namespace SeaBattle.Service.Session
         }
 
         /// <summary>
-        /// Добавляем игрока в текущую игру.
-        /// </summary>
-        public bool JoinGame(GameDescription game, SeaBattleService player)
-        {
-            GameSession session = _gameSessions.Find(curGame => curGame.LocalGameDescription.GameId == game.GameId);
-            return false;
-        }
-
-        /// <summary>
         /// Создаем новую игру
         /// </summary>
-        public GameDescription CreateGame(GameModes modes, int maxPlayers, SeaBattleService client, int teams)
+        public GameDescription CreateGame(GameDescription gameDescription)
         {
-            GameSession gameSession;
-
-            
+            var gameSession = new GameSession(gameDescription);
+            _gameSessions.Add(gameSession);
 
             return null;
-        }
-
-        /// <summary>
-        /// Возвращает список игр.
-        /// </summary>
-        public GameDescription[] GetGameList()
-        {
-            var gameSessions = _gameSessions.ToArray();
-
-            return (from t in gameSessions where !t.IsStarted select t.LocalGameDescription).ToArray();
         }
 
         /// <summary>
@@ -81,10 +51,10 @@ namespace SeaBattle.Service.Session
             }
         }
 
-        public GameLevel GameStarted(int gameId)
+        public bool GameStarted(int gameId)
         {
             var game = _gameSessions.Find(x => x.LocalGameDescription.GameId == gameId);
-            return game != null ? (game.IsStarted ? game.GameLevel : null) : null;
+            return game != null;
         }
     }
 }

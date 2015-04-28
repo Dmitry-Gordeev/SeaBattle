@@ -4,7 +4,7 @@ using SeaBattle.Common.Objects;
 
 namespace SeaBattle.View
 {
-    public class DrawableGameObject : IObject, IDrawable
+    public class DrawableGameObject : IDrawable
     {
         public Animation2D Animation { get; set; }
 
@@ -43,8 +43,5 @@ namespace SeaBattle.View
         {
             
         }
-
-        public bool IsStatic { get; private set; }
-        public int ID { get; private set; }
     }
 }

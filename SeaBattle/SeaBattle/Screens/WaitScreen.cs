@@ -4,8 +4,8 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
+using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
-using SeaBattle.Common.Objects;
 using SeaBattle.Common.Session;
 using SeaBattle.Game;
 using SeaBattle.NetWork;
@@ -18,8 +18,9 @@ namespace SeaBattle.Screens
 
         private ListControl _playersList;
         private ButtonControl _leaveButton;
+        private ButtonControl _startButton;
 
-        private List<IPlayer> _players;
+        private List<string> _players;
         private SpriteFont _spriteFont;
 
         private int _updateCount;
@@ -46,12 +47,12 @@ namespace SeaBattle.Screens
             _spriteFont = ContentManager.Load<SpriteFont>("Times New Roman");
         }
 
-        public void ChangePlayerList(List<IPlayer> players)
+        public void ChangePlayerList(List<string> players)
         {
             _playersList.Items.Clear();
             foreach (var player in players)
             {
-                _playersList.Items.Add(player.Name);
+                _playersList.Items.Add(player);
             }
         }
 
@@ -94,7 +95,7 @@ namespace SeaBattle.Screens
 
             foreach (var player in _players)
             {
-                _playersList.Items.Add(player.Name);
+                _playersList.Items.Add(player);
             }
         }
 
@@ -105,6 +106,16 @@ namespace SeaBattle.Screens
             // обновляемся только каждый 6-ой апдейт (через каждые 100 мс)
             if (_updateCount++ % 6 != 0)
                 return;
+
+            if (!ConnectionManager.Instance.IsHost())
+            {
+                Desktop.Children.Remove(_startButton);
+            }
+            else if (!Desktop.Children.Contains(_startButton))
+            {
+                Desktop.Children.Add(_startButton);
+                ScreenManager.Instance.Controller.AddListener(_startButton, StartButtonPressed);
+            }
 
             var level = ConnectionManager.Instance.GameStart(GameId);
             if (level != null)
@@ -132,6 +143,12 @@ namespace SeaBattle.Screens
                 Bounds = new UniRectangle(new UniScalar(0.5f, -378f), new UniScalar(0.4f, 190f), 120, 32)
             };
 
+            _startButton = new ButtonControl
+            {
+                Text = "Start",
+                Bounds = new UniRectangle(new UniScalar(0.5f, -200f), new UniScalar(0.4f, 190f), 120, 32)
+            };
+
             _playersList.Slider.Bounds.Location.X.Offset -= 1.0f;
             _playersList.Slider.Bounds.Location.Y.Offset += 1.0f;
             _playersList.Slider.Bounds.Size.Y.Offset -= 2.0f;
@@ -142,14 +159,22 @@ namespace SeaBattle.Screens
         {
             Desktop.Children.Add(_playersList);
             Desktop.Children.Add(_leaveButton);
+            Desktop.Children.Add(_startButton);
 
             ScreenManager.Instance.Controller.AddListener(_leaveButton, LeaveButtonPressed);
+            ScreenManager.Instance.Controller.AddListener(_startButton, StartButtonPressed);
         }
 
         private void LeaveButtonPressed(object sender, EventArgs args)
         {
             ConnectionManager.Instance.LeaveGame();
             ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MultiplayerScreen);
+        }
+
+        private void StartButtonPressed(object sender, EventArgs args)
+        {
+            ConnectionManager.Instance.StartGameSession();
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameplayScreen);
         }
     }
 }

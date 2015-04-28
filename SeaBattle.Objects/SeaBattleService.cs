@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using System.Threading;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
 using SeaBattle.Service.DA;
+using SeaBattle.Service.Session;
 
 namespace SeaBattle.Service
 {
@@ -55,7 +57,7 @@ namespace SeaBattle.Service
             var errorCode = DataBaseAdapter.Instance.GetPlayerStatus(username, password);
             if (errorCode == AccountManagerErrorCode.Ok)
             {
-                Player = new Player.Player(username, ShipTypes.Lugger);
+                Player = new Player.Player(username, ShipType.Lugger);
             }
             Console.WriteLine("Player name: " + Player.Name + " entered");
             return errorCode;
@@ -92,8 +94,15 @@ namespace SeaBattle.Service
             if (currentGame == null || currentGame.Players.Count >= currentGame.MaximumPlayersAllowed) return false;
 
             _currentGameId = gameId;
-            currentGame.Players.Add(Player);
+            currentGame.Players.Add(Player.Name);
             return true;
+        }
+
+        public bool IsHost()
+        {
+            var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
+            if (currentGame == null) return false;
+            return Player.Name == currentGame.Host;
         }
 
         public void LeaveGame()
@@ -110,7 +119,7 @@ namespace SeaBattle.Service
             var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
             if (currentGame != null)
             {
-                currentGame.Players.Remove(Player);
+                if (Player != null) currentGame.Players.Remove(Player.Name);
                 if (currentGame.Players.Count == 0)
                 {
                     GamesList.Remove(currentGame);
@@ -130,6 +139,14 @@ namespace SeaBattle.Service
             return gameLevel;
         }
 
+        public bool StartGameSession()
+        {
+            var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
+            if (currentGame != null)
+                SessionManager.Instance.CreateGame(currentGame);
+            return true;
+        }
+
         #endregion
 
         #region процесс игры
@@ -139,7 +156,7 @@ namespace SeaBattle.Service
             throw new NotImplementedException();
         }
 
-        public List<IPlayer> PlayerListUpdate()
+        public List<string> PlayerListUpdate()
         {
             var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
 

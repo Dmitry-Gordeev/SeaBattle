@@ -11,8 +11,6 @@ namespace SeaBattle.Common.Objects
         [DataMember]
         string Login { get; }
         [DataMember]
-        ShipTypes ShipType { get; set; }
-        [DataMember]
-        Guid ID { get; set; }
+        ShipType ShipType { get; set; }
     }
 }
