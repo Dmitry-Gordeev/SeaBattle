@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using System.Threading;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
@@ -130,13 +129,9 @@ namespace SeaBattle.Service
             _currentGameId = -1;
         }
 
-        public GameLevel GameStart(int gameId)
+        public byte[] IsGameStarted(int gameId)
         {
-            GameLevel gameLevel = null;
-
-            var currentGame = GamesList.FirstOrDefault(game => game.GameId == gameId);
-
-            return gameLevel;
+            return SessionManager.Instance.IsGameStarted(gameId);
         }
 
         public bool StartGameSession()

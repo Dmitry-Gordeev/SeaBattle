@@ -19,10 +19,10 @@ namespace SeaBattle.Service.Session
         #region private fields
 
         private readonly List<ICustomSerializable> StaticObjects;
-        private readonly List<ShipBase> Ships;
+        private readonly List<ShipBase> _ships;
         private readonly List<IBullet> _bullets;
 
-
+        private bool IsFirstData = true;
 
         private long _timerCounter;
 
@@ -38,38 +38,43 @@ namespace SeaBattle.Service.Session
 
         public GameDescription LocalGameDescription { get; private set; }
         public GameLevel GameLevel { get; private set; }
-        public Compass Compass { get; set; }
+        public Compass Compass { get; private set; }
 
 
 
         public GameSession(GameDescription gameDescription)
         {
+            #region инициализация объектов
+
+            Compass = new Compass();
             GameLevel = new GameLevel(Constants.LevelWidth, Constants.LevelHeigh);
             LocalGameDescription = gameDescription;
             StaticObjects = InitializeBorders();
-            Ships = InitializeShips();
+            _ships = InitializeShips();
+            _gameTimer = new Timer();
 
+            #endregion
 
             Start();
         }
 
         public byte[] GetInfo()
         {
+            var result = new byte[] { };
 
-            return null;
+            result = StaticObjects.Aggregate(result, (current, staticObject) => current.Concat(staticObject.Serialize()).ToArray());
+
+            result = result.Concat(BitConverter.GetBytes(_ships.Count)).ToArray();
+
+            result = _ships.Aggregate(result, (current, ship) => current.Concat(ship.Serialize()).ToArray());
+
+            return result;
         }
 
         #region private methods
 
         private void Start()
         {
-            #region инициализация объектов
-
-            
-
-
-            #endregion
-
             _timeHelper = new TimeHelper(TimeHelper.NowMilliseconds);
 
             _timerCounter = 0;
@@ -80,7 +85,7 @@ namespace SeaBattle.Service.Session
 
             _gameTimer.Start();
 
-
+            LocalGameDescription.IsGameStarted = true;
 
             Trace.WriteLine("Game " + LocalGameDescription.GameId + " Started");
 

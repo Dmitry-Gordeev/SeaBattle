@@ -60,19 +60,21 @@ namespace SeaBattle.Service.Ships
         {
             if (dataBytes[position++] == 0) return;
 
+            Player.Name = CommonSerializer.GetString(ref position, dataBytes);
             Coordinates = CommonSerializer.GetVector2(ref position, dataBytes);
-            ShipCrew.DeSerialize(ref position, dataBytes);
-            ShipSupplies.DeSerialize(ref position, dataBytes);
+            //ShipCrew.DeSerialize(ref position, dataBytes);
+            //ShipSupplies.DeSerialize(ref position, dataBytes);
         }
 
         public byte[] Serialize()
         {
-            if (!SomethingChanged) return new byte[]{0};
+            //if (!SomethingChanged) return new byte[]{0};
             var result = new byte[] {1};
 
+            result = result.Concat(CommonSerializer.StringToBytesArr(Player.Name)).ToArray();
             result = result.Concat(CommonSerializer.Vector2ToBytesArr(Coordinates)).ToArray();
-            result = result.Concat(ShipCrew.Serialize()).ToArray();
-            result = result.Concat(ShipSupplies.Serialize()).ToArray();
+            //result = result.Concat(ShipCrew.Serialize()).ToArray();
+            //result = result.Concat(ShipSupplies.Serialize()).ToArray();
 
             SomethingChanged = false;
             return result;

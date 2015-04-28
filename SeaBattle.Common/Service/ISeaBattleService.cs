@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
-using SeaBattle.Common.Objects;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Common.Service
@@ -44,7 +43,7 @@ namespace SeaBattle.Common.Service
         /// <param name="gameId">идентификатор игры</param>
         /// <returns>если игра не началась возвращает null</returns>
         [OperationContract]
-        GameLevel GameStart(int gameId);
+        byte[] IsGameStarted(int gameId);
 
         [OperationContract]
         bool StartGameSession();

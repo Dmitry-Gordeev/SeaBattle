@@ -10,6 +10,8 @@ namespace SeaBattle.Common.Session
     {
         public GameDescription(IEnumerable<IPlayer> players, int maxPlayersAllowed, int gameId, MapSet mapType, GameModes gameMode)
         {
+            if (players == null)
+                return;
             GameId = gameId;
             Players = new List<string> { };
             Host = players.FirstOrDefault().Name;
@@ -20,6 +22,7 @@ namespace SeaBattle.Common.Session
             MaximumPlayersAllowed = maxPlayersAllowed;
             MapType = mapType;
             GameMode = gameMode;
+            IsGameStarted = false;
         }
 
         [DataMember]
@@ -39,6 +42,9 @@ namespace SeaBattle.Common.Session
 
         [DataMember]
         public int MaximumPlayersAllowed { get; set; }
+
+        [DataMember]
+        public bool IsGameStarted { get; set; }
 
         public override string ToString()
         {

@@ -6,10 +6,10 @@ namespace SeaBattle.Service.Session
 {
     class SessionManager
     {
-        private static readonly SessionManager LocalInstance = new SessionManager();
+        private static SessionManager _localInstance = new SessionManager();
 
         /// <summary>
-        /// Содержит текущие игры
+        /// Содержит текущие стартовавшие игры
         /// </summary>
         private readonly List<GameSession> _gameSessions;
 
@@ -20,18 +20,18 @@ namespace SeaBattle.Service.Session
 
         public static SessionManager Instance
         {
-            get { return LocalInstance; }
+            get { return _localInstance ?? (_localInstance = new SessionManager()); }
         }
 
         /// <summary>
         /// Создаем новую игру
         /// </summary>
-        public GameDescription CreateGame(GameDescription gameDescription)
+        public byte[] CreateGame(GameDescription gameDescription)
         {
             var gameSession = new GameSession(gameDescription);
             _gameSessions.Add(gameSession);
 
-            return null;
+            return gameSession.GetInfo();
         }
 
         /// <summary>
@@ -41,8 +41,7 @@ namespace SeaBattle.Service.Session
         {
             try
             {
-                GameSession game;
-                
+                player.LeaveGame();
                 return true;
             }
             catch (Exception)
@@ -51,10 +50,12 @@ namespace SeaBattle.Service.Session
             }
         }
 
-        public bool GameStarted(int gameId)
+        public byte[] IsGameStarted(int gameId)
         {
             var game = _gameSessions.Find(x => x.LocalGameDescription.GameId == gameId);
-            return game != null;
+            if (game == null || !game.LocalGameDescription.IsGameStarted)
+                return null;
+            return game.GetInfo();
         }
     }
 }

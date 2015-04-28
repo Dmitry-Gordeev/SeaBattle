@@ -48,7 +48,7 @@ namespace SeaBattle.Service.ShipSupplies
 
         public byte[] Serialize()
         {
-            if (!SomethingChanged) return new byte[] { 0 };
+            //if (!SomethingChanged) return new byte[] { 0 };
             var result = new byte[] { 1 };
 
             result = result.Concat(BitConverter.GetBytes(Goods.Count)).ToArray();

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.ServiceModel.Configuration;
 using Microsoft.Xna.Framework;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
@@ -8,7 +7,7 @@ using SeaBattle.Common.Utils;
 
 namespace SeaBattle.Service.StaticObjects
 {
-    class Border : IStaticObject
+    public class Border : IStaticObject
     {
         public Border(Side side)
         {
@@ -40,7 +39,7 @@ namespace SeaBattle.Service.StaticObjects
         public bool SomethingChanged { get; set; }
         public void DeSerialize(ref int position, byte[] dataBytes)
         {
-            if (dataBytes[position++] == 0) return;
+            //if (dataBytes[position++] == 0) return;
             Coordinates = CommonSerializer.GetVector2(ref position, dataBytes);
         }
 

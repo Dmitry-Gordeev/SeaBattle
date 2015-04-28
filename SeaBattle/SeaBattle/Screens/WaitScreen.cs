@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
-using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
 using SeaBattle.Common.Session;
 using SeaBattle.Game;
@@ -117,11 +116,11 @@ namespace SeaBattle.Screens
                 ScreenManager.Instance.Controller.AddListener(_startButton, StartButtonPressed);
             }
 
-            var level = ConnectionManager.Instance.GameStart(GameId);
-            if (level != null)
+            var initData = ConnectionManager.Instance.IsGameStarted(GameId);
+            if (initData != null)
             {
                 // game started
-                GameController.Instance.GameStart(GameId, level);
+                GameController.Instance.StartGame(GameId, initData);
             }
             else
             {
@@ -174,7 +173,7 @@ namespace SeaBattle.Screens
         private void StartButtonPressed(object sender, EventArgs args)
         {
             ConnectionManager.Instance.StartGameSession();
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameplayScreen);
+            //ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameplayScreen);
         }
     }
 }

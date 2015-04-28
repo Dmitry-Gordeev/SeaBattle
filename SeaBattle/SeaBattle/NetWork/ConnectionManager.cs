@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
 using SeaBattle.Common.GameEvent;
-using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
 using SeaBattle.Service.ErrorHelper;
@@ -240,12 +239,12 @@ namespace SeaBattle.NetWork
                 return false;
             }
         }
-        
-        public GameLevel GameStart(int gameId)
+
+        public byte[] IsGameStarted(int gameId)
         {
             try
             {
-                return _service.GameStart(gameId);
+                return _service.IsGameStarted(gameId);
             }
             catch (Exception e)
             {
