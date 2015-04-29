@@ -20,13 +20,13 @@ namespace SeaBattle.Screens
             // load landscapes
             Textures.SeaFromAir = ContentManager.Load<Texture2D>("Textures/Landscapes/SeaFromAir");
 
+            Textures.CompassArrow = ContentManager.Load<Texture2D>("Textures/OtherObjects/CompassArrow");
+
             // load stones
             /*for (int i = 1; i <= Textures.STONES_AMOUNT; i++)
                 Textures.Stones[i - 1] = ContentManager.Load<Texture2D>("Textures/Landscapes/Stone" + i);
             Textures.OneStone = ContentManager.Load<Texture2D>("Textures/Landscapes/Stone" + 1);*/
 
-            // load bricks
-            Textures.Brick = ContentManager.Load<Texture2D>("Textures/Landscapes/Brick");
 
             ScreenManager.Instance.Game.ResetElapsedTime();
         }
@@ -69,6 +69,8 @@ namespace SeaBattle.Screens
                 DrawString(GameController.Instance.Ships[i].Player.Name, 80f + i * 100f, 90f + i * 100f, Color.Red);
             }
 
+            DrawString(GameController.Instance.Compass.Direction.ToString(), 80f, 260f, Color.Red);
+            DrawString("Compass", 80f, 300f, Color.Red);
             
             SpriteBatch.End();
 

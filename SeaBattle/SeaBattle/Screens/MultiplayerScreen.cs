@@ -12,7 +12,7 @@ using SeaBattle.NetWork;
 
 namespace SeaBattle.Screens
 {
-    internal class MultiplayerScreen : GameScreen
+    internal class MultPlayerScreen : GameScreen
     {
         private static Texture2D _texture;
 
@@ -27,7 +27,7 @@ namespace SeaBattle.Screens
 
         private List<GameDescription> _gameDescriptions;
 
-        public MultiplayerScreen()
+        public MultPlayerScreen()
         {
             CreateControls();
             InititalizeControls();

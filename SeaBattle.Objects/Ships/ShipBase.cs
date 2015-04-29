@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using System.Threading;
 using Microsoft.Xna.Framework;
+using SeaBattle.Common;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Utils;
 using SeaBattle.Service.ShipSupplies;
@@ -11,7 +11,7 @@ namespace SeaBattle.Service.Ships
     {
         #region Constructors
 
-        protected ShipBase(IPlayer player)
+        protected ShipBase(Player player)
         {
             Player = player;
         }
@@ -45,7 +45,7 @@ namespace SeaBattle.Service.Ships
             set { _coordinates = value; }
         }
 
-        public IPlayer Player { get; set; }
+        public Player Player { get; set; }
 
         #endregion
 

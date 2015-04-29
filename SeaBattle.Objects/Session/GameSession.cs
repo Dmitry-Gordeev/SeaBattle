@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Timers;
 using Microsoft.Xna.Framework;
+using SeaBattle.Common;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
@@ -40,13 +41,11 @@ namespace SeaBattle.Service.Session
         public GameLevel GameLevel { get; private set; }
         public Compass Compass { get; private set; }
 
-
-
         public GameSession(GameDescription gameDescription)
         {
             #region инициализация объектов
 
-            Compass = new Compass();
+            Compass = new Compass(true);
             GameLevel = new GameLevel(Constants.LevelWidth, Constants.LevelHeigh);
             LocalGameDescription = gameDescription;
             StaticObjects = InitializeBorders();
@@ -63,6 +62,8 @@ namespace SeaBattle.Service.Session
             var result = new byte[] { };
 
             result = StaticObjects.Aggregate(result, (current, staticObject) => current.Concat(staticObject.Serialize()).ToArray());
+
+            result = result.Concat(Compass.Serialize()).ToArray();
 
             result = result.Concat(BitConverter.GetBytes(_ships.Count)).ToArray();
 
@@ -109,8 +110,8 @@ namespace SeaBattle.Service.Session
             var ships = new List<ShipBase>{};
             var rnd = new Random();
 
-            ships.AddRange(LocalGameDescription.Players.Select(player => 
-                new Lugger(new Player.Player(player, ShipType.Lugger))
+            ships.AddRange(LocalGameDescription.Players.Select(player =>
+                new Lugger(player)
                 {
                     Coordinates = new Vector2(rnd.Next(100, Constants.LevelWidth - 100), 
                         rnd.Next(100, Constants.LevelHeigh - 100))

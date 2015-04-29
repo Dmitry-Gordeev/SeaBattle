@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SeaBattle.Common;
 using SeaBattle.Common.Session;
-using SeaBattle.Service.Player;
 using SeaBattle.Service.Ships;
 
 namespace SeaBattle.Test.Serealization

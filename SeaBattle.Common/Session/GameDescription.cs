@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using SeaBattle.Common.Objects;
 
 namespace SeaBattle.Common.Session
 {
     [DataContract]
     public class GameDescription
     {
-        public GameDescription(IEnumerable<IPlayer> players, int maxPlayersAllowed, int gameId, MapSet mapType, GameModes gameMode)
+        public GameDescription(IEnumerable<Player> players, int maxPlayersAllowed, int gameId, MapSet mapType, GameModes gameMode)
         {
             if (players == null)
                 return;
             GameId = gameId;
-            Players = new List<string> { };
-            Host = players.FirstOrDefault().Name;
-            foreach (var player in players)
+            Players = new List<Player> { };
+            var enumerable = players as IList<Player> ?? players.ToList();
+            Host = enumerable.FirstOrDefault();
+            foreach (var player in enumerable)
             {
-                Players.Add(player.Name);
+                Players.Add(player);
             }
             MaximumPlayersAllowed = maxPlayersAllowed;
             MapType = mapType;
@@ -35,10 +35,10 @@ namespace SeaBattle.Common.Session
         public GameModes GameMode { get; set; }
 
         [DataMember]
-        public string Host { get; set; }
+        public Player Host { get; set; }
 
         [DataMember]
-        public List<string> Players { get; set; }
+        public List<Player> Players { get; set; }
 
         [DataMember]
         public int MaximumPlayersAllowed { get; set; }
@@ -48,7 +48,7 @@ namespace SeaBattle.Common.Session
 
         public override string ToString()
         {
-            return string.Format("{0} [ {1}/{2} ]", Host, Players.Count, MaximumPlayersAllowed);
+            return string.Format("{0} [ {1}/{2} ]", Host.Name, Players.Count, MaximumPlayersAllowed);
         }
     }
 }

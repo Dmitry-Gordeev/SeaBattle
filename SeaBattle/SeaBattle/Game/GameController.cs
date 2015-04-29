@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SeaBattle.Common;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
@@ -8,8 +9,8 @@ using SeaBattle.Common.Utils;
 using SeaBattle.Input;
 using SeaBattle.NetWork;
 using SeaBattle.Screens;
-using SeaBattle.Service.Player;
 using SeaBattle.Service.Ships;
+using SeaBattle.Service.ShipSupplies;
 using SeaBattle.Service.StaticObjects;
 
 namespace SeaBattle.Game
@@ -44,7 +45,7 @@ namespace SeaBattle.Game
 
         public IStaticObject[] Borders;
         public IShip[] Ships;
-
+        public Compass Compass;
 
         private void Shoot(Vector2 direction)
         {
@@ -79,6 +80,12 @@ namespace SeaBattle.Game
                     Borders[i] = new Border(Side.Bottom);
                 Borders[i].DeSerialize(ref pos, dataBytes);
             }
+
+            if (Compass == null)
+            {
+                Compass = new Compass(false);
+            }
+            Compass.DeSerialize(ref pos, dataBytes);
 
             int countOfShips = CommonSerializer.GetInt(ref pos, dataBytes);
 

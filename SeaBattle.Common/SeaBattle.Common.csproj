@@ -57,6 +57,7 @@
     <Compile Include="Objects\IObject.cs" />
     <Compile Include="Objects\IPlayer.cs" />
     <Compile Include="Objects\ICustomSerializable.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Service\Constants.cs" />
     <Compile Include="Service\ISeaBattleService.cs" />
     <Compile Include="Objects\IShip.cs" />

@@ -1,9 +1,6 @@
-﻿using System.Runtime.Serialization;
-using SeaBattle.Common.Session;
-
-namespace SeaBattle.Common.Objects
+﻿namespace SeaBattle.Common.Objects
 {
-    public interface IPlayer
+    /*public interface Player
     {
         [DataMember]
         string Name { get; set; }
@@ -11,5 +8,5 @@ namespace SeaBattle.Common.Objects
         string Login { get; }
         [DataMember]
         ShipType ShipType { get; set; }
-    }
+    }*/
 }

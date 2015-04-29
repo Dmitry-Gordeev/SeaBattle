@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
+using SeaBattle.Common;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
@@ -279,7 +280,7 @@ namespace SeaBattle.NetWork
             throw new NotImplementedException();
         }
 
-        public List<string> PlayerListUpdate()
+        public List<Player> PlayerListUpdate()
         {
             try
             {

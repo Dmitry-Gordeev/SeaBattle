@@ -69,7 +69,6 @@
     <Compile Include="DA\DataBaseAdapter.cs" />
     <Compile Include="ErrorHelper\ErrorHelper.cs" />
     <Compile Include="Goods\Good.cs" />
-    <Compile Include="Player\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeaBattleService.cs" />
     <Compile Include="Session\GameSession.cs" />
@@ -91,6 +90,10 @@
     <ProjectReference Include="..\SeaBattle.Common\SeaBattle.Common.csproj">
       <Project>{33B52FC2-27DD-4610-888B-E3EB890448C6}</Project>
       <Name>SeaBattle.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XnaAdapter\XnaAdapter.csproj">
+      <Project>{555343C3-6510-47BD-A964-63ABB4AB799E}</Project>
+      <Name>XnaAdapter</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

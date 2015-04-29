@@ -6,6 +6,6 @@ namespace SeaBattle.Common.Objects
     {
         float FullWeight { get; }
         Vector2 Coordinates { get; set; }
-        IPlayer Player { get; set; }
+        Player Player { get; set; }
     }
 }

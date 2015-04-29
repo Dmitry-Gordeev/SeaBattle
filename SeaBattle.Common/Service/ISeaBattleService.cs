@@ -62,7 +62,7 @@ namespace SeaBattle.Common.Service
         /// возвращает список игроков
         /// </summary>
         [OperationContract]
-        List<string> PlayerListUpdate();
+        List<Player> PlayerListUpdate();
 
         #endregion
     }

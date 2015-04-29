@@ -22,6 +22,7 @@ Content\Textures\Main_menu_background\ex_02.xnb
 Content\Textures\screens\main_back_ground_screen_large.xnb
 Content\Textures\Landscapes\SeaFromAir.xnb
 Content\Textures\screens\message_box.xnb
+Content\Textures\OtherObjects\CompassArrow.xnb
 Content\menufont.xnb
 Content\Times New Roman.xnb
 Localization\Strings.resx

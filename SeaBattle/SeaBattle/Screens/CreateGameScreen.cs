@@ -188,7 +188,7 @@ namespace SeaBattle.Screens
 
         private void BackButtonPressed(object sender, EventArgs args)
         {
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MultiplayerScreen);
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MultPlayerScreen);
         }
 
         private void CreateButtonPressed(object sender, EventArgs args)
