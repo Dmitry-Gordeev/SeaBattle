@@ -7,6 +7,13 @@ namespace SeaBattle.Common.Utils
 {
     public class CommonSerializer
     {
+        public static double GetDouble(ref int position, byte[] dataBytes)
+        {
+            var result = BitConverter.ToDouble(dataBytes, position);
+            position += 8;
+            return result;
+        }
+
         public static float GetFloat(ref int position, byte[] dataBytes)
         {
             var result = BitConverter.ToSingle(dataBytes, position);
@@ -61,7 +68,7 @@ namespace SeaBattle.Common.Utils
 
             return result;
         }
-
+        
         public static byte[] BoolArrToBytes(bool[] bools)
         {
             int bytes = bools.Length / 8;

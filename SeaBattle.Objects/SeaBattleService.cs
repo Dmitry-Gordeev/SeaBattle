@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using SeaBattle.Common;
 using SeaBattle.Common.GameEvent;
-using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
 using SeaBattle.Service.DA;
+using SeaBattle.Service.Session;
 
 namespace SeaBattle.Service
 {
@@ -23,7 +24,7 @@ namespace SeaBattle.Service
         private readonly int _localID;
         private int _currentGameId = -1;
 
-        public IPlayer Player { get; set; }
+        public Player Player { get; set; }
 
         private readonly InstanceContext _channelContext;
 
@@ -55,9 +56,9 @@ namespace SeaBattle.Service
             var errorCode = DataBaseAdapter.Instance.GetPlayerStatus(username, password);
             if (errorCode == AccountManagerErrorCode.Ok)
             {
-                Player = new Player.Player(username, ShipTypes.Lugger);
+                Player = new Player(username, ShipType.Lugger);
             }
-
+            Console.WriteLine("Player name: " + Player.Name + " entered");
             return errorCode;
         }
 
@@ -76,10 +77,10 @@ namespace SeaBattle.Service
             return GamesList;
         }
 
-        public int CreateGame(GameMode mode, int maxPlayers)
+        public int CreateGame(GameModes mode, int maxPlayers, MapSet mapType)
         {
             _currentGameId = _globalGameID;
-            var gameDescription = new GameDescription(new List<IPlayer>{Player}, maxPlayers, _globalGameID++);
+            var gameDescription = new GameDescription(new List<Player> { Player }, maxPlayers, _globalGameID++, mapType, mode);
             GamesList.Add(gameDescription);
 
             return gameDescription.GameId;
@@ -92,12 +93,23 @@ namespace SeaBattle.Service
             if (currentGame == null || currentGame.Players.Count >= currentGame.MaximumPlayersAllowed) return false;
 
             _currentGameId = gameId;
-            currentGame.Players.Add(Player.Name);
+            currentGame.Players.Add(Player);
             return true;
+        }
+
+        public bool IsHost()
+        {
+            var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
+            if (currentGame == null) return false;
+            return Player.Name == currentGame.Host.Name;
         }
 
         public void LeaveGame()
         {
+            if (Player != null)
+            {
+                Console.WriteLine("Player " + Player.Name + " leave");
+            }
             if (_currentGameId == -1)
             {
                 Console.WriteLine("Player with localID: " + _localID + "\nNot in game");
@@ -106,7 +118,7 @@ namespace SeaBattle.Service
             var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
             if (currentGame != null)
             {
-                currentGame.Players.Remove(Player.Name);
+                if (Player != null) currentGame.Players.Remove(Player);
                 if (currentGame.Players.Count == 0)
                 {
                     GamesList.Remove(currentGame);
@@ -117,13 +129,17 @@ namespace SeaBattle.Service
             _currentGameId = -1;
         }
 
-        public GameLevel GameStart(int gameId)
+        public byte[] IsGameStarted(int gameId)
         {
-            GameLevel gameLevel = null;
+            return SessionManager.Instance.IsGameStarted(gameId);
+        }
 
-            var currentGame = GamesList.FirstOrDefault(game => game.GameId == gameId);
-
-            return gameLevel;
+        public bool StartGameSession()
+        {
+            var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
+            if (currentGame != null)
+                SessionManager.Instance.CreateGame(currentGame);
+            return true;
         }
 
         #endregion
@@ -135,7 +151,12 @@ namespace SeaBattle.Service
             throw new NotImplementedException();
         }
 
-        public List<string> PlayerListUpdate()
+        public byte[] GetInfo()
+        {
+            return _currentGameId == -1 ? null : SessionManager.Instance.GetInfo(_currentGameId);
+        }
+
+        public List<Player> PlayerListUpdate()
         {
             var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
 

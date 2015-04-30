@@ -7,7 +7,7 @@ using SeaBattle.Service.Goods;
 
 namespace SeaBattle.Service.ShipSupplies
 {
-    public class ShipHold : ISerializableObject
+    public class ShipHold : ICustomSerializable
     {
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }
@@ -48,7 +48,7 @@ namespace SeaBattle.Service.ShipSupplies
 
         public byte[] Serialize()
         {
-            if (!SomethingChanged) return new byte[] { 0 };
+            //if (!SomethingChanged) return new byte[] { 0 };
             var result = new byte[] { 1 };
 
             result = result.Concat(BitConverter.GetBytes(Goods.Count)).ToArray();

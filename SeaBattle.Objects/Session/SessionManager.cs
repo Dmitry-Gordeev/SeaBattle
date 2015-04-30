@@ -1,68 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Service.Session
 {
     class SessionManager
     {
-        private static readonly SessionManager LocalInstance = new SessionManager();
+        private static SessionManager _localInstance = new SessionManager();
 
         /// <summary>
-        /// Содержит текущие игры
+        /// Содержит текущие стартовавшие игры
         /// </summary>
         private readonly List<GameSession> _gameSessions;
 
-        /// <summary>
-        /// Уникальный идентификатор, который присваивается каждой игре при её создании
-        /// </summary>
-        private int _gameId;
-
-        public Dictionary<Guid, GameSession> SessionTable;
-
         private SessionManager()
         {
-            SessionTable = new Dictionary<Guid, GameSession>();
             _gameSessions = new List<GameSession>();
-            _gameId = 1;
         }
 
         public static SessionManager Instance
         {
-            get { return LocalInstance; }
-        }
-
-        /// <summary>
-        /// Добавляем игрока в текущую игру.
-        /// </summary>
-        public bool JoinGame(GameDescription game, SeaBattleService player)
-        {
-            GameSession session = _gameSessions.Find(curGame => curGame.LocalGameDescription.GameId == game.GameId);
-            return false;
+            get { return _localInstance ?? (_localInstance = new SessionManager()); }
         }
 
         /// <summary>
         /// Создаем новую игру
         /// </summary>
-        public GameDescription CreateGame(GameMode mode, int maxPlayers, SeaBattleService client, int teams)
+        public byte[] CreateGame(GameDescription gameDescription)
         {
-            GameSession gameSession;
+            var gameSession = new GameSession(gameDescription);
+            _gameSessions.Add(gameSession);
 
-            
-
-            return null;
+            return gameSession.GetInfo();
         }
 
-        /// <summary>
-        /// Возвращает список игр.
-        /// </summary>
-        public GameDescription[] GetGameList()
+        public byte[] GetInfo(int gameId)
         {
-            var gameSessions = _gameSessions.ToArray();
+            var game = _gameSessions.Find(x => x.LocalGameDescription.GameId == gameId);
 
-            return (from t in gameSessions where !t.IsStarted select t.LocalGameDescription).ToArray();
+            return game.GetInfo();
         }
 
         /// <summary>
@@ -72,8 +48,7 @@ namespace SeaBattle.Service.Session
         {
             try
             {
-                GameSession game;
-                
+                player.LeaveGame();
                 return true;
             }
             catch (Exception)
@@ -82,10 +57,12 @@ namespace SeaBattle.Service.Session
             }
         }
 
-        public GameLevel GameStarted(int gameId)
+        public byte[] IsGameStarted(int gameId)
         {
             var game = _gameSessions.Find(x => x.LocalGameDescription.GameId == gameId);
-            return game != null ? (game.IsStarted ? game.GameLevel : null) : null;
+            if (game == null || !game.LocalGameDescription.IsGameStarted)
+                return null;
+            return game.GetInfo();
         }
     }
 }

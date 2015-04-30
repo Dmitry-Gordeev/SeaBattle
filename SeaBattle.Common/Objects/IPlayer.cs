@@ -1,11 +1,12 @@
-﻿using SeaBattle.Common.Session;
-
-namespace SeaBattle.Common.Objects
+﻿namespace SeaBattle.Common.Objects
 {
-    public interface IPlayer
+    /*public interface Player
     {
+        [DataMember]
         string Name { get; set; }
+        [DataMember]
         string Login { get; }
-        ShipTypes ShipType { get; set; }
-    }
+        [DataMember]
+        ShipType ShipType { get; set; }
+    }*/
 }

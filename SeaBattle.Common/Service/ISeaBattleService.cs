@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
-using SeaBattle.Common.GameEvent;
-using SeaBattle.Common.Objects;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Common.Service
@@ -29,10 +26,13 @@ namespace SeaBattle.Common.Service
         List<GameDescription> GetGameList();
 
         [OperationContract]
-        int CreateGame(GameMode mode, int maxPlayers);
+        int CreateGame(GameModes modes, int maxPlayers, MapSet mapType);
 
         [OperationContract]
         bool JoinGame(int gameId);
+
+        [OperationContract]
+        bool IsHost();
 
         [OperationContract]
         void LeaveGame();
@@ -43,7 +43,10 @@ namespace SeaBattle.Common.Service
         /// <param name="gameId">идентификатор игры</param>
         /// <returns>если игра не началась возвращает null</returns>
         [OperationContract]
-        GameLevel GameStart(int gameId);
+        byte[] IsGameStarted(int gameId);
+
+        [OperationContract]
+        bool StartGameSession();
 
         #endregion
         
@@ -52,14 +55,14 @@ namespace SeaBattle.Common.Service
         [OperationContract]
         long GetServerGameTime();
 
+        [OperationContract]
+        byte[] GetInfo();
+
         /// <summary>
         /// возвращает список игроков
         /// </summary>
         [OperationContract]
-        List<string> PlayerListUpdate();
-
-        [OperationContract]
-        AGameEvent[] GetEvents();
+        List<Player> PlayerListUpdate();
 
         #endregion
     }

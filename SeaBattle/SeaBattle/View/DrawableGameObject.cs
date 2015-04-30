@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SeaBattle.Common.Objects;
-using SeaBattle.Common.Session;
 
 namespace SeaBattle.View
 {
-    public class DrawableGameObject : IObject, IDrawable
+    public class DrawableGameObject : IDrawable
     {
         public Animation2D Animation { get; set; }
 
@@ -49,8 +43,5 @@ namespace SeaBattle.View
         {
             
         }
-
-        public bool IsStatic { get; private set; }
-        public int ID { get; private set; }
     }
 }

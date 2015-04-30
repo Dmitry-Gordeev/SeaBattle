@@ -2,13 +2,13 @@
 {
     public class Constants
     {
-        public static readonly int LevelWidth = 960;
-        public static readonly int LevelHeigh = 600;
+        public const int LevelWidth = 1060;
+        public const int LevelHeigh = 800;
 
         public const float TEXT_TEXTURE_LAYER = 0f;
     }
 
-    public enum GameMode
+    public enum GameModes
     {
         Simple,
         Real
@@ -20,7 +20,7 @@
         WithStones
     }
 
-    public enum ShipTypes
+    public enum ShipType
     {
         Lugger
     }

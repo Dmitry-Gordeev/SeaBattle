@@ -76,10 +76,10 @@ namespace SeaBattle.Screens
             SpriteBatch.End();
 
             SpriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend);
-            var pos1 = new Vector2(250f, 270f);
-            var pos2 = new Vector2(340f, 270f);
-            var pos3 = new Vector2(430f, 270f);
-            var pos4 = new Vector2(520f, 270f);
+            var pos1 = new Vector2(320f, 270f);
+            var pos2 = new Vector2(410f, 270f);
+            var pos3 = new Vector2(500f, 270f);
+            var pos4 = new Vector2(590f, 270f);
             SpriteBatch.Draw(Textures.Arrow, pos1, Color.White);
             SpriteBatch.Draw(Textures.Plus, pos2, Color.White);
             SpriteBatch.Draw(Textures.Cross, pos3, Color.White);
@@ -109,7 +109,7 @@ namespace SeaBattle.Screens
             _keyboardLabel = new LabelControl("Keyboard:")
             {
                 Bounds =
-                    new UniRectangle(new UniScalar(0.5f, -150), new UniScalar(0.4f, -70), 50, 30)
+                    new UniRectangle(new UniScalar(0.5f, -110), new UniScalar(0.4f, -70), 50, 30)
             };
 
             _backButton = new ButtonControl
@@ -117,7 +117,7 @@ namespace SeaBattle.Screens
                 Text = "Back",
                 Bounds = new UniRectangle(new UniScalar(0.5f, -50), new UniScalar(1.1f, -70), 100, 30)
             };
-
+            /*
             _upVolume = new ButtonControl
             {
                 Text = "+",
@@ -129,7 +129,7 @@ namespace SeaBattle.Screens
                 Text = "-",
                 Bounds = new UniRectangle(new UniScalar(0.5f, -50), new UniScalar(0.9f, -30), 100, 30)
             };
-
+            
             _volumeLabel = new LabelControl("Volume:")
             {
                 Bounds =
@@ -141,7 +141,19 @@ namespace SeaBattle.Screens
                 Text = Math.Round(Settings.Default.Volume, 1).ToString(CultureInfo.InvariantCulture),
                 Bounds =
                     new UniRectangle(new UniScalar(1.0f, -220), new UniScalar(0.94f, -70), 70, 30)
+            };*/
+           
+            _keyboardList = new ListControl
+            {
+                Bounds = new UniRectangle(350f, 125f, 150f, 50f)
             };
+
+            _keyboardList.Items.Add("A, S, D, W");
+            _keyboardList.Items.Add("Arrows");
+            _keyboardList.Slider.Bounds.Location.X.Offset -= 1.0f;
+            _keyboardList.Slider.Bounds.Location.Y.Offset += 1.0f;
+            _keyboardList.Slider.Bounds.Size.Y.Offset -= 2.0f;
+            _keyboardList.SelectionMode = ListSelectionMode.Single;
 
             _cursorLabel = new LabelControl("Cursor:")
             {
@@ -152,35 +164,24 @@ namespace SeaBattle.Screens
             _arrowButton = new ChoiceControl
             {
                 Bounds =
-                    new UniRectangle(new UniScalar(0.5f, -140), new UniScalar(0.7f, -70), 70, 30)
+                    new UniRectangle(new UniScalar(0.5f, -150f), new UniScalar(0.7f, -70), 70, 30)
             };
-
-            _crossButton = new ChoiceControl
-            {
-                Bounds = new UniRectangle(new UniScalar(0.5f, 40), new UniScalar(0.7f, -70), 70, 30)
-            };
-
-            _keyboardList = new ListControl
-            {
-                Bounds = new UniRectangle(260f, 125f, 150f, 50f)
-            };
-
-            _keyboardList.Items.Add("A, S, D, W");
-            _keyboardList.Items.Add("Arrows");
-            _keyboardList.Slider.Bounds.Location.X.Offset -= 1.0f;
-            _keyboardList.Slider.Bounds.Location.Y.Offset += 1.0f;
-            _keyboardList.Slider.Bounds.Size.Y.Offset -= 2.0f;
-            _keyboardList.SelectionMode = ListSelectionMode.Single;
 
             _plusButton = new ChoiceControl
             {
-                Bounds = new UniRectangle(new UniScalar(0.5f, -50), new UniScalar(0.7f, -70), 70, 30)
+                Bounds = new UniRectangle(new UniScalar(0.5f, -60f), new UniScalar(0.7f, -70), 70, 30)
+            };
+
+
+            _crossButton = new ChoiceControl
+            {
+                Bounds = new UniRectangle(new UniScalar(0.5f, 30f), new UniScalar(0.7f, -70), 70, 30)
             };
 
             _targetButton = new ChoiceControl
             {
                 Bounds =
-                    new UniRectangle(new UniScalar(0.5f, 130), new UniScalar(0.7f, -70), 70, 30)
+                    new UniRectangle(new UniScalar(0.5f, 120f), new UniScalar(0.7f, -70), 70, 30)
             };
         }
 
@@ -197,10 +198,10 @@ namespace SeaBattle.Screens
             Desktop.Children.Add(_crossButton);
             Desktop.Children.Add(_targetButton);
             Desktop.Children.Add(_backButton);
-            Desktop.Children.Add(_upVolume);
-            Desktop.Children.Add(_downVolume);
-            Desktop.Children.Add(_volumeLabel);
-            Desktop.Children.Add(_volumeValueLabel);
+            //Desktop.Children.Add(_upVolume);
+            //Desktop.Children.Add(_downVolume);
+            //Desktop.Children.Add(_volumeLabel);
+            //Desktop.Children.Add(_volumeValueLabel);
 
             // todo изменить подписку
             _keyboardList.SelectionChanged += KeyboardChoice;
@@ -212,12 +213,12 @@ namespace SeaBattle.Screens
             _plusButton.Changed += PlusButtonPressed;
             _crossButton.Changed += CrossButtonPressed;
             _targetButton.Changed += TargetButtonPressed;
-            _upVolume.Pressed += UpButtonPressed;
-            _downVolume.Pressed += DownButtonPressed;
+            //_upVolume.Pressed += UpButtonPressed;
+            //_downVolume.Pressed += DownButtonPressed;
 
             ScreenManager.Instance.Controller.AddListener(_backButton, BackButtonPressed);
-            ScreenManager.Instance.Controller.AddListener(_upVolume, UpButtonPressed);
-            ScreenManager.Instance.Controller.AddListener(_downVolume, DownButtonPressed);
+            //ScreenManager.Instance.Controller.AddListener(_upVolume, UpButtonPressed);
+            //ScreenManager.Instance.Controller.AddListener(_downVolume, DownButtonPressed);
         }
 
         private void ArrowButtonPressed(object sender, EventArgs e)

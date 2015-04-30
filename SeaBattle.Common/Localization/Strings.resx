@@ -138,6 +138,9 @@
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="Registration_Failed" xml:space="preserve">
+    <value>Registration failed: </value>
+  </data>
   <data name="Server_Unavailable" xml:space="preserve">
     <value>Server unavailable</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="Unknoun_Exception" xml:space="preserve">
     <value>Unknown exception occured</value>
+  </data>
+  <data name="Username_Is_Already_Taken" xml:space="preserve">
+    <value>This username is already taken,\n please try another</value>
   </data>
   <data name="User_Name" xml:space="preserve">
     <value>Username</value>

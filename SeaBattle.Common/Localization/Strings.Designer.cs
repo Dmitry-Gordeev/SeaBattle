@@ -9,9 +9,6 @@
 //------------------------------------------------------------------------------
 
 namespace SeaBattle.Common.Localization {
-    using System;
-    
-    
     /// <summary>
     ///   Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
     /// </summary>
@@ -124,6 +121,15 @@ namespace SeaBattle.Common.Localization {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Registration failed: .
+        /// </summary>
+        public static string Registration_Failed {
+            get {
+                return ResourceManager.GetString("Registration_Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Server unavailable.
         /// </summary>
         public static string Server_Unavailable {
@@ -174,6 +180,15 @@ namespace SeaBattle.Common.Localization {
         public static string User_Name {
             get {
                 return ResourceManager.GetString("User_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на This username is already taken,\n please try another.
+        /// </summary>
+        public static string Username_Is_Already_Taken {
+            get {
+                return ResourceManager.GetString("Username_Is_Already_Taken", resourceCulture);
             }
         }
     }

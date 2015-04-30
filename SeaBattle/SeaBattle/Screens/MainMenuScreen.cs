@@ -3,8 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
 using Nuclex.UserInterface.Controls.Desktop;
-using SeaBattle.Common.Localization;
-using SeaBattle.Common.Service;
 using SeaBattle.Game;
 
 namespace SeaBattle.Screens
@@ -39,7 +37,7 @@ namespace SeaBattle.Screens
         {
             _playGameButton = new ButtonControl
             {
-                Text = "Multiplayer",
+                Text = "MultPlayer",
                 Bounds =
                     new UniRectangle(
                         new UniScalar(0.30f, 0),
@@ -84,7 +82,7 @@ namespace SeaBattle.Screens
 
         private void PlayGameButtonPressed(object sender, EventArgs e)
         {
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MultiplayerScreen);
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MultPlayerScreen);
         }
 
         private void OptionsButtonPressed(object sender, EventArgs e)

@@ -1,13 +1,17 @@
 ﻿using System;
-using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SeaBattle.Common;
+using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
 using SeaBattle.Common.Utils;
 using SeaBattle.Input;
 using SeaBattle.NetWork;
 using SeaBattle.Screens;
+using SeaBattle.Service.Ships;
+using SeaBattle.Service.ShipSupplies;
+using SeaBattle.Service.StaticObjects;
 
 namespace SeaBattle.Game
 {
@@ -24,7 +28,8 @@ namespace SeaBattle.Game
 
         private GameController()
         {
-            
+            Borders = new IStaticObject[4];
+            Ships = new IShip[10];
         }
 
         #endregion
@@ -38,6 +43,10 @@ namespace SeaBattle.Game
 
         public bool IsGameStarted { get; private set; }
 
+        public IStaticObject[] Borders;
+        public IShip[] Ships;
+        public Compass Compass;
+
         private void Shoot(Vector2 direction)
         {
             //ConnectionManager.Instance.Shoot(TypeConverter.Xna2XnaLite(direction));
@@ -48,14 +57,44 @@ namespace SeaBattle.Game
             //ConnectionManager.Instance.Move(TypeConverter.Xna2XnaLite(direction));
         }
 
-        public void GameStart(int gameId, GameLevel level)
+        public void StartGame(int gameId, byte[] dataBytes)
         {
-            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameplayScreen);
-
             var timeHelper = new TimeHelper(StartTime);
 
+            UpdateWorld(dataBytes);
+            
             // GameModel initialized, set boolean flag
             IsGameStarted = true;
+
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameplayScreen);
+        }
+
+        public void UpdateWorld(byte[] dataBytes)
+        {
+            if (dataBytes == null) return;
+
+            int pos = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                if (Borders[i] == null)
+                    Borders[i] = new Border(Side.Bottom);
+                Borders[i].DeSerialize(ref pos, dataBytes);
+            }
+
+            if (Compass == null)
+            {
+                Compass = new Compass(false);
+            }
+            Compass.DeSerialize(ref pos, dataBytes);
+
+            int countOfShips = CommonSerializer.GetInt(ref pos, dataBytes);
+
+            for (int i = 0; i < countOfShips; i++)
+            {
+                if (Ships[i] == null)
+                    Ships[i] = new Lugger(new Player("", ShipType.Lugger));
+                Ships[i].DeSerialize(ref pos, dataBytes);
+            }
         }
 
         public void GameOver()

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SeaBattle.Service.ShipSupplies
 {
-    public class Supplies : ISerializableObject
+    public class Supplies : ICustomSerializable
     {
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }
@@ -40,7 +40,7 @@ namespace SeaBattle.Service.ShipSupplies
 
         public byte[] Serialize()
         {
-            if (!SomethingChanged) return new byte[] { 0 };
+            //if (!SomethingChanged) return new byte[] { 0 };
             var result = new byte[] { 1 };
 
             result = result.Concat(Cannons.Serialize()).ToArray();

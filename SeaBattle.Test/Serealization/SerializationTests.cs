@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SeaBattle.Common;
 using SeaBattle.Common.Session;
-using SeaBattle.Service.Player;
 using SeaBattle.Service.Ships;
 
 namespace SeaBattle.Test.Serealization
@@ -13,7 +11,7 @@ namespace SeaBattle.Test.Serealization
         [TestMethod]
         public void SerializanionTest()
         {
-            var player = new Player("name", ShipTypes.Lugger);
+            var player = new Player("name", ShipType.Lugger);
             var ship1 = new Lugger(player);
             var bytes = ship1.Serialize();
 

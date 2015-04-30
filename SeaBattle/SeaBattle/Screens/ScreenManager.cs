@@ -17,7 +17,7 @@ namespace SeaBattle.Screens
             LoginScreen,
             NewAccountScreen,
             MainMenuScreen,
-            MultiplayerScreen,
+            MultPlayerScreen,
             OptionsMenuScreen,
             GameplayScreen,
             WaitScreen,
@@ -147,7 +147,7 @@ namespace SeaBattle.Screens
             RegisterScreen(ScreenEnum.MainMenuScreen, new MainMenuScreen());
             RegisterScreen(ScreenEnum.OptionsMenuScreen, new OptionsMenuScreen());
             RegisterScreen(ScreenEnum.NewAccountScreen, new NewAccountScreen());
-            RegisterScreen(ScreenEnum.MultiplayerScreen, new MultiplayerScreen());
+            RegisterScreen(ScreenEnum.MultPlayerScreen, new MultPlayerScreen());
             RegisterScreen(ScreenEnum.CreateGameScreen, new CreateGameScreen());
             RegisterScreen(ScreenEnum.WaitScreen, new WaitScreen());
             RegisterScreen(ScreenEnum.LoadingScreen, new LoadingScreen());

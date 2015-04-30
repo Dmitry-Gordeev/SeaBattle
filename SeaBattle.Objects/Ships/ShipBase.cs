@@ -1,7 +1,6 @@
-﻿using System;
-using System.Diagnostics.Contracts;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.Xna.Framework;
+using SeaBattle.Common;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Utils;
 using SeaBattle.Service.ShipSupplies;
@@ -12,7 +11,7 @@ namespace SeaBattle.Service.Ships
     {
         #region Constructors
 
-        protected ShipBase(IPlayer player)
+        protected ShipBase(Player player)
         {
             Player = player;
         }
@@ -34,6 +33,7 @@ namespace SeaBattle.Service.Ships
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }
         public bool IsStatic { get { return false; } }
+        public int ID { get; private set; }
         public abstract float Height { get; }
         private Vector2 _coordinates;
 
@@ -45,7 +45,7 @@ namespace SeaBattle.Service.Ships
             set { _coordinates = value; }
         }
 
-        public IPlayer Player { get; set; }
+        public Player Player { get; set; }
 
         #endregion
 
@@ -61,19 +61,21 @@ namespace SeaBattle.Service.Ships
         {
             if (dataBytes[position++] == 0) return;
 
+            Player.Name = CommonSerializer.GetString(ref position, dataBytes);
             Coordinates = CommonSerializer.GetVector2(ref position, dataBytes);
-            ShipCrew.DeSerialize(ref position, dataBytes);
-            ShipSupplies.DeSerialize(ref position, dataBytes);
+            //ShipCrew.DeSerialize(ref position, dataBytes);
+            //ShipSupplies.DeSerialize(ref position, dataBytes);
         }
 
         public byte[] Serialize()
         {
-            if (!SomethingChanged) return new byte[]{0};
+            //if (!SomethingChanged) return new byte[]{0};
             var result = new byte[] {1};
 
+            result = result.Concat(CommonSerializer.StringToBytesArr(Player.Name)).ToArray();
             result = result.Concat(CommonSerializer.Vector2ToBytesArr(Coordinates)).ToArray();
-            result = result.Concat(ShipCrew.Serialize()).ToArray();
-            result = result.Concat(ShipSupplies.Serialize()).ToArray();
+            //result = result.Concat(ShipCrew.Serialize()).ToArray();
+            //result = result.Concat(ShipSupplies.Serialize()).ToArray();
 
             SomethingChanged = false;
             return result;

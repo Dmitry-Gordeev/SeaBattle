@@ -1,11 +1,11 @@
-﻿using SeaBattle.Common.Objects;
+﻿using SeaBattle.Common;
 using SeaBattle.Service.ShipSupplies;
 
 namespace SeaBattle.Service.Ships
 {
     public class Lugger : ShipBase
     {
-        public Lugger(IPlayer player)
+        public Lugger(Player player)
             : base(player)
         {
             InicializeFields();

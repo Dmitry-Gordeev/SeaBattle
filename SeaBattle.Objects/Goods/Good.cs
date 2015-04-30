@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Utils;
 
 namespace SeaBattle.Service.Goods
 {
-    public class Good : ISerializableObject
+    public class Good : ICustomSerializable
     {
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }

@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XnaAdapter", "XnaAdapter\XnaAdapter.csproj", "{555343C3-6510-47BD-A964-63ABB4AB799E}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SeaBattle.vsmdi
@@ -89,6 +91,16 @@ Global
 		{D0925CB7-092A-47BB-976D-101289F4ED35}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{D0925CB7-092A-47BB-976D-101289F4ED35}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D0925CB7-092A-47BB-976D-101289F4ED35}.Release|x86.ActiveCfg = Release|Any CPU
+		{555343C3-6510-47BD-A964-63ABB4AB799E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{555343C3-6510-47BD-A964-63ABB4AB799E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{555343C3-6510-47BD-A964-63ABB4AB799E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{555343C3-6510-47BD-A964-63ABB4AB799E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{555343C3-6510-47BD-A964-63ABB4AB799E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{555343C3-6510-47BD-A964-63ABB4AB799E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{555343C3-6510-47BD-A964-63ABB4AB799E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{555343C3-6510-47BD-A964-63ABB4AB799E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{555343C3-6510-47BD-A964-63ABB4AB799E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{555343C3-6510-47BD-A964-63ABB4AB799E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

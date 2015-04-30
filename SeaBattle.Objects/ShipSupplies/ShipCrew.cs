@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Utils;
 
 namespace SeaBattle.Service.ShipSupplies
 {
-    public class ShipCrew : ISerializableObject
+    public class ShipCrew : ICustomSerializable
     {
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }
@@ -45,7 +42,7 @@ namespace SeaBattle.Service.ShipSupplies
 
         public byte[] Serialize()
         {
-            if (!SomethingChanged) return new byte[] { 0 };
+            //if (!SomethingChanged) return new byte[] { 0 };
             var result = new byte[] { 1 };
 
             result = result.Concat(BitConverter.GetBytes(Rowers)).ToArray();

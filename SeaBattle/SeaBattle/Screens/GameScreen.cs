@@ -79,6 +79,11 @@ namespace SeaBattle.Screens
 
         }
 
+        protected void DrawObject(Vector2 coordinates, Vector2 direction, Texture2D texture, Rectangle rectangle)
+        {
+            SpriteBatch.Draw(texture, rectangle, null, Color.White);
+        }
+
         protected void DrawString(string text, float positionX, float positionY, Color color)
         {
             SpriteBatch.DrawString(

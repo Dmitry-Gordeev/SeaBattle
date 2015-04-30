@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
+using SeaBattle.Common;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
@@ -125,7 +126,7 @@ namespace SeaBattle.NetWork
 
         private void SendClientGameEvent(AGameEvent gameEvent)
         {
-
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -138,7 +139,15 @@ namespace SeaBattle.NetWork
         /// </summary>
         public byte[] GetInfo()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _service.GetInfo();
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+                return null;
+            }
         }
 
         #endregion
@@ -214,11 +223,11 @@ namespace SeaBattle.NetWork
             }
         }
 
-        public int CreateGame(GameMode mode, int maxPlayers)
+        public int CreateGame(GameModes modes, int maxPlayers, MapSet mapType)
         {
             try
             {
-                return _service.CreateGame(mode, maxPlayers);
+                return _service.CreateGame(modes, maxPlayers, mapType);
             }
             catch (Exception e)
             {
@@ -239,12 +248,12 @@ namespace SeaBattle.NetWork
                 return false;
             }
         }
-        
-        public GameLevel GameStart(int gameId)
+
+        public byte[] IsGameStarted(int gameId)
         {
             try
             {
-                return _service.GameStart(gameId);
+                return _service.IsGameStarted(gameId);
             }
             catch (Exception e)
             {
@@ -253,12 +262,25 @@ namespace SeaBattle.NetWork
             }
         }
 
+        public bool StartGameSession()
+        {
+            try
+            {
+                return _service.StartGameSession();
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+                return false;
+            }
+        }
+
         public long GetServerGameTime()
         {
             throw new NotImplementedException();
         }
 
-        public List<string> PlayerListUpdate()
+        public List<Player> PlayerListUpdate()
         {
             try
             {
@@ -271,9 +293,17 @@ namespace SeaBattle.NetWork
             };
         }
 
-        public AGameEvent[] GetEvents()
+        public bool IsHost()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _service.IsHost();
+            }
+            catch (Exception e)
+            {
+                ErrorHelper.FatalError(e);
+                return false;
+            }
         }
 
         public void LeaveGame()

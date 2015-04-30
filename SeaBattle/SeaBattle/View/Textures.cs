@@ -19,19 +19,8 @@ namespace SeaBattle.View
         public static Texture2D Cross;
         public static Texture2D Target;
 
-        // brick textures
-        public static Texture2D Brick;
-
-        // Dead player texture
-        public static Texture2D DeadPlayerTexture;
-
-        // Dead spider texture
-        public static Texture2D DeadSpiderTexture;
-
-        //public static Texture2D Poisoning;
-        public static Texture2D Hydra;
-        public static Texture2D ParentMob;
-        public static Texture2D Caterpillar;
+        // other textures
+        public static Texture2D CompassArrow;
 
         public static Texture2D HealthRect(int width, int heigth, Color c)
         {

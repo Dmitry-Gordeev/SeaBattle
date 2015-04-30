@@ -1,9 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Timers;
+using Microsoft.Xna.Framework;
+using SeaBattle.Common;
 using SeaBattle.Common.Objects;
+using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
 using SeaBattle.Common.Utils;
+using SeaBattle.Service.Ships;
+using SeaBattle.Service.ShipSupplies;
+using SeaBattle.Service.StaticObjects;
 
 namespace SeaBattle.Service.Session
 {
@@ -11,44 +19,63 @@ namespace SeaBattle.Service.Session
     {
         #region private fields
 
-        protected readonly List<IObject> _gameObjects;
-        protected readonly List<IObject> _newObjects;
+        private readonly List<ICustomSerializable> StaticObjects;
+        private readonly List<ShipBase> _ships;
+        private readonly List<IBullet> _bullets;
 
-        protected long _timerCounter;
+        private bool IsFirstData = true;
 
-        protected long _lastUpdate;
-        protected long _updateDelay;
+        private long _timerCounter;
 
-        protected Timer _gameTimer;
-        protected object _updating;
+        private long _lastUpdate;
+        private long _updateDelay;
 
-        protected TimeHelper _timeHelper;
+        private Timer _gameTimer;
+        private object _updating;
+
+        private TimeHelper _timeHelper;
 
         #endregion
 
         public GameDescription LocalGameDescription { get; private set; }
-        public bool IsStarted { get; protected set; }
         public GameLevel GameLevel { get; private set; }
+        public Compass Compass { get; private set; }
 
-        public GameSession(int maxPlayersAllowed,
-            GameMode gameType, int gameID)
+        public GameSession(GameDescription gameDescription)
         {
-            IsStarted = false;
+            #region инициализация объектов
+
+            Compass = new Compass(true);
             GameLevel = new GameLevel(Constants.LevelWidth, Constants.LevelHeigh);
+            LocalGameDescription = gameDescription;
+            StaticObjects = InitializeBorders();
+            _ships = InitializeShips();
+            _gameTimer = new Timer();
 
-            var players = new List<IPlayer>();
+            #endregion
 
-            LocalGameDescription = new GameDescription(players, maxPlayersAllowed, gameID);
+            Start();
+        }
+
+        public byte[] GetInfo()
+        {
+            var result = new byte[] { };
+
+            result = StaticObjects.Aggregate(result, (current, staticObject) => current.Concat(staticObject.Serialize()).ToArray());
+
+            result = result.Concat(Compass.Serialize()).ToArray();
+
+            result = result.Concat(BitConverter.GetBytes(_ships.Count)).ToArray();
+
+            result = _ships.Aggregate(result, (current, ship) => current.Concat(ship.Serialize()).ToArray());
+
+            return result;
         }
 
         #region private methods
 
-        public virtual void Start()
+        private void Start()
         {
-            #region инициализация объектов
-
-            #endregion
-
             _timeHelper = new TimeHelper(TimeHelper.NowMilliseconds);
 
             _timerCounter = 0;
@@ -59,10 +86,40 @@ namespace SeaBattle.Service.Session
 
             _gameTimer.Start();
 
-            Trace.WriteLine("Game Started");
+            LocalGameDescription.IsGameStarted = true;
 
-            IsStarted = true;
+            Trace.WriteLine("Game " + LocalGameDescription.GameId + " Started");
+
         }
+
+        private List<ICustomSerializable> InitializeBorders()
+        {
+            var borders = new List<ICustomSerializable>
+            {
+                new Border(Side.Top),
+                new Border(Side.Right),
+                new Border(Side.Bottom),
+                new Border(Side.Left)
+            };
+
+            return borders;
+        }
+
+        private List<ShipBase> InitializeShips()
+        {
+            var ships = new List<ShipBase>{};
+            var rnd = new Random();
+
+            ships.AddRange(LocalGameDescription.Players.Select(player =>
+                new Lugger(player)
+                {
+                    Coordinates = new Vector2(rnd.Next(100, Constants.LevelWidth - 100), 
+                        rnd.Next(100, Constants.LevelHeigh - 100))
+                }));
+
+            return ships;
+        }
+
         #endregion
     }
 }

@@ -12,7 +12,7 @@ using SeaBattle.NetWork;
 
 namespace SeaBattle.Screens
 {
-    internal class MultiplayerScreen : GameScreen
+    internal class MultPlayerScreen : GameScreen
     {
         private static Texture2D _texture;
 
@@ -27,7 +27,7 @@ namespace SeaBattle.Screens
 
         private List<GameDescription> _gameDescriptions;
 
-        public MultiplayerScreen()
+        public MultPlayerScreen()
         {
             CreateControls();
             InititalizeControls();
@@ -149,9 +149,9 @@ namespace SeaBattle.Screens
             }
             else
             {
-                /*
-                WaitScreen.Map = _gameDescriptions[_gameList.SelectedItems[0]].UsedTileSet.ToString();
-                WaitScreen.GameMode = _gameDescriptions[_gameList.SelectedItems[0]].GameType.ToString();*/
+                
+                WaitScreen.Map = _gameDescriptions[_gameList.SelectedItems[0]].MapType.ToString();
+                WaitScreen.GameMode = _gameDescriptions[_gameList.SelectedItems[0]].GameMode.ToString();
                 WaitScreen.MaxPlayers =
                     _gameDescriptions[_gameList.SelectedItems[0]].MaximumPlayersAllowed.ToString(CultureInfo.InvariantCulture);
                 WaitScreen.GameId = _gameDescriptions[_gameList.SelectedItems[0]].GameId;
