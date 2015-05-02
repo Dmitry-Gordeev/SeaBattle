@@ -1,4 +1,3 @@
-Content\Textures\Ships\Lugger.xnb
 Content\Textures\screens\main_back_ground_screen.xnb
 Content\Textures\Cursors\Arrow.xnb
 Content\Textures\Cursors\Cross.xnb
@@ -23,6 +22,7 @@ Content\Textures\screens\main_back_ground_screen_large.xnb
 Content\Textures\Landscapes\SeaFromAir.xnb
 Content\Textures\screens\message_box.xnb
 Content\Textures\OtherObjects\CompassArrow.xnb
+Content\Textures\Ships\Lugger.xnb
 Content\menufont.xnb
 Content\Times New Roman.xnb
 Localization\Strings.resx

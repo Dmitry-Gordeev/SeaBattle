@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SeaBattle.Common;
@@ -12,6 +13,8 @@ using SeaBattle.Screens;
 using SeaBattle.Service.Ships;
 using SeaBattle.Service.ShipSupplies;
 using SeaBattle.Service.StaticObjects;
+using SeaBattle.Ships;
+using SeaBattle.ShipSupplies;
 
 namespace SeaBattle.Game
 {
@@ -29,7 +32,7 @@ namespace SeaBattle.Game
         private GameController()
         {
             Borders = new IStaticObject[4];
-            Ships = new IShip[10];
+            Ships = new ClientShip[10];
         }
 
         #endregion
@@ -39,13 +42,16 @@ namespace SeaBattle.Game
         // todo temporary
         public static long StartTime { get; set; }
 
-        private int _weaponIndex;
+        private int _countOfUpdates;
 
         public bool IsGameStarted { get; private set; }
 
+        public int DataSize;
+
+        public int MyID { get; private set; }
         public IStaticObject[] Borders;
-        public IShip[] Ships;
-        public Compass Compass;
+        public ClientShip[] Ships;
+        public ClientCompass ClientCompass;
 
         private void Shoot(Vector2 direction)
         {
@@ -60,7 +66,6 @@ namespace SeaBattle.Game
         public void StartGame(int gameId, byte[] dataBytes)
         {
             var timeHelper = new TimeHelper(StartTime);
-
             UpdateWorld(dataBytes);
             
             // GameModel initialized, set boolean flag
@@ -73,6 +78,7 @@ namespace SeaBattle.Game
         {
             if (dataBytes == null) return;
 
+            DataSize += dataBytes.Count();
             int pos = 0;
             for (int i = 0; i < 4; i++)
             {
@@ -80,20 +86,21 @@ namespace SeaBattle.Game
                     Borders[i] = new Border(Side.Bottom);
                 Borders[i].DeSerialize(ref pos, dataBytes);
             }
-
-            if (Compass == null)
+            if (ClientCompass == null)
             {
-                Compass = new Compass(false);
+                ClientCompass = new ClientCompass();
             }
-            Compass.DeSerialize(ref pos, dataBytes);
+            ClientCompass.Compass.DeSerialize(ref pos, dataBytes);
 
             int countOfShips = CommonSerializer.GetInt(ref pos, dataBytes);
 
             for (int i = 0; i < countOfShips; i++)
             {
                 if (Ships[i] == null)
-                    Ships[i] = new Lugger(new Player("", ShipType.Lugger));
-                Ships[i].DeSerialize(ref pos, dataBytes);
+                {
+                    Ships[i] = new ClientShip(new Lugger());
+                }
+                Ships[i].Ship.DeSerialize(ref pos, dataBytes);
             }
         }
 

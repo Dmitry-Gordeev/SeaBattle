@@ -117,6 +117,7 @@
   <ItemGroup>
     <Compile Include="Game\GameController.cs" />
     <Compile Include="Game\GameFactory.cs" />
+    <Compile Include="Game\GameModel.cs" />
     <Compile Include="Input\Controller.cs" />
     <Compile Include="Input\InputControll.cs" />
     <Compile Include="Input\KeyboardAndMouse.cs" />
@@ -143,6 +144,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ShipSupplies\ClientCompass.cs" />
     <Compile Include="Ships\ClientShip.cs" />
     <Compile Include="Utils\HashHelper.cs" />
     <Compile Include="View\Animation2D.cs" />
@@ -163,6 +165,10 @@
     <ProjectReference Include="..\..\SeaBattle.Objects\SeaBattle.Service.csproj">
       <Project>{915E039D-C7B4-4F7D-A4E2-9CECE6DDBA08}</Project>
       <Name>SeaBattle.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XnaAdapter\XnaHelper.csproj">
+      <Project>{555343C3-6510-47BD-A964-63ABB4AB799E}</Project>
+      <Name>XnaHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\SeaBattleContent\SeaBattleContent.contentproj">
       <Name>SeaBattleContent %28Content%29</Name>
@@ -198,7 +204,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ShipSupplies\" />
     <Folder Include="StaticObjects\" />
   </ItemGroup>
   <ItemGroup>

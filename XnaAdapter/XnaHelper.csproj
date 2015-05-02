@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{33B52FC2-27DD-4610-888B-E3EB890448C6}</ProjectGuid>
+    <ProjectGuid>{555343C3-6510-47BD-A964-63ABB4AB799E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SeaBattle.Common</RootNamespace>
-    <AssemblyName>SeaBattle.Common</AssemblyName>
+    <RootNamespace>XnaAdapter</RootNamespace>
+    <AssemblyName>XnaAdapter</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,10 +32,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,45 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connections\Constants.cs" />
-    <Compile Include="GameEvent\AGameEvent.cs" />
-    <Compile Include="GameEvent\Constants.cs" />
-    <Compile Include="Localization\Strings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.resx</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Objects\IBullet.cs" />
-    <Compile Include="Objects\IStaticObject.cs" />
-    <Compile Include="Objects\IObject.cs" />
-    <Compile Include="Objects\IPlayer.cs" />
-    <Compile Include="Objects\ICustomSerializable.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Service\Constants.cs" />
-    <Compile Include="Service\ISeaBattleService.cs" />
-    <Compile Include="Objects\IShip.cs" />
+    <Compile Include="PolarCoordinateHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Session\Constants.cs" />
-    <Compile Include="Session\GameDescription.cs" />
-    <Compile Include="Session\GameLevel.cs" />
-    <Compile Include="Utils\CommonSerializer.cs" />
-    <Compile Include="Utils\Converter.cs" />
-    <Compile Include="Utils\TimeHelper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Localization\Strings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\XnaAdapter\XnaHelper.csproj">
-      <Project>{555343C3-6510-47BD-A964-63ABB4AB799E}</Project>
-      <Name>XnaHelper</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

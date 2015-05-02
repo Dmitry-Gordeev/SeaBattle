@@ -11,6 +11,11 @@ namespace SeaBattle.Service.Ships
             InicializeFields();
         }
 
+        public Lugger()
+        {
+
+        }
+
         #region Methods
 
         public override float Height

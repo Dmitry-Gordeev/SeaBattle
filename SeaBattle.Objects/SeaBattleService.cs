@@ -56,7 +56,7 @@ namespace SeaBattle.Service
             var errorCode = DataBaseAdapter.Instance.GetPlayerStatus(username, password);
             if (errorCode == AccountManagerErrorCode.Ok)
             {
-                Player = new Player(username, ShipType.Lugger);
+                Player = new Player(username, ShipType.Lugger, Guid.NewGuid());
             }
             Console.WriteLine("Player name: " + Player.Name + " entered");
             return errorCode;
@@ -119,13 +119,13 @@ namespace SeaBattle.Service
             if (currentGame != null)
             {
                 if (Player != null) currentGame.Players.Remove(Player);
+                Console.WriteLine("LeaveGame with localID: " + _localID + "\nAnd GameID: " + _currentGameId);
                 if (currentGame.Players.Count == 0)
                 {
                     GamesList.Remove(currentGame);
+                    Console.WriteLine("Game: " + _currentGameId + " closed");
                 }
             }
-
-            Console.WriteLine("LeaveGame with localID: " + _localID + "\nAnd GameID: " + _currentGameId );
             _currentGameId = -1;
         }
 
