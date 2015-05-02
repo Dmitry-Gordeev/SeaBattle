@@ -33,8 +33,8 @@ namespace SeaBattle.Service.ShipSupplies
         {
             if (dataBytes[position++] == 0) return;
 
-            Cannons.DeSerialize(ref position, dataBytes);
-            ShipHold.DeSerialize(ref position, dataBytes);
+            //Cannons.DeSerialize(ref position, dataBytes);
+            //ShipHold.DeSerialize(ref position, dataBytes);
             Sails.DeSerialize(ref position, dataBytes);
         }
 
@@ -43,8 +43,8 @@ namespace SeaBattle.Service.ShipSupplies
             //if (!SomethingChanged) return new byte[] { 0 };
             var result = new byte[] { 1 };
 
-            result = result.Concat(Cannons.Serialize()).ToArray();
-            result = result.Concat(ShipHold.Serialize()).ToArray();
+            //result = result.Concat(Cannons.Serialize()).ToArray();
+            //result = result.Concat(ShipHold.Serialize()).ToArray();
             result = result.Concat(Sails.Serialize()).ToArray();
 
             SomethingChanged = false;

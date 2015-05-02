@@ -103,10 +103,10 @@ namespace SeaBattle.Service.ShipSupplies
             //if (!SomethingChanged) return new byte[] { 0 };
             var result = new byte[] { 1 };
 
-            result = (byte[])result.Concat(CommonSerializer.BoolArrToBytes(LeftSideCannons));
-            result = (byte[])result.Concat(CommonSerializer.BoolArrToBytes(RightSideCannons));
-            result = (byte[])result.Concat(CommonSerializer.BoolArrToBytes(ForePartCannons));
-            result = (byte[])result.Concat(CommonSerializer.BoolArrToBytes(RearPartCannons));
+            result = result.Concat(CommonSerializer.BoolArrToBytes(LeftSideCannons)).ToArray();
+            result = result.Concat(CommonSerializer.BoolArrToBytes(RightSideCannons)).ToArray();
+            result = result.Concat(CommonSerializer.BoolArrToBytes(ForePartCannons)).ToArray();
+            result = result.Concat(CommonSerializer.BoolArrToBytes(RearPartCannons)).ToArray();
 
             SomethingChanged = false;
             return result;

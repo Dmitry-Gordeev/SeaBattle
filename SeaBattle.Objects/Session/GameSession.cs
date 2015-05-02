@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Timers;
 using Microsoft.Xna.Framework;
-using SeaBattle.Common;
+using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
@@ -62,14 +61,29 @@ namespace SeaBattle.Service.Session
             var result = new byte[] { };
 
             result = StaticObjects.Aggregate(result, (current, staticObject) => current.Concat(staticObject.Serialize()).ToArray());
-
             result = result.Concat(Compass.Serialize()).ToArray();
-
             result = result.Concat(BitConverter.GetBytes(_ships.Count)).ToArray();
-
             result = _ships.Aggregate(result, (current, ship) => current.Concat(ship.Serialize()).ToArray());
 
             return result;
+        }
+
+        public void HandleGameEvent(GameEvent gameEvent, string playerName)
+        {
+            var ship = _ships.FirstOrDefault(s => s.Player.Name == playerName);
+            if (ship == null)
+                return;
+
+            // Если поворот корабля
+            if (gameEvent.Type == EventType.TurnLeftBegin ||
+                gameEvent.Type == EventType.TurnLeftEnd ||
+                gameEvent.Type == EventType.TurnRightBegin ||
+                gameEvent.Type == EventType.TurnRightEnd)
+            {
+                ship.TurnTheShip(gameEvent);
+            }
+            
+
         }
 
         #region private methods

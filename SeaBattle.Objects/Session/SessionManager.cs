@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Service.Session
@@ -63,6 +64,15 @@ namespace SeaBattle.Service.Session
             if (game == null || !game.LocalGameDescription.IsGameStarted)
                 return null;
             return game.GetInfo();
+        }
+
+        public void HandleGameEvent(GameEvent gameEvent, string playerName, int gameId)
+        {
+            var game = _gameSessions.Find(x => x.LocalGameDescription.GameId == gameId);
+            if (game == null || !game.LocalGameDescription.IsGameStarted)
+                return;
+            
+            game.HandleGameEvent(gameEvent, playerName);
         }
     }
 }

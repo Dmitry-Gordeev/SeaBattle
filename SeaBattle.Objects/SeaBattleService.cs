@@ -162,13 +162,11 @@ namespace SeaBattle.Service
 
         public void AddClientGameEvent(GameEvent gameEvent)
         {
-            var coords = new Vector2();
-            if (gameEvent.ExtraData != null)
-            {
-                int pos = 0;
-                coords = CommonSerializer.GetVector2(ref pos, gameEvent.ExtraData);
-            }
-            Console.WriteLine(gameEvent.Type + " " + coords.ToString());
+            Console.WriteLine(gameEvent.Type);
+            
+            if (_currentGameId == -1)
+                return;
+            SessionManager.Instance.HandleGameEvent(gameEvent, Player.Name, _currentGameId);
         }
 
         #endregion

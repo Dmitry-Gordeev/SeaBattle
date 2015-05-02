@@ -3,10 +3,10 @@ using System.Linq;
 using System.Threading;
 using Microsoft.Xna.Framework;
 using SeaBattle.Common;
+using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Utils;
 using SeaBattle.Service.ShipSupplies;
-using XnaAdapter;
 
 namespace SeaBattle.Service.Ships
 {
@@ -14,7 +14,8 @@ namespace SeaBattle.Service.Ships
     {
         #region Constructors
 
-        private Timer _updateTimer;
+        protected Timer UpdateCoordinatesTimer;
+        protected Timer UpdateDirectionTimer;
 
         protected ShipBase()
         {
@@ -25,6 +26,7 @@ namespace SeaBattle.Service.Ships
         {
             Player = player;
             var rnd = new Random();
+            Speed = 1;
 
             // Init random direction
             _moveVector = new Vector2((float)rnd.NextDouble() - 0.5f, (float)rnd.NextDouble() - 0.5f);
@@ -33,7 +35,7 @@ namespace SeaBattle.Service.Ships
             // Init random coordinates
             _coordinates = new Vector2(200, 600);
 
-            _updateTimer = new Timer(UpdatePosition, null, 1000, 50);
+            UpdateCoordinatesTimer = new Timer(UpdateCoordinates, null, 1000, 50);
         }
 
         #endregion
@@ -61,7 +63,7 @@ namespace SeaBattle.Service.Ships
 
         public float FullWeight { get { return ShipWeight + ShipSupplies.ShipHold.LoadWeight; } }
 
-        public double Speed { get; set; }
+        public float Speed { get; set; }
 
         public Vector2 MoveVector
         {
@@ -83,12 +85,15 @@ namespace SeaBattle.Service.Ships
 
         protected abstract void InicializeFields();
 
-        private void UpdatePosition(object obj)
-        {
-            _coordinates += _moveVector;
-            _moveVector = PolarCoordinateHelper.TurnVector2(_moveVector, 0.05f);
-        }
 
+        public abstract void TurnTheShip(GameEvent gameEvent);
+        protected abstract void UpdateDirection(object toTheLeft);
+
+        protected void UpdateCoordinates(object obj)
+        {
+            _coordinates += _moveVector * Speed;
+        }
+        
         #endregion
 
         #region Serialization
@@ -100,9 +105,8 @@ namespace SeaBattle.Service.Ships
             Player.Name = CommonSerializer.GetString(ref position, dataBytes);
             Coordinates = CommonSerializer.GetVector2(ref position, dataBytes);
             MoveVector = CommonSerializer.GetVector2(ref position, dataBytes);
-            Speed = CommonSerializer.GetInt(ref position, dataBytes);
-            //ShipCrew.DeSerialize(ref position, dataBytes);
-            //ShipSupplies.DeSerialize(ref position, dataBytes);
+            ShipCrew.DeSerialize(ref position, dataBytes);
+            ShipSupplies.DeSerialize(ref position, dataBytes);
         }
 
         public byte[] Serialize()
@@ -113,9 +117,8 @@ namespace SeaBattle.Service.Ships
             result = result.Concat(CommonSerializer.StringToBytesArr(Player.Name)).ToArray();
             result = result.Concat(CommonSerializer.Vector2ToBytesArr(Coordinates)).ToArray();
             result = result.Concat(CommonSerializer.Vector2ToBytesArr(MoveVector)).ToArray();
-            result = result.Concat(BitConverter.GetBytes(Speed)).ToArray();
-            //result = result.Concat(ShipCrew.Serialize()).ToArray();
-            //result = result.Concat(ShipSupplies.Serialize()).ToArray();
+            result = result.Concat(ShipCrew.Serialize()).ToArray();
+            result = result.Concat(ShipSupplies.Serialize()).ToArray();
 
             SomethingChanged = false;
             return result;

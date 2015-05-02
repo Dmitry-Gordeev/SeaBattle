@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Session;
 using SeaBattle.Common.Utils;
-using SeaBattle.NetWork;
 using SeaBattle.View;
 
 namespace SeaBattle.Game
