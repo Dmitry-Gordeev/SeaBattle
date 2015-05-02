@@ -88,7 +88,7 @@ namespace SeaBattle.Service.Session
 
             LocalGameDescription.IsGameStarted = true;
 
-            Trace.WriteLine("Game " + LocalGameDescription.GameId + " Started");
+            Console.WriteLine("Game " + LocalGameDescription.GameId + " Started");
 
         }
 

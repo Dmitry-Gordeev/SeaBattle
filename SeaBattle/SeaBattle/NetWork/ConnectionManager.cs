@@ -46,7 +46,6 @@ namespace SeaBattle.NetWork
 
         private ISeaBattleService _service;
 
-
         private void InitializeConnection()
         {
             try

@@ -14,20 +14,28 @@ namespace SeaBattle.Service.ShipSupplies
         private double _angleOfDirection;
         private readonly Random _rnd = new Random();
         private Timer _updateDirectionTimer;
+        public double ForceOfWind;
 
+        // Надо ли запускать таймер апдейта состояния
         public Compass(bool isNeedToSetTimer)
         {
             _angleOfDirection = _rnd.NextDouble() * 2 * Math.PI;
             Direction = new Vector2((float)Math.Cos(_angleOfDirection), (float)Math.Sin(_angleOfDirection));
             if (isNeedToSetTimer)
             {
-                _updateDirectionTimer = new Timer(UpdateDirection, null, 1000, 1000);
+                _updateDirectionTimer = new Timer(UpdateAngleAndForce, null, 1000, 1000);
             }
         }
 
-        private void UpdateDirection(object obj)
+        private void UpdateAngleAndForce(object obj)
         {
             _angleOfDirection = GetNextAngle();
+            ForceOfWind = _rnd.NextDouble() * 15 + 1;
+            UpdateDirection();
+        }
+
+        private void UpdateDirection()
+        {
             Direction.X = (float)Math.Cos(_angleOfDirection);
             Direction.Y = (float)Math.Sin(_angleOfDirection);
         }
@@ -40,14 +48,15 @@ namespace SeaBattle.Service.ShipSupplies
         public void DeSerialize(ref int position, byte[] dataBytes)
         {
             _angleOfDirection = CommonSerializer.GetDouble(ref position, dataBytes);
-            Direction = CommonSerializer.GetVector2(ref position, dataBytes);
+            ForceOfWind = CommonSerializer.GetDouble(ref position, dataBytes);
+            UpdateDirection();
         }
 
         public byte[] Serialize()
         {
             var result = new byte[] { };
             result = result.Concat(BitConverter.GetBytes(_angleOfDirection)).ToArray();
-            result = result.Concat(CommonSerializer.Vector2ToBytesArr(Direction)).ToArray();
+            result = result.Concat(BitConverter.GetBytes(ForceOfWind)).ToArray();
             return result;
         }
     }

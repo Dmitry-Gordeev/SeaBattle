@@ -91,9 +91,9 @@
       <Project>{33B52FC2-27DD-4610-888B-E3EB890448C6}</Project>
       <Name>SeaBattle.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XnaAdapter\XnaAdapter.csproj">
+    <ProjectReference Include="..\XnaAdapter\XnaHelper.csproj">
       <Project>{555343C3-6510-47BD-A964-63ABB4AB799E}</Project>
-      <Name>XnaAdapter</Name>
+      <Name>XnaHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

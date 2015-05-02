@@ -13,6 +13,9 @@ namespace SeaBattle.View
         // Landscape textures
         public static Texture2D SeaFromAir;
 
+        // Ships
+        public static Texture2D Lugger;
+
         // cursor textures
         public static Texture2D Arrow;
         public static Texture2D Plus;
