@@ -52,6 +52,11 @@ namespace SeaBattle.Screens
             // _gameList.SelectedItems[0] = 0;
         }
 
+        public override ScreenManager.ScreenEnum ScreenType
+        {
+            get { return ScreenManager.ScreenEnum.MultPlayerScreen; }
+        }
+
         public override void LoadContent()
         {
             _texture = ContentManager.Load<Texture2D>("Textures/screens/main_back_ground_screen");

@@ -27,7 +27,7 @@ namespace SeaBattle.Game
         /// Все GameEvent'ы с момента последнего синхрокадра,
         /// нужно хранить их! 
         /// </summary>
-        private readonly List<AGameEvent> _serverGameEvents = new List<AGameEvent>();
+        private readonly List<GameEvent> _serverGameEvents = new List<GameEvent>();
 
         private readonly GameLevel _gameLevel;
 

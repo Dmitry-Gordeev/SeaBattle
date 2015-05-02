@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections\Constants.cs" />
-    <Compile Include="GameEvent\AGameEvent.cs" />
+    <Compile Include="GameEvent\GameEvent.cs" />
     <Compile Include="GameEvent\Constants.cs" />
     <Compile Include="Localization\Strings.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -35,6 +35,8 @@ namespace SeaBattle.Screens
 
         public bool IsActive { get; set; }
 
+        public abstract ScreenManager.ScreenEnum ScreenType { get; }
+
         /// <summary>
         /// Загрузка контента, необходимого
         /// для отображения экрана 

@@ -117,8 +117,9 @@ namespace SeaBattle.Screens
         public override void Update(GameTime gameTime)
         {
             _activeScreen.Update(gameTime);
-
+            
             Controller.Update();
+
             _activeScreen.HandleInput(Controller);
         }
 

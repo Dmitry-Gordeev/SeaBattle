@@ -2,7 +2,10 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Nuclex.UserInterface.Controls;
 using SeaBattle.Common;
+using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
@@ -70,6 +73,8 @@ namespace SeaBattle.Game
             
             // GameModel initialized, set boolean flag
             IsGameStarted = true;
+
+            ConnectionManager.Instance.InitializeThreadAndTimers();
 
             ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameplayScreen);
         }
@@ -139,7 +144,46 @@ namespace SeaBattle.Game
 
         public void HandleInput(Controller controller)
         {
+            CheckKeyboard(controller);
+            CheckMouse(controller);
+        }
+
+        private void CheckKeyboard(Controller controller)
+        {
+            var keyboard = controller as KeyboardAndMouse;
+            if (keyboard == null) return;
             
+            switch (Settings.Default.KeyboardLayout)
+            {
+                case 0:
+                    if (keyboard.IsNewKeyPressed(Keys.W)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.SailsUp));
+                    if (keyboard.IsNewKeyPressed(Keys.S)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.SailsDown));
+                    if (keyboard.IsNewKeyPressed(Keys.A)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.TurnLeftBegin));
+                    if (keyboard.IsNewKeyPressed(Keys.D)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.TurnRightBegin));
+                    if (keyboard.IsUnpressed(Keys.A)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.TurnLeftEnd));
+                    if (keyboard.IsUnpressed(Keys.D)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.TurnRightEnd));
+                    break;
+                case 1:
+                    if (keyboard.IsNewKeyPressed(Keys.Up)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.SailsUp));
+                    if (keyboard.IsNewKeyPressed(Keys.Down)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.SailsDown));
+                    if (keyboard.IsNewKeyPressed(Keys.Left)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.TurnLeftBegin));
+                    if (keyboard.IsNewKeyPressed(Keys.Right)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.TurnRightBegin));
+                    if (keyboard.IsUnpressed(Keys.Left)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.TurnLeftEnd));
+                    if (keyboard.IsUnpressed(Keys.Right)) ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.TurnRightEnd));
+                    break;
+            }
+        }
+
+        private void CheckMouse(Controller controller)
+        {
+            var mouse = controller as KeyboardAndMouse;
+            if (mouse == null) return;
+
+            if (mouse.ShootButtonPressed)
+            {
+                var coords = CommonSerializer.Vector2ToBytesArr(mouse.SightPosition);
+                ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.Shoot, coords));
+            }
         }
 
         #endregion

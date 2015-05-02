@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
+using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Common.Service
@@ -63,6 +64,12 @@ namespace SeaBattle.Common.Service
         /// </summary>
         [OperationContract]
         List<Player> PlayerListUpdate();
+
+        /// <summary>
+        /// Отправляет данные о событии на сервер
+        /// </summary>
+        [OperationContract]
+        void AddClientGameEvent(GameEvent.GameEvent gameEvent);
 
         #endregion
     }

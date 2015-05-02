@@ -15,6 +15,11 @@ namespace SeaBattle.Screens
 
         }
 
+        public override ScreenManager.ScreenEnum ScreenType
+        {
+            get { return ScreenManager.ScreenEnum.GameplayScreen; }
+        }
+
         public override void LoadContent()
         {
             // load landscapes

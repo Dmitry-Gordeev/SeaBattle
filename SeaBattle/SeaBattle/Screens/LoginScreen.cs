@@ -31,6 +31,11 @@ namespace SeaBattle.Screens
             InitializeControls();
         }
 
+        public override ScreenManager.ScreenEnum ScreenType
+        {
+            get { return ScreenManager.ScreenEnum.LoginScreen; }
+        }
+
         public override void LoadContent()
         {
             _texture = ContentManager.Load<Texture2D>("Textures/screens/main_back_ground_screen");

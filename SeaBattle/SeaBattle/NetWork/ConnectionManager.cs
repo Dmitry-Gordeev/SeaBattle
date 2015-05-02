@@ -38,7 +38,7 @@ namespace SeaBattle.NetWork
         #region game events
 
         // received from server
-        private Queue<AGameEvent> _lastClientGameEvents;
+        private Queue<GameEvent> _lastClientGameEvents;
 
         private readonly object _gameEventLocker = new object();
 
@@ -61,9 +61,9 @@ namespace SeaBattle.NetWork
 
         #region run/stop thread, initialization
 
-        private void InitializeThreadAndTimers()
+        internal void InitializeThreadAndTimers()
         {
-            _lastClientGameEvents = new Queue<AGameEvent>();
+            _lastClientGameEvents = new Queue<GameEvent>();
 
             _thread = new Thread(Run)
             {
@@ -76,7 +76,7 @@ namespace SeaBattle.NetWork
         {
             while (true)
             {
-                AGameEvent gameEvent = null;
+                GameEvent gameEvent = null;
 
                 lock (_locker)
                 {
@@ -114,21 +114,7 @@ namespace SeaBattle.NetWork
 
         #endregion
         
-        #region sending client game events
-
-        private void AddClientGameEvent(AGameEvent gameEvent)
-        {
-            lock (_locker)
-                _lastClientGameEvents.Enqueue(gameEvent);
-            _queue.Set();
-        }
-
-        private void SendClientGameEvent(AGameEvent gameEvent)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
+        
 
         #region service implementation
 
@@ -148,6 +134,29 @@ namespace SeaBattle.NetWork
                 return null;
             }
         }
+
+            #region sending client game events
+
+            public void AddClientGameEvent(GameEvent gameEvent)
+            {
+                lock (_locker)
+                    _lastClientGameEvents.Enqueue(gameEvent);
+                _queue.Set();
+            }
+
+            private void SendClientGameEvent(GameEvent gameEvent)
+            {
+                try
+                {
+                    _service.AddClientGameEvent(gameEvent);
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                }
+            }
+
+            #endregion
 
         #endregion
 

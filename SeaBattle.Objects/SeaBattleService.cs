@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using Microsoft.Xna.Framework;
 using SeaBattle.Common;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
+using SeaBattle.Common.Utils;
 using SeaBattle.Service.DA;
 using SeaBattle.Service.Session;
 
@@ -28,7 +30,7 @@ namespace SeaBattle.Service
 
         private readonly InstanceContext _channelContext;
 
-        private readonly Queue<AGameEvent> _filteredEvents = new Queue<AGameEvent>();
+        private readonly Queue<GameEvent> _filteredEvents = new Queue<GameEvent>();
 
         #endregion
 
@@ -163,9 +165,15 @@ namespace SeaBattle.Service
             return currentGame != null ? currentGame.Players : null;
         }
 
-        public AGameEvent[] GetEvents()
+        public void AddClientGameEvent(GameEvent gameEvent)
         {
-            throw new NotImplementedException();
+            var coords = new Vector2();
+            if (gameEvent.ExtraData != null)
+            {
+                int pos = 0;
+                coords = CommonSerializer.GetVector2(ref pos, gameEvent.ExtraData);
+            }
+            Console.WriteLine(gameEvent.Type + " " + coords.ToString());
         }
 
         #endregion
