@@ -147,12 +147,7 @@ namespace SeaBattle.Service
         #endregion
 
         #region процесс игры
-
-        public long GetServerGameTime()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public byte[] GetInfo()
         {
             return _currentGameId == -1 ? null : SessionManager.Instance.GetInfo(_currentGameId);

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
-using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Session;
 
 namespace SeaBattle.Common.Service
@@ -52,9 +51,6 @@ namespace SeaBattle.Common.Service
         #endregion
         
         #region процесс игры
-
-        [OperationContract]
-        long GetServerGameTime();
 
         [OperationContract]
         byte[] GetInfo();

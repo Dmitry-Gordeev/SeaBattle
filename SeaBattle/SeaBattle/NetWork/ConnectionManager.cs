@@ -114,26 +114,183 @@ namespace SeaBattle.NetWork
 
         #endregion
         
-        
-
         #region service implementation
 
-        /// <summary>
-        /// Возвращает последние данные от сервера, которые были получены с помощью другого потока
-        /// Используется клиентом
-        /// </summary>
-        public byte[] GetInfo()
-        {
-            try
+            #region Получение информации с сервера во время сессии
+
+            /// <summary>
+            /// Возвращает последние данные от сервера, которые были получены с помощью другого потока
+            /// Используется клиентом
+            /// </summary>
+            public byte[] GetInfo()
             {
-                return _service.GetInfo();
+                try
+                {
+                    return _service.GetInfo();
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                    return null;
+                }
             }
-            catch (Exception e)
+
+            #endregion
+
+            #region Регистрация, аутентификация
+
+            public AccountManagerErrorCode Register(string username, string password)
             {
-                ErrorHelper.FatalError(e);
-                return null;
+                // initialize connection
+                InitializeConnection();
+
+                try
+                {
+                    return _service.Register(username, HashHelper.GetMd5Hash(password));
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                    return AccountManagerErrorCode.UnknownError;
+                }
             }
-        }
+
+            public AccountManagerErrorCode Login(string username, string password)
+            {
+                // initialize connection
+                InitializeConnection();
+                var errorCode = AccountManagerErrorCode.Ok;
+
+                try
+                {
+                    errorCode = _service.Login(username, HashHelper.GetMd5Hash(password));
+
+                    if (errorCode == AccountManagerErrorCode.InvalidUsernameOrPassword)
+                    {
+                        _service.Logout();
+                    }
+
+                    return errorCode;
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                    if (errorCode != AccountManagerErrorCode.InvalidUsernameOrPassword)
+                    {
+                        errorCode = AccountManagerErrorCode.UnknownExceptionOccured;
+                    }
+                }
+                return errorCode;
+            }
+
+            public void Logout()
+            {
+                try
+                {
+                    _service.Logout();
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                }
+            }
+
+            #endregion
+
+            #region Ожидание начала игры
+
+            public List<GameDescription> GetGameList()
+            {
+                try
+                {
+                    return _service.GetGameList();
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                    return null;
+                }
+            }
+
+            public int CreateGame(GameModes modes, int maxPlayers, MapSet mapType)
+            {
+                try
+                {
+                    return _service.CreateGame(modes, maxPlayers, mapType);
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                    return -1;
+                }
+            }
+
+            public bool JoinGame(int gameId)
+            {
+                try
+                {
+                    return _service.JoinGame(gameId);
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                    return false;
+                }
+            }
+
+            public byte[] IsGameStarted(int gameId)
+            {
+                try
+                {
+                    return _service.IsGameStarted(gameId);
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                    return null;
+                }
+            }
+
+            public bool StartGameSession()
+            {
+                try
+                {
+                    return _service.StartGameSession();
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                    return false;
+                }
+            }
+
+            public List<Player> PlayerListUpdate()
+            {
+                try
+                {
+                    return _service.PlayerListUpdate();
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                    return null;
+                }
+            }
+
+            public bool IsHost()
+            {
+                try
+                {
+                    return _service.IsHost();
+                }
+                catch (Exception e)
+                {
+                    ErrorHelper.FatalError(e);
+                    return false;
+                }
+            }
+
+            #endregion
 
             #region sending client game events
 
@@ -161,158 +318,6 @@ namespace SeaBattle.NetWork
         #endregion
 
         #region other service methods
-
-        public AccountManagerErrorCode Register(string username, string password)
-        {
-            // initialize connection
-            InitializeConnection();
-
-            try
-            {
-                return _service.Register(username, HashHelper.GetMd5Hash(password));
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-                return AccountManagerErrorCode.UnknownError;
-            }
-        }
-
-        public AccountManagerErrorCode Login(string username, string password)
-        {
-            // initialize connection
-            InitializeConnection();
-            var errorCode = AccountManagerErrorCode.Ok;
-
-            try
-            {
-                errorCode = _service.Login(username, HashHelper.GetMd5Hash(password));
-
-                if (errorCode == AccountManagerErrorCode.InvalidUsernameOrPassword)
-                {
-                    _service.Logout();
-                }
-
-                return errorCode;
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-                if (errorCode != AccountManagerErrorCode.InvalidUsernameOrPassword)
-                {
-                    errorCode = AccountManagerErrorCode.UnknownExceptionOccured;
-                }
-            }
-            return errorCode;
-        }
-
-        public void Logout()
-        {
-            try
-            {
-                _service.Logout();
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-            }
-        }
-
-        public List<GameDescription> GetGameList()
-        {
-            try
-            {
-                return _service.GetGameList();
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-                return null;
-            }
-        }
-
-        public int CreateGame(GameModes modes, int maxPlayers, MapSet mapType)
-        {
-            try
-            {
-                return _service.CreateGame(modes, maxPlayers, mapType);
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-                return -1;
-            }
-        }
-
-        public bool JoinGame(int gameId)
-        {
-            try
-            {
-                return _service.JoinGame(gameId);
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-                return false;
-            }
-        }
-
-        public byte[] IsGameStarted(int gameId)
-        {
-            try
-            {
-                return _service.IsGameStarted(gameId);
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-                return null;
-            }
-        }
-
-        public bool StartGameSession()
-        {
-            try
-            {
-                return _service.StartGameSession();
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-                return false;
-            }
-        }
-
-        public long GetServerGameTime()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Player> PlayerListUpdate()
-        {
-            try
-            {
-                return _service.PlayerListUpdate();
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-                return null;
-            };
-        }
-
-        public bool IsHost()
-        {
-            try
-            {
-                return _service.IsHost();
-            }
-            catch (Exception e)
-            {
-                ErrorHelper.FatalError(e);
-                return false;
-            }
-        }
 
         public void LeaveGame()
         {
