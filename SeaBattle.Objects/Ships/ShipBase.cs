@@ -7,6 +7,7 @@ using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Utils;
 using SeaBattle.Service.ShipSupplies;
+using XnaAdapter;
 
 namespace SeaBattle.Service.Ships
 {
@@ -22,11 +23,10 @@ namespace SeaBattle.Service.Ships
             Player = new Player();
         }
 
-        protected ShipBase(Player player)
+        protected ShipBase(Player player, WindVane windVane)
         {
             Player = player;
             var rnd = new Random();
-            Speed = 1;
 
             // Init random direction
             _moveVector = new Vector2((float)rnd.NextDouble() - 0.5f, (float)rnd.NextDouble() - 0.5f);
@@ -63,7 +63,15 @@ namespace SeaBattle.Service.Ships
 
         public float FullWeight { get { return ShipWeight + ShipSupplies.ShipHold.LoadWeight; } }
 
-        public float Speed { get; set; }
+        public float Speed
+        {
+            get
+            {
+                var angle = PolarCoordinateHelper.GetAngle(ShipSupplies.WindVane.Direction, MoveVector);
+                var relativeSpeed = ShipSupplies.WindVane.ForceOfWind * (float)Math.Cos(angle);
+                return relativeSpeed > 0 ? relativeSpeed : 0;
+            }
+        }
 
         public Vector2 MoveVector
         {
@@ -83,12 +91,10 @@ namespace SeaBattle.Service.Ships
 
         #region Methods
 
-        protected abstract void InicializeFields();
-
-
+        protected abstract void InicializeFields(WindVane windVane);
         public abstract void TurnTheShip(GameEvent gameEvent);
         protected abstract void UpdateDirection(object toTheLeft);
-
+        
         protected void UpdateCoordinates(object obj)
         {
             _coordinates += _moveVector * Speed;

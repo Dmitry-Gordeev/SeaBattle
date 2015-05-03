@@ -75,12 +75,12 @@
     <Compile Include="Session\SessionManager.cs" />
     <Compile Include="ShipSupplies\Bullet.cs" />
     <Compile Include="ShipSupplies\Cannons.cs" />
-    <Compile Include="ShipSupplies\Compass.cs" />
+    <Compile Include="ShipSupplies\WindVane.cs" />
     <Compile Include="ShipSupplies\Sails.cs" />
     <Compile Include="ShipSupplies\ShipCrew.cs" />
     <Compile Include="ShipSupplies\ShipHold.cs" />
     <Compile Include="ShipSupplies\Supplies.cs" />
-    <Compile Include="ShipSupplies\WindVane.cs" />
+    <Compile Include="ShipSupplies\Compass.cs" />
     <Compile Include="Ships\Lugger.cs" />
     <Compile Include="Ships\ShipBase.cs" />
     <Compile Include="StaticObjects\Border.cs" />

@@ -144,7 +144,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ShipSupplies\ClientCompass.cs" />
+    <Compile Include="ShipSupplies\ClientWindVane.cs" />
     <Compile Include="Ships\ClientShip.cs" />
     <Compile Include="Utils\HashHelper.cs" />
     <Compile Include="View\Animation2D.cs" />

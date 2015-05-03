@@ -50,7 +50,7 @@ namespace SeaBattle.Game
         public int MyID { get; private set; }
         public IStaticObject[] Borders;
         public ClientShip[] Ships;
-        public ClientCompass ClientCompass;
+        public ClientWindVane ClientWindVane;
 
         private void Shoot(Vector2 direction)
         {
@@ -87,11 +87,11 @@ namespace SeaBattle.Game
                     Borders[i] = new Border(Side.Bottom);
                 Borders[i].DeSerialize(ref pos, dataBytes);
             }
-            if (ClientCompass == null)
+            if (ClientWindVane == null)
             {
-                ClientCompass = new ClientCompass();
+                ClientWindVane = new ClientWindVane();
             }
-            ClientCompass.Compass.DeSerialize(ref pos, dataBytes);
+            ClientWindVane.WindVane.DeSerialize(ref pos, dataBytes);
 
             int countOfShips = CommonSerializer.GetInt(ref pos, dataBytes);
 

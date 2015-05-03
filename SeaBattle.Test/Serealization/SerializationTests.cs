@@ -13,12 +13,12 @@ namespace SeaBattle.Test.Serealization
         public void SerializanionTest()
         {
             var player = new Player("name", ShipType.Lugger, Guid.NewGuid());
-            var ship1 = new Lugger(player);
+            var ship1 = new Lugger();
             var bytes = ship1.Serialize();
 
             int i = 0;
 
-            var ship2 = new Lugger(player);
+            var ship2 = new Lugger();
             ship2.DeSerialize(ref i, bytes);
 
             /*

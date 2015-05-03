@@ -8,11 +8,12 @@ namespace SeaBattle.Service.ShipSupplies
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }
 
-        public Supplies(Cannons cannons, ShipHold shipHold, Sails sails)
+        public Supplies(Cannons cannons, ShipHold shipHold, Sails sails, WindVane windVane)
         {
             Cannons = cannons;
             ShipHold = shipHold;
             Sails = sails;
+            WindVane = windVane;
         }
 
         #region Serializable
@@ -25,7 +26,7 @@ namespace SeaBattle.Service.ShipSupplies
 
         #region Not serializable
 
-        public WindVane WindVane;
+        public readonly WindVane WindVane;
        
         #endregion
 

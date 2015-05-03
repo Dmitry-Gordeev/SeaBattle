@@ -2,8 +2,8 @@
 {
     public class Constants
     {
-        public const int LevelWidth = 1060;
-        public const int LevelHeigh = 800;
+        public const int LevelWidth = 1600;
+        public const int LevelHeigh = 1000;
 
         public const float TEXT_TEXTURE_LAYER = 0f;
 

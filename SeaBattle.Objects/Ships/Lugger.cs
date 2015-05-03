@@ -9,15 +9,15 @@ namespace SeaBattle.Service.Ships
 {
     public class Lugger : ShipBase
     {
-        public Lugger(Player player)
-            : base(player)
+        public Lugger(Player player, WindVane windVane)
+            : base(player, windVane)
         {
-            InicializeFields();
+            InicializeFields(windVane);
         }
 
         public Lugger()
         {
-            InicializeFields();
+            InicializeFields(null);
         }
 
         #region Methods
@@ -27,12 +27,12 @@ namespace SeaBattle.Service.Ships
             get { return 10f; }
         }
         
-        protected override sealed void InicializeFields()
+        protected override sealed void InicializeFields(WindVane windVane)
         {
             ShipCrew = new ShipCrew(10, 24, 16, 8);
             Name = "Lugger";
             ShipWeight = 1000;
-            ShipSupplies = new Supplies(new Cannons(4, 4, 2, 2), new ShipHold(), new Sails());
+            ShipSupplies = new Supplies(new Cannons(4, 4, 2, 2), new ShipHold(), new Sails(), windVane);
         }
 
         public override void TurnTheShip(GameEvent gameEvent)

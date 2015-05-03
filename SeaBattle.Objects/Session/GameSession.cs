@@ -38,13 +38,13 @@ namespace SeaBattle.Service.Session
 
         public GameDescription LocalGameDescription { get; private set; }
         public GameLevel GameLevel { get; private set; }
-        public Compass Compass { get; private set; }
+        public WindVane WindVane { get; private set; }
 
         public GameSession(GameDescription gameDescription)
         {
             #region инициализация объектов
 
-            Compass = new Compass(true);
+            WindVane = new WindVane(true);
             GameLevel = new GameLevel(Constants.LevelWidth, Constants.LevelHeigh);
             LocalGameDescription = gameDescription;
             StaticObjects = InitializeBorders();
@@ -61,7 +61,7 @@ namespace SeaBattle.Service.Session
             var result = new byte[] { };
 
             result = StaticObjects.Aggregate(result, (current, staticObject) => current.Concat(staticObject.Serialize()).ToArray());
-            result = result.Concat(Compass.Serialize()).ToArray();
+            result = result.Concat(WindVane.Serialize()).ToArray();
             result = result.Concat(BitConverter.GetBytes(_ships.Count)).ToArray();
             result = _ships.Aggregate(result, (current, ship) => current.Concat(ship.Serialize()).ToArray());
 
@@ -125,7 +125,7 @@ namespace SeaBattle.Service.Session
             var rnd = new Random();
 
             ships.AddRange(LocalGameDescription.Players.Select(player =>
-                new Lugger(player)
+                new Lugger(player, WindVane)
                 {
                     Coordinates = new Vector2(rnd.Next(100, Constants.LevelWidth - 100), 
                         rnd.Next(100, Constants.LevelHeigh - 100))

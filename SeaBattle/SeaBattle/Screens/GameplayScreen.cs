@@ -64,7 +64,7 @@ namespace SeaBattle.Screens
             graphicsDevice.Clear(Color.SkyBlue);
 
             GameController.Instance.DrawWorld(SpriteBatch);
-            GameController.Instance.ClientCompass.Draw(SpriteBatch);
+            GameController.Instance.ClientWindVane.Draw(SpriteBatch);
 
             for (int i = 0; i < GameController.Instance.Ships.Count(); i++)
             {
@@ -72,9 +72,9 @@ namespace SeaBattle.Screens
                 GameController.Instance.Ships[i].Draw(SpriteBatch);
             }
 
-            DrawString(GameController.Instance.ClientCompass.Compass.Direction.ToString(), 80f, 260f, Color.Red);
-            DrawString(GameController.Instance.ClientCompass.Compass.ForceOfWind.ToString(), 80f, 290f, Color.Red);
-            DrawString("Compass", 80f, 320f, Color.Red);
+            DrawString(GameController.Instance.ClientWindVane.WindVane.Direction.ToString(), 80f, 260f, Color.Red);
+            DrawString(GameController.Instance.ClientWindVane.WindVane.ForceOfWind.ToString(), 80f, 290f, Color.Red);
+            DrawString("WindVane", 1300f, 100f, Color.Red);
             DrawString(GameController.Instance.DataSize.ToString(), 80f, 350f, Color.Red);
 
             SpriteBatch.End();
