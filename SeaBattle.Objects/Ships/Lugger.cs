@@ -35,28 +35,14 @@ namespace SeaBattle.Service.Ships
             ShipSupplies = new Supplies(new Cannons(4, 4, 2, 2), new ShipHold(), new Sails(), windVane);
         }
 
-        public override void TurnTheShip(GameEvent gameEvent)
+        protected override void TurnToTheLeft(object obj)
         {
-            switch (gameEvent.Type)
-            {
-                case EventType.TurnLeftBegin:
-                    UpdateDirectionTimer = new Timer(UpdateDirection, true, 0, 50);
-                    break;
-                case EventType.TurnLeftEnd:
-                    UpdateDirectionTimer.Dispose();
-                    break;
-                case EventType.TurnRightBegin:
-                    UpdateDirectionTimer = new Timer(UpdateDirection, false, 0, 50);
-                    break;
-                case EventType.TurnRightEnd:
-                    UpdateDirectionTimer.Dispose();
-                    break;
-            }
+            MoveVector = PolarCoordinateHelper.TurnVector2(MoveVector, 0.05f);
         }
 
-        protected override void UpdateDirection(object toTheRight)
+        protected override void TurnToTheRight(object obj)
         {
-            MoveVector = PolarCoordinateHelper.TurnVector2(MoveVector, (bool)toTheRight ? -0.05f : 0.05f);
+            MoveVector = PolarCoordinateHelper.TurnVector2(MoveVector, -0.05f);
         }
 
         #endregion

@@ -92,14 +92,33 @@ namespace SeaBattle.Service.Ships
         #region Methods
 
         protected abstract void InicializeFields(WindVane windVane);
-        public abstract void TurnTheShip(GameEvent gameEvent);
-        protected abstract void UpdateDirection(object toTheLeft);
+        protected abstract void TurnToTheLeft(object obj);
+        protected abstract void TurnToTheRight(object obj);
         
         protected void UpdateCoordinates(object obj)
         {
             _coordinates += _moveVector * Speed;
         }
-        
+
+        public void TurnTheShip(GameEvent gameEvent)
+        {
+            switch (gameEvent.Type)
+            {
+                case EventType.TurnLeftBegin:
+                    UpdateDirectionTimer = new Timer(TurnToTheLeft, null, 0, 50);
+                    break;
+                case EventType.TurnLeftEnd:
+                    UpdateDirectionTimer.Dispose();
+                    break;
+                case EventType.TurnRightBegin:
+                    UpdateDirectionTimer = new Timer(TurnToTheRight, null, 0, 50);
+                    break;
+                case EventType.TurnRightEnd:
+                    UpdateDirectionTimer.Dispose();
+                    break;
+            }
+        }
+
         #endregion
 
         #region Serialization
