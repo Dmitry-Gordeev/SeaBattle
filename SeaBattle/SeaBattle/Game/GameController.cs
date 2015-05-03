@@ -45,9 +45,7 @@ namespace SeaBattle.Game
 
         public bool IsGameStarted { get; private set; }
 
-        public int DataSize;
-
-        public int MyID { get; private set; }
+        public string MyLogin { get; set; }
         public IStaticObject[] Borders;
         public ClientShip[] Ships;
         public ClientWindVane ClientWindVane;
@@ -79,7 +77,6 @@ namespace SeaBattle.Game
         {
             if (dataBytes == null) return;
 
-            DataSize += dataBytes.Count();
             int pos = 0;
             for (int i = 0; i < 4; i++)
             {

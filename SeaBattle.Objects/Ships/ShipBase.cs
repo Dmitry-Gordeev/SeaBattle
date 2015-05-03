@@ -16,7 +16,8 @@ namespace SeaBattle.Service.Ships
         #region Constructors
 
         protected Timer UpdateCoordinatesTimer;
-        protected Timer UpdateDirectionTimer;
+        protected Timer UpdateDirectionToTheLeftTimer;
+        protected Timer UpdateDirectionToTheRightTimer;
 
         protected ShipBase()
         {
@@ -46,7 +47,7 @@ namespace SeaBattle.Service.Ships
         protected float ShipWeight;
 
         protected ShipCrew ShipCrew;
-        protected Supplies ShipSupplies;
+        public Supplies ShipSupplies;
 
         private Vector2 _moveVector;
         private Vector2 _coordinates;
@@ -69,6 +70,7 @@ namespace SeaBattle.Service.Ships
             {
                 var angle = PolarCoordinateHelper.GetAngle(ShipSupplies.WindVane.Direction, MoveVector);
                 var relativeSpeed = ShipSupplies.WindVane.ForceOfWind * (float)Math.Cos(angle);
+                relativeSpeed *= ShipSupplies.Sails.SailsSpeed;
                 return relativeSpeed > 0 ? relativeSpeed : 0;
             }
         }
@@ -105,16 +107,16 @@ namespace SeaBattle.Service.Ships
             switch (gameEvent.Type)
             {
                 case EventType.TurnLeftBegin:
-                    UpdateDirectionTimer = new Timer(TurnToTheLeft, null, 0, 50);
+                    UpdateDirectionToTheLeftTimer = new Timer(TurnToTheLeft, null, 0, 50);
                     break;
                 case EventType.TurnLeftEnd:
-                    UpdateDirectionTimer.Dispose();
+                    UpdateDirectionToTheLeftTimer.Dispose();
                     break;
                 case EventType.TurnRightBegin:
-                    UpdateDirectionTimer = new Timer(TurnToTheRight, null, 0, 50);
+                    UpdateDirectionToTheRightTimer = new Timer(TurnToTheRight, null, 0, 50);
                     break;
                 case EventType.TurnRightEnd:
-                    UpdateDirectionTimer.Dispose();
+                    UpdateDirectionToTheRightTimer.Dispose();
                     break;
             }
         }

@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using Microsoft.Xna.Framework;
-using SeaBattle.Common;
-using SeaBattle.Common.GameEvent;
+﻿using SeaBattle.Common;
 using SeaBattle.Service.ShipSupplies;
 using XnaAdapter;
 
@@ -37,12 +34,12 @@ namespace SeaBattle.Service.Ships
 
         protected override void TurnToTheLeft(object obj)
         {
-            MoveVector = PolarCoordinateHelper.TurnVector2(MoveVector, 0.05f);
+            MoveVector = PolarCoordinateHelper.TurnVector2(MoveVector, -0.05f);
         }
 
         protected override void TurnToTheRight(object obj)
         {
-            MoveVector = PolarCoordinateHelper.TurnVector2(MoveVector, -0.05f);
+            MoveVector = PolarCoordinateHelper.TurnVector2(MoveVector, 0.05f);
         }
 
         #endregion

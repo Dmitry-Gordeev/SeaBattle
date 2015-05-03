@@ -83,7 +83,12 @@ namespace SeaBattle.Service.Session
                 ship.TurnTheShip(gameEvent);
             }
             
-
+            // Если операция с парусами
+            if (gameEvent.Type == EventType.SailsDown ||
+                gameEvent.Type == EventType.SailsUp)
+            {
+                ship.ShipSupplies.Sails.UpdateSailsState(gameEvent);
+            }
         }
 
         #region private methods

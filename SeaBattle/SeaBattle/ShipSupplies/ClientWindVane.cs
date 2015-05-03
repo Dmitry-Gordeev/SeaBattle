@@ -16,7 +16,7 @@ namespace SeaBattle.ShipSupplies
         public ClientWindVane()
         {
             WindVane = new WindVane(false);
-            Coordinates = new Vector2(1400f, 50f);
+            Coordinates = new Vector2(890f, 75f);
             StaticTexture = Textures.CompassArrow;
         }
     }

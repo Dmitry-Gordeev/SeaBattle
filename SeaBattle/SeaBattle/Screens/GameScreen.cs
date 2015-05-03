@@ -92,7 +92,17 @@ namespace SeaBattle.Screens
                 SpriteFont,
                 text,
                 new Vector2(positionX, positionY),
-                color, 0, new Vector2(0f, 0f), 0.5f, SpriteEffects.None,
+                color, 0, new Vector2(0f, 0f), 0.8f, SpriteEffects.None,
+                layerDepth: Constants.TEXT_TEXTURE_LAYER);
+        }
+
+        protected void DrawString(string text, float positionX, float positionY, Color color, float fontSize)
+        {
+            SpriteBatch.DrawString(
+                SpriteFont,
+                text,
+                new Vector2(positionX, positionY),
+                color, 0, new Vector2(0f, 0f), fontSize, SpriteEffects.None,
                 layerDepth: Constants.TEXT_TEXTURE_LAYER);
         }
     }

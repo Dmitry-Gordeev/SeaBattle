@@ -70,12 +70,19 @@ namespace SeaBattle.Screens
             {
                 if (GameController.Instance.Ships[i] == null) continue;
                 GameController.Instance.Ships[i].Draw(SpriteBatch);
-            }
 
-            DrawString(GameController.Instance.ClientWindVane.WindVane.Direction.ToString(), 80f, 260f, Color.Red);
-            DrawString(GameController.Instance.ClientWindVane.WindVane.ForceOfWind.ToString(), 80f, 290f, Color.Red);
-            DrawString("WindVane", 1300f, 100f, Color.Red);
-            DrawString(GameController.Instance.DataSize.ToString(), 80f, 350f, Color.Red);
+                // Если наш корабль - отображаем состояние парусов
+                if (GameController.Instance.Ships[i].Ship.Player.Name == GameController.Instance.MyLogin)
+                {
+                    DrawString("Sails state:", 860f, 100f, Color.Red, 0.5f);
+                    DrawString(GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[0].ToString(), 895f, 120f, Color.Red, 0.5f);
+                    DrawString(GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[1].ToString(), 895f, 140f, Color.Red, 0.5f);
+                }
+            }
+            
+            // Флюгер
+            DrawString("WindVane", 865f, 10f, Color.Red, 0.5f);
+            DrawString(GameController.Instance.ClientWindVane.WindVane.ForceOfWind.ToString("F"), 880, 30f, Color.Red, 0.5f);
 
             SpriteBatch.End();
 

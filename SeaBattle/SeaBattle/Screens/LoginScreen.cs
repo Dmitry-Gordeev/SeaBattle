@@ -7,6 +7,7 @@ using Nuclex.UserInterface.Controls.Desktop;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Localization;
 using SeaBattle.Game;
+using SeaBattle.NetWork;
 using InputControl = SeaBattle.Input.InputControl;
 
 namespace SeaBattle.Screens
@@ -148,6 +149,7 @@ namespace SeaBattle.Screens
 
                 if (errorCode == AccountManagerErrorCode.Ok)
                 {
+                    GameController.Instance.MyLogin = _loginBox.Text;
                     ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
                 }
                 else
