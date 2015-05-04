@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="ShipSupplies\ClientWindVane.cs" />
     <Compile Include="Ships\ClientShip.cs" />
+    <Compile Include="StaticObjects\GameplayBackground.cs" />
     <Compile Include="Utils\HashHelper.cs" />
     <Compile Include="View\Animation2D.cs" />
     <Compile Include="View\Camera2D.cs" />
@@ -203,9 +204,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="StaticObjects\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>

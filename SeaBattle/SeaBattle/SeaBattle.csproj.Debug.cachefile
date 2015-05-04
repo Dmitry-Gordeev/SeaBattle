@@ -23,5 +23,7 @@ Content\Textures\OtherObjects\CompassArrow.xnb
 Content\Textures\Ships\Lugger.xnb
 Content\menufont.xnb
 Content\Times New Roman.xnb
+Content\Textures\Landscapes\pushka_korab_enl.xnb
+Content\Textures\Landscapes\SeaBackground.xnb
 Localization\Strings.resx
 Localization\Strings.Designer.cs

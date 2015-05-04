@@ -11,7 +11,7 @@ namespace SeaBattle.View
         public static GraphicsDevice GraphicsDevice;
 
         // Landscape textures
-        public static Texture2D SeaFromAir;
+        public static Texture2D GameplayBackground;
 
         // Ships
         public static Texture2D Lugger;

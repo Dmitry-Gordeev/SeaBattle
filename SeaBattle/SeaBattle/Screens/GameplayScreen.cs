@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SeaBattle.Common.Session;
 using SeaBattle.Game;
 using SeaBattle.Input;
 using SeaBattle.NetWork;
+using SeaBattle.StaticObjects;
 using SeaBattle.View;
 
 namespace SeaBattle.Screens
@@ -12,6 +12,7 @@ namespace SeaBattle.Screens
     internal class GameplayScreen : GameScreen
     {
         public Camera2D Camera2D { get; private set; }
+        public GameplayBackground GameplayBackground { get; private set; }
 
         public GameplayScreen()
         {
@@ -25,12 +26,13 @@ namespace SeaBattle.Screens
 
         public override void LoadContent()
         {
-            Textures.SeaFromAir = ContentManager.Load<Texture2D>("Textures/Landscapes/SeaFromAir");
+            Textures.GameplayBackground = ContentManager.Load<Texture2D>("Textures/Landscapes/SeaBackground");
             Textures.CompassArrow = ContentManager.Load<Texture2D>("Textures/OtherObjects/CompassArrow");
             Textures.Lugger = ContentManager.Load<Texture2D>("Textures/Ships/Lugger");
 
             ScreenManager.Instance.Game.ResetElapsedTime();
         }
+
         private int _countOfUpdates;
 
         public override void HandleInput(Controller controller)
@@ -52,6 +54,15 @@ namespace SeaBattle.Screens
 
             GameController.Instance.UpdateWorld(dataBytes);
             Camera2D.Update();
+
+            if (GameplayBackground == null)
+            {
+                GameplayBackground = new GameplayBackground(Textures.GameplayBackground, 
+                    new Point((int)GameController.Instance.MyShip.Coordinates.X,
+                    (int)GameController.Instance.MyShip.Coordinates.Y));
+            }
+            GameplayBackground.Update(new Point((int)GameController.Instance.MyShip.Coordinates.X, 
+                                        (int)GameController.Instance.MyShip.Coordinates.Y));
         }
 
         public override void Draw(GameTime gameTime)
@@ -60,12 +71,19 @@ namespace SeaBattle.Screens
                 null,null,null,null,
                 Camera2D.MatrixScreen);
 
-            SpriteBatch.Draw(Textures.SeaFromAir, new Vector2(), null, Color.White);
-            
+            //SpriteBatch.Draw(Textures.GameplayBackground, new Vector2(), null, Color.White);
+
+            if (GameplayBackground != null)
+            {
+                GameplayBackground.Draw(SpriteBatch);
+            }
+
             GraphicsDevice graphicsDevice = ScreenManager.Instance.GraphicsDevice;
             graphicsDevice.Clear(Color.SkyBlue);
 
             GameController.Instance.DrawWorld(SpriteBatch);
+
+            // Флюгер
             GameController.Instance.ClientWindVane.Draw(SpriteBatch);
 
             for (int i = 0; i < GameController.Instance.Ships.Count(); i++)
@@ -82,9 +100,6 @@ namespace SeaBattle.Screens
                 }
             }
             
-            // Флюгер
-            
-
             SpriteBatch.End();
         }
 
