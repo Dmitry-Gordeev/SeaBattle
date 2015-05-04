@@ -36,10 +36,9 @@ namespace SeaBattle.Service.StaticObjects
             }
         }
 
-        public bool SomethingChanged { get; set; }
+
         public void DeSerialize(ref int position, byte[] dataBytes)
         {
-            //if (dataBytes[position++] == 0) return;
             Coordinates = CommonSerializer.GetVector2(ref position, dataBytes);
         }
 
@@ -50,8 +49,6 @@ namespace SeaBattle.Service.StaticObjects
             return result;
         }
 
-        public bool IsStatic { get { return true; } }
-        public int ID { get; private set; }
         public Vector2 Coordinates { get; set; }
     }
 }

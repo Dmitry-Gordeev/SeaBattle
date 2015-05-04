@@ -144,6 +144,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ShipSupplies\ClientBullet.cs" />
     <Compile Include="ShipSupplies\ClientWindVane.cs" />
     <Compile Include="Ships\ClientShip.cs" />
     <Compile Include="StaticObjects\GameplayBackground.cs" />

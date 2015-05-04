@@ -29,6 +29,7 @@ namespace SeaBattle.Screens
             Textures.GameplayBackground = ContentManager.Load<Texture2D>("Textures/Landscapes/SeaBackground");
             Textures.CompassArrow = ContentManager.Load<Texture2D>("Textures/OtherObjects/CompassArrow");
             Textures.Lugger = ContentManager.Load<Texture2D>("Textures/Ships/Lugger");
+            Textures.Target = ContentManager.Load<Texture2D>("Textures/Landscapes/Stone1");
 
             ScreenManager.Instance.Game.ResetElapsedTime();
         }
@@ -70,9 +71,7 @@ namespace SeaBattle.Screens
             SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, 
                 null,null,null,null,
                 Camera2D.MatrixScreen);
-
-            //SpriteBatch.Draw(Textures.GameplayBackground, new Vector2(), null, Color.White);
-
+            
             if (GameplayBackground != null)
             {
                 GameplayBackground.Draw(SpriteBatch);
@@ -97,6 +96,14 @@ namespace SeaBattle.Screens
                     DrawString("Sails state:", 860f, 100f, Color.Red, 0.5f);
                     DrawString(GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[0].ToString(), 895f, 120f, Color.Red, 0.5f);
                     DrawString(GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[1].ToString(), 895f, 140f, Color.Red, 0.5f);
+                }
+            }
+
+            if (GameController.Instance.Bullets != null)
+            {
+                foreach (var bullet in GameController.Instance.Bullets)
+                {
+                    bullet.Draw(SpriteBatch);
                 }
             }
             

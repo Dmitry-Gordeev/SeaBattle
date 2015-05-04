@@ -29,5 +29,10 @@ namespace XnaAdapter
 
             return AngleToVector2(resultAngle)*vectorLength;
         }
+
+        public static Vector2 GetDirection(Vector2 A, Vector2 B)
+        {
+            return (B - A);
+        }
     }
 }

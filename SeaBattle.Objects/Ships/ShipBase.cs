@@ -58,8 +58,6 @@ namespace SeaBattle.Service.Ships
 
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }
-        public bool IsStatic { get { return false; } }
-        public int ID { get; private set; }
         public abstract float Height { get; }
 
         public float FullWeight { get { return ShipWeight + ShipSupplies.ShipHold.LoadWeight; } }

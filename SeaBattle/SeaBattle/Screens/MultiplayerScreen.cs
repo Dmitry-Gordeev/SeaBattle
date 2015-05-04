@@ -15,7 +15,6 @@ namespace SeaBattle.Screens
     internal class MultPlayerScreen : GameScreen
     {
         private static Texture2D _texture;
-
         private LabelControl _mapLabel;
 
         private ButtonControl _backButton;
@@ -39,7 +38,6 @@ namespace SeaBattle.Screens
 
             _gameDescriptions = ConnectionManager.Instance.GetGameList();
 
-            // todo ?
             if (_gameDescriptions == null)
                 return;
 
@@ -48,8 +46,6 @@ namespace SeaBattle.Screens
             {
                 _gameList.Items.Add(gameDescription.ToString());
             }
-
-            // _gameList.SelectedItems[0] = 0;
         }
 
         public override ScreenManager.ScreenEnum ScreenType
@@ -148,21 +144,25 @@ namespace SeaBattle.Screens
             if (_gameList.Items.Count == 0)
                 return;
 
-            if (!ConnectionManager.Instance.JoinGame(_gameDescriptions[_gameList.SelectedItems[0]].GameId))
+            bool isSuccess;
+            try
+            {
+                isSuccess = ConnectionManager.Instance.JoinGame(_gameDescriptions[_gameList.SelectedItems[0]].GameId);
+            }
+            catch
             {
                 Trace.WriteLine("Join game failed");
+                return;
             }
-            else
-            {
-                
-                WaitScreen.Map = _gameDescriptions[_gameList.SelectedItems[0]].MapType.ToString();
-                WaitScreen.GameMode = _gameDescriptions[_gameList.SelectedItems[0]].GameMode.ToString();
-                WaitScreen.MaxPlayers =
-                    _gameDescriptions[_gameList.SelectedItems[0]].MaximumPlayersAllowed.ToString(CultureInfo.InvariantCulture);
-                WaitScreen.GameId = _gameDescriptions[_gameList.SelectedItems[0]].GameId;
+            if (!isSuccess) return;
 
-                ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WaitScreen);
-            }
+            WaitScreen.Map = _gameDescriptions[_gameList.SelectedItems[0]].MapType.ToString();
+            WaitScreen.GameMode = _gameDescriptions[_gameList.SelectedItems[0]].GameMode.ToString();
+            WaitScreen.MaxPlayers =
+                _gameDescriptions[_gameList.SelectedItems[0]].MaximumPlayersAllowed.ToString(CultureInfo.InvariantCulture);
+            WaitScreen.GameId = _gameDescriptions[_gameList.SelectedItems[0]].GameId;
+
+            ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.WaitScreen);
         }
 
         private void CreateGameButtonPressed(object sender, EventArgs args)

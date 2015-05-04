@@ -2,7 +2,7 @@
 
 namespace SeaBattle.Common.Objects
 {
-    public interface IShip : ICustomSerializable, IObject
+    public interface IShip : ICustomSerializable
     {
         float FullWeight { get; }
         Vector2 Coordinates { get; set; }

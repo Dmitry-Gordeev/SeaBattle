@@ -49,6 +49,7 @@ namespace SeaBattle.Service.Session
             LocalGameDescription = gameDescription;
             StaticObjects = InitializeBorders();
             _ships = InitializeShips();
+            _bullets = new List<IBullet>();
             _gameTimer = new Timer();
 
             #endregion
@@ -60,10 +61,24 @@ namespace SeaBattle.Service.Session
         {
             var result = new byte[] { };
 
+            // флюгер
             result = StaticObjects.Aggregate(result, (current, staticObject) => current.Concat(staticObject.Serialize()).ToArray());
             result = result.Concat(WindVane.Serialize()).ToArray();
+
+            // корабли
             result = result.Concat(BitConverter.GetBytes(_ships.Count)).ToArray();
             result = _ships.Aggregate(result, (current, ship) => current.Concat(ship.Serialize()).ToArray());
+
+            // ядра
+            for (int i = 0; i < _bullets.Count; i++)
+            {
+                if (_bullets[i].IsStoped)
+                {
+                    _bullets.Remove(_bullets[i--]);
+                }
+            }
+            result = result.Concat(BitConverter.GetBytes(_bullets.Count)).ToArray();
+            result = _bullets.Aggregate(result, (current, bullet) => current.Concat(bullet.Serialize()).ToArray());
 
             return result;
         }
@@ -88,6 +103,15 @@ namespace SeaBattle.Service.Session
                 gameEvent.Type == EventType.SailsUp)
             {
                 ship.ShipSupplies.Sails.UpdateSailsState(gameEvent);
+            }
+
+            // Если выстрел
+            if (gameEvent.Type == EventType.Shoot)
+            {
+                int pos = 0;
+                var vectorTo = CommonSerializer.GetVector2(ref pos, gameEvent.ExtraData);
+                _bullets.Add(new Bullet(BulletType.Cannonball, ship.Player.Name, ship.Coordinates, vectorTo));
+                Console.WriteLine(vectorTo);
             }
         }
 

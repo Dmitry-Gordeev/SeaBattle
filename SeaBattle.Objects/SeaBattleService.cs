@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using Microsoft.Xna.Framework;
 using SeaBattle.Common;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Service;
@@ -166,12 +165,6 @@ namespace SeaBattle.Service
             
             if (_currentGameId == -1)
                 return;
-
-            if (gameEvent.Type == EventType.Shoot)
-            {
-                int pos = 0;
-                Console.WriteLine(CommonSerializer.GetVector2(ref pos, gameEvent.ExtraData));
-            }
 
             SessionManager.Instance.HandleGameEvent(gameEvent, Player.Name, _currentGameId);
         }
