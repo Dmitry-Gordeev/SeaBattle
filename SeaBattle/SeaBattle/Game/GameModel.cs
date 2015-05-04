@@ -33,8 +33,7 @@ namespace SeaBattle.Game
             _gameLevel = gameLevel;
             _timeHelper = timeHelper;
 
-            Camera2D = new Camera2D(gameLevel.Width, gameLevel.Height);
-
+            Camera2D = new Camera2D();
         }
         
         /// <summary>

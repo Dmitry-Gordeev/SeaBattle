@@ -14,6 +14,7 @@ using SeaBattle.Service.Ships;
 using SeaBattle.Service.StaticObjects;
 using SeaBattle.Ships;
 using SeaBattle.ShipSupplies;
+using SeaBattle.View;
 
 namespace SeaBattle.Game
 {
@@ -46,6 +47,15 @@ namespace SeaBattle.Game
         public bool IsGameStarted { get; private set; }
 
         public string MyLogin { get; set; }
+
+        public ClientShip MyShip
+        {
+            get
+            {
+                return Ships.FirstOrDefault(ship => ship.Ship.Player.Name == MyLogin);
+            }
+        }
+
         public IStaticObject[] Borders;
         public ClientShip[] Ships;
         public ClientWindVane ClientWindVane;
@@ -174,7 +184,7 @@ namespace SeaBattle.Game
 
             if (mouse.ShootButtonPressed)
             {
-                var coords = CommonSerializer.Vector2ToBytesArr(mouse.SightPosition);
+                var coords = CommonSerializer.Vector2ToBytesArr(Camera2D.RelativePosition(mouse.SightPosition));
                 ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.Shoot, coords));
             }
         }

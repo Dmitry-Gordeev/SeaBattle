@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SeaBattle.Common.Session;
 using SeaBattle.Game;
 using SeaBattle.Input;
 using SeaBattle.NetWork;
@@ -10,9 +11,11 @@ namespace SeaBattle.Screens
 {
     internal class GameplayScreen : GameScreen
     {
+        public Camera2D Camera2D { get; private set; }
+
         public GameplayScreen()
         {
-
+            Camera2D = new Camera2D();
         }
 
         public override ScreenManager.ScreenEnum ScreenType
@@ -22,16 +25,9 @@ namespace SeaBattle.Screens
 
         public override void LoadContent()
         {
-            // load landscapes
             Textures.SeaFromAir = ContentManager.Load<Texture2D>("Textures/Landscapes/SeaFromAir");
             Textures.CompassArrow = ContentManager.Load<Texture2D>("Textures/OtherObjects/CompassArrow");
             Textures.Lugger = ContentManager.Load<Texture2D>("Textures/Ships/Lugger");
-
-            // load stones
-            /*for (int i = 1; i <= Textures.STONES_AMOUNT; i++)
-                Textures.Stones[i - 1] = ContentManager.Load<Texture2D>("Textures/Landscapes/Stone" + i);
-            Textures.OneStone = ContentManager.Load<Texture2D>("Textures/Landscapes/Stone" + 1);*/
-
 
             ScreenManager.Instance.Game.ResetElapsedTime();
         }
@@ -53,13 +49,19 @@ namespace SeaBattle.Screens
             {
                 dataBytes = ConnectionManager.Instance.GetInfo();
             }
+
             GameController.Instance.UpdateWorld(dataBytes);
+            Camera2D.Update();
         }
 
         public override void Draw(GameTime gameTime)
         {
-            SpriteBatch.Begin();
+            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, 
+                null,null,null,null,
+                Camera2D.MatrixScreen);
 
+            SpriteBatch.Draw(Textures.SeaFromAir, new Vector2(), null, Color.White);
+            
             GraphicsDevice graphicsDevice = ScreenManager.Instance.GraphicsDevice;
             graphicsDevice.Clear(Color.SkyBlue);
 
@@ -81,15 +83,9 @@ namespace SeaBattle.Screens
             }
             
             // Флюгер
-            DrawString("WindVane", 865f, 10f, Color.Red, 0.5f);
-            DrawString(GameController.Instance.ClientWindVane.WindVane.ForceOfWind.ToString("F"), 880, 30f, Color.Red, 0.5f);
+            
 
             SpriteBatch.End();
-
-            
-            
-            //DrawString(GameController.Instance.Ships[1].Coordinates.ToString(), 280f, 260f, Color.Red);
-            //DrawString(GameController.Instance.Ships[1].Player.Name, 280f, 290f, Color.Red);
         }
 
         public override void Destroy()

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
 using SeaBattle.Common.Session;
 using SeaBattle.Input;
+using SeaBattle.View;
 
 namespace SeaBattle.Screens
 {
@@ -101,7 +102,7 @@ namespace SeaBattle.Screens
             SpriteBatch.DrawString(
                 SpriteFont,
                 text,
-                new Vector2(positionX, positionY),
+                Camera2D.RelativePosition(new Vector2(positionX, positionY)),
                 color, 0, new Vector2(0f, 0f), fontSize, SpriteEffects.None,
                 layerDepth: Constants.TEXT_TEXTURE_LAYER);
         }
