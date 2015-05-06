@@ -58,8 +58,8 @@ namespace SeaBattle.Service
             if (errorCode == AccountManagerErrorCode.Ok)
             {
                 Player = new Player(username, ShipType.Lugger, Guid.NewGuid());
+                Console.WriteLine("Player name: " + Player.Name + " entered");
             }
-            Console.WriteLine("Player name: " + Player.Name + " entered");
             return errorCode;
         }
 

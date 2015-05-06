@@ -12,5 +12,6 @@ namespace SeaBattle.Common.Objects
         Vector2 CoordinatesFrom{ get; }
         Vector2 CoordinatesTo{ get; }
         bool IsStoped { get; set; }
+        float Damage { get; }
     }
 }

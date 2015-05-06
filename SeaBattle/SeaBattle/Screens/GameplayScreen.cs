@@ -29,7 +29,7 @@ namespace SeaBattle.Screens
             Textures.GameplayBackground = ContentManager.Load<Texture2D>("Textures/Landscapes/SeaBackground");
             Textures.CompassArrow = ContentManager.Load<Texture2D>("Textures/OtherObjects/CompassArrow");
             Textures.Lugger = ContentManager.Load<Texture2D>("Textures/Ships/Lugger");
-            Textures.Target = ContentManager.Load<Texture2D>("Textures/Landscapes/Stone1");
+            Textures.Bullet = ContentManager.Load<Texture2D>("Textures/Landscapes/Stone1");
 
             ScreenManager.Instance.Game.ResetElapsedTime();
         }
@@ -85,20 +85,20 @@ namespace SeaBattle.Screens
             // Флюгер
             GameController.Instance.ClientWindVane.Draw(SpriteBatch);
 
+            // Корабли
             for (int i = 0; i < GameController.Instance.Ships.Count(); i++)
             {
                 if (GameController.Instance.Ships[i] == null) continue;
                 GameController.Instance.Ships[i].Draw(SpriteBatch);
 
-                // Если наш корабль - отображаем состояние парусов
-                if (GameController.Instance.Ships[i].Ship.Player.Name == GameController.Instance.MyLogin)
-                {
-                    DrawString("Sails state:", 860f, 100f, Color.Red, 0.5f);
-                    DrawString(GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[0].ToString(), 895f, 120f, Color.Red, 0.5f);
-                    DrawString(GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[1].ToString(), 895f, 140f, Color.Red, 0.5f);
-                }
+                // Если наш корабль - отображаем данные
+                if (GameController.Instance.Ships[i].Ship.Player.Name != GameController.Instance.MyLogin) continue;
+                
+                DrawSalsState(GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[0],
+                    GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[1]);
+                DrawHealth(GameController.Instance.Ships[i].Ship.Health);
             }
-
+            
             if (GameController.Instance.Bullets != null)
             {
                 foreach (var bullet in GameController.Instance.Bullets)
@@ -108,6 +108,19 @@ namespace SeaBattle.Screens
             }
             
             SpriteBatch.End();
+        }
+
+        private void DrawHealth(float health)
+        {
+            DrawString("Health:", 20f, 10f, Color.Red, 0.5f);
+            DrawString(health.ToString(), 30f, 40f, Color.Red, 0.5f);
+        }
+
+        private void DrawSalsState(int firstSail, int secondSail)
+        {
+            DrawString("Sails state:", 860f, 100f, Color.Red, 0.5f);
+            DrawString(firstSail.ToString(), 895f, 120f, Color.Red, 0.5f);
+            DrawString(secondSail.ToString(), 895f, 140f, Color.Red, 0.5f);
         }
 
         public override void Destroy()

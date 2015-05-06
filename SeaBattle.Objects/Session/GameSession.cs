@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Objects;
@@ -29,7 +29,9 @@ namespace SeaBattle.Service.Session
         private long _lastUpdate;
         private long _updateDelay;
 
-        private Timer _gameTimer;
+        private Timer _updateObjectsTimer;
+        private System.Timers.Timer _gameTimer;
+
         private object _updating;
 
         private TimeHelper _timeHelper;
@@ -50,7 +52,8 @@ namespace SeaBattle.Service.Session
             StaticObjects = InitializeBorders();
             _ships = InitializeShips();
             _bullets = new List<IBullet>();
-            _gameTimer = new Timer();
+            _updateObjectsTimer = new Timer(UpdateObjects, null, 1000, 25);
+            _gameTimer = new System.Timers.Timer();
 
             #endregion
 
@@ -78,6 +81,7 @@ namespace SeaBattle.Service.Session
                 }
             }
             result = result.Concat(BitConverter.GetBytes(_bullets.Count)).ToArray();
+
             result = _bullets.Aggregate(result, (current, bullet) => current.Concat(bullet.Serialize()).ToArray());
 
             return result;
@@ -108,10 +112,7 @@ namespace SeaBattle.Service.Session
             // Если выстрел
             if (gameEvent.Type == EventType.Shoot)
             {
-                int pos = 0;
-                var vectorTo = CommonSerializer.GetVector2(ref pos, gameEvent.ExtraData);
-                _bullets.Add(new Bullet(BulletType.Cannonball, ship.Player.Name, ship.Coordinates, vectorTo));
-                Console.WriteLine(vectorTo);
+                ship.Shoot(_bullets, gameEvent);
             }
         }
 
@@ -163,6 +164,10 @@ namespace SeaBattle.Service.Session
             return ships;
         }
 
+        private void UpdateObjects(object obj)
+        {
+            CollizionDetector.Instance.UpdateObjects(_bullets, _ships);
+        }
         #endregion
     }
 }

@@ -17,8 +17,9 @@ namespace SeaBattle.Service.ShipSupplies
         public Vector2 CoordinatesFrom { get; set; }
         public Vector2 CoordinatesTo { get; set; }
         public bool IsStoped { get; set; }
+        public float Damage { get ; private set; }
 
-        private Timer _movingTimer;
+        private readonly Timer _movingTimer;
         private Vector2 _direction;
 
         public Bullet()
@@ -33,10 +34,11 @@ namespace SeaBattle.Service.ShipSupplies
             CoordinatesFrom = coordinatesFrom;
             CoordinatesTo = coordinatesTo;
             Coordinates = CoordinatesFrom;
+            Damage = 10f;
             _direction = PolarCoordinateHelper.GetDirection(CoordinatesFrom, CoordinatesTo);
             _direction.Normalize();
 
-            _movingTimer = new Timer(Move, null, 0, 10);
+            _movingTimer = new Timer(Move, null, 0, 20);
         }
 
         public void DeSerialize(ref int position, byte[] dataBytes)
@@ -64,7 +66,7 @@ namespace SeaBattle.Service.ShipSupplies
                 Dispose();
                 return;
             }
-            Coordinates += _direction*5;
+            Coordinates += _direction*10;
         }
 
         public void Dispose()

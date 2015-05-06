@@ -24,6 +24,8 @@ namespace SeaBattle.View
 
         // other textures
         public static Texture2D CompassArrow;
+        public static Texture2D Bullet;
+
 
         public static Texture2D HealthRect(int width, int heigth, Color c)
         {

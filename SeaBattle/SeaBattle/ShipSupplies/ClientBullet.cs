@@ -16,7 +16,7 @@ namespace SeaBattle.ShipSupplies
         public ClientBullet(IBullet bullet)
         {
             Bullet = bullet;
-            StaticTexture = Textures.Target;
+            StaticTexture = Textures.Bullet;
         }
     }
 }

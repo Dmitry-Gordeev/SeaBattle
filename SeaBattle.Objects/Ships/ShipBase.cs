@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.Xna.Framework;
 using SeaBattle.Common;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Objects;
+using SeaBattle.Common.Service;
 using SeaBattle.Common.Utils;
 using SeaBattle.Service.ShipSupplies;
 using XnaAdapter;
@@ -13,11 +15,15 @@ namespace SeaBattle.Service.Ships
 {
     public abstract class ShipBase : IShip
     {
-        #region Constructors
+        #region Timers
 
         protected Timer UpdateCoordinatesTimer;
         protected Timer UpdateDirectionToTheLeftTimer;
         protected Timer UpdateDirectionToTheRightTimer;
+        private Timer _cooldounOfShootTimer;
+
+        #endregion
+        #region Constructors
 
         protected ShipBase()
         {
@@ -35,6 +41,7 @@ namespace SeaBattle.Service.Ships
 
             // Init random coordinates
             _coordinates = new Vector2(200, 600);
+            _isEnableForShoot = true;
 
             UpdateCoordinatesTimer = new Timer(UpdateCoordinates, null, 1000, 50);
         }
@@ -52,6 +59,8 @@ namespace SeaBattle.Service.Ships
         private Vector2 _moveVector;
         private Vector2 _coordinates;
 
+        private bool _isEnableForShoot;
+
         #endregion
 
         #region Properties
@@ -59,6 +68,8 @@ namespace SeaBattle.Service.Ships
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }
         public abstract float Height { get; }
+
+        public float Health { get; set; }
 
         public float FullWeight { get { return ShipWeight + ShipSupplies.ShipHold.LoadWeight; } }
 
@@ -91,6 +102,18 @@ namespace SeaBattle.Service.Ships
 
         #region Methods
 
+        public void Shoot(List<IBullet> bullets, GameEvent gameEvent)
+        {
+            if (!_isEnableForShoot)
+                return;
+
+            //_isEnableForShoot = false;
+            _cooldounOfShootTimer = new Timer(ShootingTimer, null, 3000, 10000);
+            int pos = 0;
+            var vectorTo = CommonSerializer.GetVector2(ref pos, gameEvent.ExtraData);
+            bullets.Add(new Bullet(BulletType.Cannonball, Player.Name, Coordinates, vectorTo));
+            Console.WriteLine(vectorTo);
+        }
         protected abstract void InicializeFields(WindVane windVane);
         protected abstract void TurnToTheLeft(object obj);
         protected abstract void TurnToTheRight(object obj);
@@ -119,6 +142,12 @@ namespace SeaBattle.Service.Ships
             }
         }
 
+        private void ShootingTimer(object obj)
+        {
+            _isEnableForShoot = true;
+            _cooldounOfShootTimer.Dispose();
+        }
+
         #endregion
 
         #region Serialization
@@ -130,6 +159,7 @@ namespace SeaBattle.Service.Ships
             Player.Name = CommonSerializer.GetString(ref position, dataBytes);
             Coordinates = CommonSerializer.GetVector2(ref position, dataBytes);
             MoveVector = CommonSerializer.GetVector2(ref position, dataBytes);
+            Health = CommonSerializer.GetFloat(ref position, dataBytes);
             ShipCrew.DeSerialize(ref position, dataBytes);
             ShipSupplies.DeSerialize(ref position, dataBytes);
         }
@@ -142,6 +172,7 @@ namespace SeaBattle.Service.Ships
             result = result.Concat(CommonSerializer.StringToBytesArr(Player.Name)).ToArray();
             result = result.Concat(CommonSerializer.Vector2ToBytesArr(Coordinates)).ToArray();
             result = result.Concat(CommonSerializer.Vector2ToBytesArr(MoveVector)).ToArray();
+            result = result.Concat(BitConverter.GetBytes(Health)).ToArray();
             result = result.Concat(ShipCrew.Serialize()).ToArray();
             result = result.Concat(ShipSupplies.Serialize()).ToArray();
 

@@ -1,10 +1,17 @@
-﻿using SeaBattle.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using SeaBattle.Common;
+using SeaBattle.Common.GameEvent;
+using SeaBattle.Common.Objects;
+using SeaBattle.Common.Service;
+using SeaBattle.Common.Utils;
 using SeaBattle.Service.ShipSupplies;
 using XnaAdapter;
 
 namespace SeaBattle.Service.Ships
 {
-    public class Lugger : ShipBase
+    public sealed class Lugger : ShipBase
     {
         public Lugger(Player player, WindVane windVane)
             : base(player, windVane)
@@ -17,18 +24,21 @@ namespace SeaBattle.Service.Ships
             InicializeFields(null);
         }
 
-        #region Methods
 
         public override float Height
         {
             get { return 10f; }
         }
+
+        #region Methods
         
-        protected override sealed void InicializeFields(WindVane windVane)
+        #region Protected methods
+        protected override void InicializeFields(WindVane windVane)
         {
             ShipCrew = new ShipCrew(10, 24, 16, 8);
             Name = "Lugger";
             ShipWeight = 1000;
+            Health = 2000f;
             ShipSupplies = new Supplies(new Cannons(4, 4, 2, 2), new ShipHold(), new Sails(), windVane);
         }
 
@@ -41,6 +51,7 @@ namespace SeaBattle.Service.Ships
         {
             MoveVector = PolarCoordinateHelper.TurnVector2(MoveVector, 0.05f);
         }
+        #endregion
 
         #endregion
     }
