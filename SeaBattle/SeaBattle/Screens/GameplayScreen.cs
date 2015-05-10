@@ -92,11 +92,19 @@ namespace SeaBattle.Screens
                 GameController.Instance.Ships[i].Draw(SpriteBatch);
 
                 // Если наш корабль - отображаем данные
-                if (GameController.Instance.Ships[i].Ship.Player.Name != GameController.Instance.MyLogin) continue;
+                if (GameController.Instance.Ships[i].Ship.Player.Name != GameController.Instance.MyLogin)
+                {
+                    DrawString(GameController.Instance.Ships[i].Ship.Player.Name, 10f, 560f, Color.Red, 0.5f);
+                    DrawString(GameController.Instance.Ships[i].Ship.Coordinates.ToString(), 5f, 580f, Color.Red, 0.5f);
+                    continue;
+                }
                 
                 DrawSalsState(GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[0],
                     GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[1]);
                 DrawHealth(GameController.Instance.Ships[i].Ship.Health);
+                // Координаты
+                DrawString("Coordinates", 10f, 60f, Color.Red, 0.5f);
+                DrawString(GameController.Instance.Ships[i].Ship.Coordinates.ToString(), 10f, 80f, Color.Red, 0.5f);
             }
             
             if (GameController.Instance.Bullets != null)
@@ -106,6 +114,8 @@ namespace SeaBattle.Screens
                     bullet.Draw(SpriteBatch);
                 }
             }
+
+
             
             SpriteBatch.End();
         }
@@ -113,7 +123,7 @@ namespace SeaBattle.Screens
         private void DrawHealth(float health)
         {
             DrawString("Health:", 20f, 10f, Color.Red, 0.5f);
-            DrawString(health.ToString(), 30f, 40f, Color.Red, 0.5f);
+            DrawString(health.ToString(), 30f, 30f, Color.Red, 0.5f);
         }
 
         private void DrawSalsState(int firstSail, int secondSail)

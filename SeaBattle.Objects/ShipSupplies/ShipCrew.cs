@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Utils;
@@ -40,15 +41,14 @@ namespace SeaBattle.Service.ShipSupplies
             PirateFighters = CommonSerializer.GetInt(ref position, dataBytes);
         }
 
-        public byte[] Serialize()
+        public IEnumerable<byte> Serialize()
         {
             //if (!SomethingChanged) return new byte[] { 0 };
-            var result = new byte[] { 1 };
-
-            result = result.Concat(BitConverter.GetBytes(Rowers)).ToArray();
-            result = result.Concat(BitConverter.GetBytes(Gunners)).ToArray();
-            result = result.Concat(BitConverter.GetBytes(Sailors)).ToArray();
-            result = result.Concat(BitConverter.GetBytes(PirateFighters)).ToArray();
+            
+            var result = new byte[] { 1 }.Concat(BitConverter.GetBytes(Rowers));
+            result = result.Concat(BitConverter.GetBytes(Gunners));
+            result = result.Concat(BitConverter.GetBytes(Sailors));
+            result = result.Concat(BitConverter.GetBytes(PirateFighters));
 
             SomethingChanged = false;
             return result;

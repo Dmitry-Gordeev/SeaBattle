@@ -1,4 +1,5 @@
-﻿using SeaBattle.Common.Objects;
+﻿using System.Collections.Generic;
+using SeaBattle.Common.Objects;
 using System.Linq;
 
 namespace SeaBattle.Service.ShipSupplies
@@ -39,14 +40,13 @@ namespace SeaBattle.Service.ShipSupplies
             Sails.DeSerialize(ref position, dataBytes);
         }
 
-        public byte[] Serialize()
+        public IEnumerable<byte> Serialize()
         {
             //if (!SomethingChanged) return new byte[] { 0 };
-            var result = new byte[] { 1 };
-
-            //result = result.Concat(Cannons.Serialize()).ToArray();
-            //result = result.Concat(ShipHold.Serialize()).ToArray();
-            result = result.Concat(Sails.Serialize()).ToArray();
+            
+            //result = result.Concat(Cannons.Serialize());
+            //result = result.Concat(ShipHold.Serialize());
+            var result = new byte[] { 1 }.Concat(Sails.Serialize());
 
             SomethingChanged = false;
             return result;

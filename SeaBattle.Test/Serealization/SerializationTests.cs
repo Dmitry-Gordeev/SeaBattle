@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SeaBattle.Common;
 using SeaBattle.Common.Session;
@@ -14,7 +15,7 @@ namespace SeaBattle.Test.Serealization
         {
             var player = new Player("name", ShipType.Lugger, Guid.NewGuid());
             var ship1 = new Lugger();
-            var bytes = ship1.Serialize();
+            var bytes = ship1.Serialize().ToArray();
 
             int i = 0;
 

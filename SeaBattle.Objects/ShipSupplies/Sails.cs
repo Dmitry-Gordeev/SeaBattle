@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using SeaBattle.Common.GameEvent;
@@ -139,14 +140,9 @@ namespace SeaBattle.Service.ShipSupplies
             SailsState[1] = dataBytes[position++];
         }
 
-        public byte[] Serialize()
+        public IEnumerable<byte> Serialize()
         {
-            //if (!SomethingChanged) return new byte[] { 0 };
-            var result = new byte[] { };
-
-            result = result.Concat(SailsState).ToArray();
-
-            return result;
+            return new byte[] { }.Concat(SailsState);
         }
 
         #endregion

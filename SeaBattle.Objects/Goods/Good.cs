@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Utils;
@@ -25,13 +26,11 @@ namespace SeaBattle.Service.Goods
             Weight = CommonSerializer.GetFloat(ref position, dataBytes);
         }
 
-        public byte[] Serialize()
+        public IEnumerable<byte> Serialize()
         {
-            var result = new byte[] {};
-
-            result = result.Concat(CommonSerializer.StringToBytesArr(Name)).ToArray();
-            result = result.Concat(BitConverter.GetBytes(Count)).ToArray();
-            result = result.Concat(BitConverter.GetBytes(Weight)).ToArray();
+            var result = CommonSerializer.StringToBytes(Name);
+            result = result.Concat(BitConverter.GetBytes(Count));
+            result = result.Concat(BitConverter.GetBytes(Weight));
 
             return result;
         }

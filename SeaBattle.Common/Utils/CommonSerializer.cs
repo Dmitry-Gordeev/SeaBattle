@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -37,26 +38,20 @@ namespace SeaBattle.Common.Utils
 
             return result;
         }
-        
-        public static bool[] BytesArrToBools(ref int position, byte[] bools, int boolsLength)
+
+        public static bool[] BytesToBools(ref int position, byte[] bools, int boolsLength)
         {
             return null;
         }
 
-        public static byte[] StringToBytesArr(string str)
+        public static IEnumerable<byte> StringToBytes(string str)
         {
-            var result = BitConverter.GetBytes(str.Length);
-            result = result.Concat(Encoding.Unicode.GetBytes(str)).ToArray();
-
-            return result;
+            return BitConverter.GetBytes(str.Length).Concat(Encoding.Unicode.GetBytes(str));
         }
 
-        public static byte[] Vector2ToBytesArr(Vector2 vector)
+        public static IEnumerable<byte> Vector2ToBytes(Vector2 vector)
         {
-            var result = BitConverter.GetBytes(vector.X);
-            result = result.Concat(BitConverter.GetBytes(vector.Y)).ToArray();
-
-            return result;
+            return BitConverter.GetBytes(vector.X).Concat(BitConverter.GetBytes(vector.Y));
         }
 
         public static Vector2 GetVector2(ref int position, byte[] bytes)
@@ -68,8 +63,8 @@ namespace SeaBattle.Common.Utils
 
             return result;
         }
-        
-        public static byte[] BoolArrToBytes(bool[] bools)
+
+        public static IEnumerable<byte> BoolArrToBytes(bool[] bools)
         {
             int bytes = bools.Length / 8;
             if ((bools.Length % 8) != 0) bytes++;

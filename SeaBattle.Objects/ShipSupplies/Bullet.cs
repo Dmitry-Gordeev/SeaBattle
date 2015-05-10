@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.Xna.Framework;
@@ -48,12 +49,11 @@ namespace SeaBattle.Service.ShipSupplies
             Coordinates = CommonSerializer.GetVector2(ref position, dataBytes);
         }
 
-        public byte[] Serialize()
+        public IEnumerable<byte> Serialize()
         {
-            var result = new byte[]{};
-            //result = result.Concat(BitConverter.GetBytes((byte)Type)).ToArray();
-            result = result.Concat(CommonSerializer.StringToBytesArr(Shooter)).ToArray();
-            result = result.Concat(CommonSerializer.Vector2ToBytesArr(Coordinates)).ToArray();
+            //result = result.Concat(BitConverter.GetBytes((byte)Type));
+            
+            var result = CommonSerializer.StringToBytes(Shooter).Concat(CommonSerializer.Vector2ToBytes(Coordinates));
 
             return result;
         }

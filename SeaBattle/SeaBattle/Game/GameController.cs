@@ -88,21 +88,7 @@ namespace SeaBattle.Game
         {
             if (dataBytes == null) return;
 
-            // Границы
             int pos = 0;
-            for (int i = 0; i < 4; i++)
-            {
-                if (Borders[i] == null)
-                    Borders[i] = new Border(Side.Bottom);
-                Borders[i].DeSerialize(ref pos, dataBytes);
-            }
-
-            // Флюгер
-            if (ClientWindVane == null)
-            {
-                ClientWindVane = new ClientWindVane();
-            }
-            ClientWindVane.WindVane.DeSerialize(ref pos, dataBytes);
 
             // Корабли
             int countOfShips = CommonSerializer.GetInt(ref pos, dataBytes);
@@ -114,6 +100,13 @@ namespace SeaBattle.Game
                 }
                 Ships[i].Ship.DeSerialize(ref pos, dataBytes);
             }
+
+            // Флюгер
+            if (ClientWindVane == null)
+            {
+                ClientWindVane = new ClientWindVane();
+            }
+            ClientWindVane.WindVane.DeSerialize(ref pos, dataBytes);
 
             // Ядра
             Bullets = new List<ClientBullet>();
@@ -198,7 +191,7 @@ namespace SeaBattle.Game
 
             if (mouse.ShootButtonPressed)
             {
-                var coords = CommonSerializer.Vector2ToBytesArr(Camera2D.RelativePosition(mouse.SightPosition));
+                var coords = CommonSerializer.Vector2ToBytes(Camera2D.RelativePosition(mouse.SightPosition)).ToArray();
                 ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.Shoot, coords));
             }
         }

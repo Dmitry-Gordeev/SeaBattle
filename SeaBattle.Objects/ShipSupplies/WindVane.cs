@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.Xna.Framework;
@@ -20,17 +21,17 @@ namespace SeaBattle.Service.ShipSupplies
         public WindVane(bool isNeedToSetTimer)
         {
             _angleOfDirection = _rnd.NextDouble() * 2 * Math.PI;
-            Direction = new Vector2((float)Math.Cos(_angleOfDirection), (float)Math.Sin(_angleOfDirection));
+            //Direction = new Vector2((float)Math.Cos(_angleOfDirection), (float)Math.Sin(_angleOfDirection));
             if (isNeedToSetTimer)
             {
-                _updateDirectionTimer = new Timer(UpdateAngleAndForce, null, 1000, 10000);
+                _updateDirectionTimer = new Timer(UpdateAngleAndForce, null, 0, 5000);
             }
         }
 
         private void UpdateAngleAndForce(object obj)
         {
             _angleOfDirection = GetNextAngle();
-            ForceOfWind = (float)(_rnd.NextDouble() * 15 + 1);
+            ForceOfWind = (float)(_rnd.NextDouble() * 9 + 1);
             UpdateDirection();
         }
 
@@ -52,12 +53,10 @@ namespace SeaBattle.Service.ShipSupplies
             UpdateDirection();
         }
 
-        public byte[] Serialize()
+        public IEnumerable<byte> Serialize()
         {
-            var result = new byte[] { };
-            result = result.Concat(BitConverter.GetBytes(_angleOfDirection)).ToArray();
-            result = result.Concat(BitConverter.GetBytes(ForceOfWind)).ToArray();
-            return result;
+            var result = new byte[] {}.Concat(BitConverter.GetBytes(_angleOfDirection));
+            return result.Concat(BitConverter.GetBytes(ForceOfWind));
         }
     }
 }

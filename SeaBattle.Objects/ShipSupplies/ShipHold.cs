@@ -46,16 +46,15 @@ namespace SeaBattle.Service.ShipSupplies
             }
         }
 
-        public byte[] Serialize()
+        public IEnumerable<byte> Serialize()
         {
             //if (!SomethingChanged) return new byte[] { 0 };
-            var result = new byte[] { 1 };
-
-            result = result.Concat(BitConverter.GetBytes(Goods.Count)).ToArray();
+            
+            var result = new byte[] { 1 }.Concat(BitConverter.GetBytes(Goods.Count));
 
             for (int i = 0; i < Goods.Count; i++)
             {
-                result = result.Concat(Goods[i].Serialize()).ToArray();
+                result = result.Concat(Goods[i].Serialize());
             }
 
             SomethingChanged = false;

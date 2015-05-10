@@ -164,17 +164,16 @@ namespace SeaBattle.Service.Ships
             ShipSupplies.DeSerialize(ref position, dataBytes);
         }
 
-        public byte[] Serialize()
+        public IEnumerable<byte> Serialize()
         {
             //if (!SomethingChanged) return new byte[]{0};
-            var result = new byte[] {1};
 
-            result = result.Concat(CommonSerializer.StringToBytesArr(Player.Name)).ToArray();
-            result = result.Concat(CommonSerializer.Vector2ToBytesArr(Coordinates)).ToArray();
-            result = result.Concat(CommonSerializer.Vector2ToBytesArr(MoveVector)).ToArray();
-            result = result.Concat(BitConverter.GetBytes(Health)).ToArray();
-            result = result.Concat(ShipCrew.Serialize()).ToArray();
-            result = result.Concat(ShipSupplies.Serialize()).ToArray();
+            var result = new byte[] {1}.Concat(CommonSerializer.StringToBytes(Player.Name));
+            result = result.Concat(CommonSerializer.Vector2ToBytes(Coordinates));
+            result = result.Concat(CommonSerializer.Vector2ToBytes(MoveVector));
+            result = result.Concat(BitConverter.GetBytes(Health));
+            result = result.Concat(ShipCrew.Serialize());
+            result = result.Concat(ShipSupplies.Serialize());
 
             SomethingChanged = false;
             return result;

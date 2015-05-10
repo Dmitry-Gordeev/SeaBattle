@@ -52,14 +52,14 @@ namespace SeaBattle.Common.Service
         
         #region процесс игры
 
-        [OperationContract]
-        byte[] GetInfo();
-
         /// <summary>
         /// возвращает список игроков
         /// </summary>
         [OperationContract]
         List<Player> PlayerListUpdate();
+
+        [OperationContract]
+        byte[] GetInfo();
 
         /// <summary>
         /// Отправляет данные о событии на сервер

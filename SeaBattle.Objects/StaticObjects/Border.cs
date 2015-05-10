@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
@@ -42,11 +43,9 @@ namespace SeaBattle.Service.StaticObjects
             Coordinates = CommonSerializer.GetVector2(ref position, dataBytes);
         }
 
-        public byte[] Serialize()
+        public IEnumerable<byte> Serialize()
         {
-            var result = new byte[] { };
-            result = result.Concat(CommonSerializer.Vector2ToBytesArr(Coordinates)).ToArray();
-            return result;
+            return CommonSerializer.Vector2ToBytes(Coordinates);
         }
 
         public Vector2 Coordinates { get; set; }

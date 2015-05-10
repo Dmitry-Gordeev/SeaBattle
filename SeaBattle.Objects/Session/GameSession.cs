@@ -62,16 +62,13 @@ namespace SeaBattle.Service.Session
 
         public byte[] GetInfo()
         {
-            var result = new byte[] { };
+            // корабли
+            var result = new byte[]{}.Concat(BitConverter.GetBytes(_ships.Count));
+            result = _ships.Aggregate(result, (current, ship) => current.Concat(ship.Serialize()));
 
             // флюгер
-            result = StaticObjects.Aggregate(result, (current, staticObject) => current.Concat(staticObject.Serialize()).ToArray());
-            result = result.Concat(WindVane.Serialize()).ToArray();
-
-            // корабли
-            result = result.Concat(BitConverter.GetBytes(_ships.Count)).ToArray();
-            result = _ships.Aggregate(result, (current, ship) => current.Concat(ship.Serialize()).ToArray());
-
+            result = result.Concat(WindVane.Serialize());
+            
             // ядра
             for (int i = 0; i < _bullets.Count; i++)
             {
@@ -80,11 +77,10 @@ namespace SeaBattle.Service.Session
                     _bullets.Remove(_bullets[i--]);
                 }
             }
-            result = result.Concat(BitConverter.GetBytes(_bullets.Count)).ToArray();
+            result = result.Concat(BitConverter.GetBytes(_bullets.Count));
+            result = _bullets.Aggregate(result, (current, bullet) => current.Concat(bullet.Serialize()));
 
-            result = _bullets.Aggregate(result, (current, bullet) => current.Concat(bullet.Serialize()).ToArray());
-
-            return result;
+            return result.ToArray();
         }
 
         public void HandleGameEvent(GameEvent gameEvent, string playerName)
