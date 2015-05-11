@@ -8,11 +8,12 @@ namespace SeaBattle.Game
     {
         public static DrawableGameObject CreateClientGameObject(IObject serverGameObject)
         {
-            switch (serverGameObject.IsStatic)
+            /*switch (serverGameObject.IsStatic)
             {
                 default:
                     return new DrawableGameObject(serverGameObject, Textures.Cross);
-            }
+            }*/
+            return null;
         }
 
         public static GameLevel CreateClientGameLevel(GameLevel gameLevel)

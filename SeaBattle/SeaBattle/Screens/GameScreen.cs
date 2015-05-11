@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
 using SeaBattle.Common.Session;
+using SeaBattle.Common.Utils;
 using SeaBattle.Input;
+using SeaBattle.View;
 
 namespace SeaBattle.Screens
 {
@@ -14,6 +16,8 @@ namespace SeaBattle.Screens
         protected ContentManager ContentManager { get; private set; }
 
         protected SpriteFont SpriteFont { get; set; }
+        protected GarbageCollector GarbageCollector;
+
 
         protected GameScreen()
         {
@@ -35,6 +39,8 @@ namespace SeaBattle.Screens
 
         public bool IsActive { get; set; }
 
+        public abstract ScreenManager.ScreenEnum ScreenType { get; }
+
         /// <summary>
         /// Загрузка контента, необходимого
         /// для отображения экрана 
@@ -53,6 +59,9 @@ namespace SeaBattle.Screens
 
         public virtual void Update(GameTime gameTime)
         {
+            if (GarbageCollector == null)
+                return;
+            GarbageCollector.Update();
         }
 
         public virtual void HandleInput(Controller controller)
@@ -91,6 +100,16 @@ namespace SeaBattle.Screens
                 text,
                 new Vector2(positionX, positionY),
                 color, 0, new Vector2(0f, 0f), 0.8f, SpriteEffects.None,
+                layerDepth: Constants.TEXT_TEXTURE_LAYER);
+        }
+
+        protected void DrawString(string text, float positionX, float positionY, Color color, float fontSize)
+        {
+            SpriteBatch.DrawString(
+                SpriteFont,
+                text,
+                Camera2D.RelativePosition(new Vector2(positionX, positionY)),
+                color, 0, new Vector2(0f, 0f), fontSize, SpriteEffects.None,
                 layerDepth: Constants.TEXT_TEXTURE_LAYER);
         }
     }

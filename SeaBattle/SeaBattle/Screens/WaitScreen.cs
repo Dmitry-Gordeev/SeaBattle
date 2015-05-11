@@ -41,6 +41,11 @@ namespace SeaBattle.Screens
 
         public static int GameId { get; set; }
 
+        public override ScreenManager.ScreenEnum ScreenType
+        {
+            get { return ScreenManager.ScreenEnum.WaitScreen; }
+        }
+
         public override void LoadContent()
         {
             _texture = ContentManager.Load<Texture2D>("Textures/screens/main_back_ground_screen");

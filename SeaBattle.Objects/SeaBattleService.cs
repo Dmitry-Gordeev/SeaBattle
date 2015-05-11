@@ -28,7 +28,7 @@ namespace SeaBattle.Service
 
         private readonly InstanceContext _channelContext;
 
-        private readonly Queue<AGameEvent> _filteredEvents = new Queue<AGameEvent>();
+        private readonly Queue<GameEvent> _filteredEvents = new Queue<GameEvent>();
 
         #endregion
 
@@ -57,8 +57,8 @@ namespace SeaBattle.Service
             if (errorCode == AccountManagerErrorCode.Ok)
             {
                 Player = new Player(username, ShipType.Lugger, Guid.NewGuid());
+                Console.WriteLine("Player name: " + Player.Name + " entered");
             }
-            Console.WriteLine("Player name: " + Player.Name + " entered");
             return errorCode;
         }
 
@@ -145,12 +145,7 @@ namespace SeaBattle.Service
         #endregion
 
         #region процесс игры
-
-        public long GetServerGameTime()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public byte[] GetInfo()
         {
             return _currentGameId == -1 ? null : SessionManager.Instance.GetInfo(_currentGameId);
@@ -163,9 +158,14 @@ namespace SeaBattle.Service
             return currentGame != null ? currentGame.Players : null;
         }
 
-        public AGameEvent[] GetEvents()
+        public void AddClientGameEvent(GameEvent gameEvent)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(gameEvent.Type);
+            
+            if (_currentGameId == -1)
+                return;
+
+            SessionManager.Instance.HandleGameEvent(gameEvent, Player.Name, _currentGameId);
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using SeaBattle.Common.Objects;
+﻿using System.Collections.Generic;
+using SeaBattle.Common.Objects;
 using System.Linq;
 
 namespace SeaBattle.Service.ShipSupplies
@@ -8,11 +9,12 @@ namespace SeaBattle.Service.ShipSupplies
         public bool SomethingChanged { get; set; }
         public object Lock { get; set; }
 
-        public Supplies(Cannons cannons, ShipHold shipHold, Sails sails)
+        public Supplies(Cannons cannons, ShipHold shipHold, Sails sails, WindVane windVane)
         {
             Cannons = cannons;
             ShipHold = shipHold;
             Sails = sails;
+            WindVane = windVane;
         }
 
         #region Serializable
@@ -25,7 +27,7 @@ namespace SeaBattle.Service.ShipSupplies
 
         #region Not serializable
 
-        public WindVane WindVane;
+        public readonly WindVane WindVane;
        
         #endregion
 
@@ -33,19 +35,18 @@ namespace SeaBattle.Service.ShipSupplies
         {
             if (dataBytes[position++] == 0) return;
 
-            Cannons.DeSerialize(ref position, dataBytes);
-            ShipHold.DeSerialize(ref position, dataBytes);
+            //Cannons.DeSerialize(ref position, dataBytes);
+            //ShipHold.DeSerialize(ref position, dataBytes);
             Sails.DeSerialize(ref position, dataBytes);
         }
 
-        public byte[] Serialize()
+        public IEnumerable<byte> Serialize()
         {
             //if (!SomethingChanged) return new byte[] { 0 };
-            var result = new byte[] { 1 };
-
-            result = result.Concat(Cannons.Serialize()).ToArray();
-            result = result.Concat(ShipHold.Serialize()).ToArray();
-            result = result.Concat(Sails.Serialize()).ToArray();
+            
+            //result = result.Concat(Cannons.Serialize());
+            //result = result.Concat(ShipHold.Serialize());
+            var result = new byte[] { 1 }.Concat(Sails.Serialize());
 
             SomethingChanged = false;
             return result;

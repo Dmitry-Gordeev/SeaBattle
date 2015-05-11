@@ -7,6 +7,11 @@ namespace SeaBattle.Screens
     {
         public static bool ShowLoadingMessage { get; set; }
 
+        public override ScreenManager.ScreenEnum ScreenType
+        {
+            get { return ScreenManager.ScreenEnum.LoadingScreen; }
+        }
+
         public override void Update(GameTime gameTime)
         {
         }

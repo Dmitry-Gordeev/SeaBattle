@@ -92,21 +92,20 @@ namespace SeaBattle.Service.ShipSupplies
         {
             if (dataBytes[position++] == 0) return;
 
-            LeftSideCannons = CommonSerializer.BytesArrToBools(ref position, dataBytes, LeftSideCannons.Count());
-            RightSideCannons = CommonSerializer.BytesArrToBools(ref position, dataBytes, RightSideCannons.Count());
-            ForePartCannons = CommonSerializer.BytesArrToBools(ref position, dataBytes, ForePartCannons.Count());
-            RearPartCannons = CommonSerializer.BytesArrToBools(ref position, dataBytes, RearPartCannons.Count());
+            LeftSideCannons = CommonSerializer.BytesToBools(ref position, dataBytes, LeftSideCannons.Count());
+            RightSideCannons = CommonSerializer.BytesToBools(ref position, dataBytes, RightSideCannons.Count());
+            ForePartCannons = CommonSerializer.BytesToBools(ref position, dataBytes, ForePartCannons.Count());
+            RearPartCannons = CommonSerializer.BytesToBools(ref position, dataBytes, RearPartCannons.Count());
         }
 
-        public byte[] Serialize()
+        public IEnumerable<byte> Serialize()
         {
             //if (!SomethingChanged) return new byte[] { 0 };
-            var result = new byte[] { 1 };
-
-            result = (byte[])result.Concat(CommonSerializer.BoolArrToBytes(LeftSideCannons));
-            result = (byte[])result.Concat(CommonSerializer.BoolArrToBytes(RightSideCannons));
-            result = (byte[])result.Concat(CommonSerializer.BoolArrToBytes(ForePartCannons));
-            result = (byte[])result.Concat(CommonSerializer.BoolArrToBytes(RearPartCannons));
+            
+            var result = new byte[] { 1 }.Concat(CommonSerializer.BoolArrToBytes(LeftSideCannons));
+            result = result.Concat(CommonSerializer.BoolArrToBytes(RightSideCannons));
+            result = result.Concat(CommonSerializer.BoolArrToBytes(ForePartCannons));
+            result = result.Concat(CommonSerializer.BoolArrToBytes(RearPartCannons));
 
             SomethingChanged = false;
             return result;

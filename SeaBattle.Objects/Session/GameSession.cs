@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Timers;
+using System.Threading;
 using Microsoft.Xna.Framework;
-using SeaBattle.Common;
+using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
@@ -30,7 +29,9 @@ namespace SeaBattle.Service.Session
         private long _lastUpdate;
         private long _updateDelay;
 
-        private Timer _gameTimer;
+        private Timer _updateObjectsTimer;
+        private System.Timers.Timer _gameTimer;
+
         private object _updating;
 
         private TimeHelper _timeHelper;
@@ -39,18 +40,20 @@ namespace SeaBattle.Service.Session
 
         public GameDescription LocalGameDescription { get; private set; }
         public GameLevel GameLevel { get; private set; }
-        public Compass Compass { get; private set; }
+        public WindVane WindVane { get; private set; }
 
         public GameSession(GameDescription gameDescription)
         {
             #region инициализация объектов
 
-            Compass = new Compass(true);
+            WindVane = new WindVane(true);
             GameLevel = new GameLevel(Constants.LevelWidth, Constants.LevelHeigh);
             LocalGameDescription = gameDescription;
             StaticObjects = InitializeBorders();
             _ships = InitializeShips();
-            _gameTimer = new Timer();
+            _bullets = new List<IBullet>();
+            _updateObjectsTimer = new Timer(UpdateObjects, null, 1000, 25);
+            _gameTimer = new System.Timers.Timer();
 
             #endregion
 
@@ -59,17 +62,54 @@ namespace SeaBattle.Service.Session
 
         public byte[] GetInfo()
         {
-            var result = new byte[] { };
+            // корабли
+            var result = new byte[]{}.Concat(BitConverter.GetBytes(_ships.Count));
+            result = _ships.Aggregate(result, (current, ship) => current.Concat(ship.Serialize()));
 
-            result = StaticObjects.Aggregate(result, (current, staticObject) => current.Concat(staticObject.Serialize()).ToArray());
+            // флюгер
+            result = result.Concat(WindVane.Serialize());
+            
+            // ядра
+            for (int i = 0; i < _bullets.Count; i++)
+            {
+                if (_bullets[i].IsStoped)
+                {
+                    _bullets.Remove(_bullets[i--]);
+                }
+            }
+            result = result.Concat(BitConverter.GetBytes(_bullets.Count));
+            result = _bullets.Aggregate(result, (current, bullet) => current.Concat(bullet.Serialize()));
 
-            result = result.Concat(Compass.Serialize()).ToArray();
+            return result.ToArray();
+        }
 
-            result = result.Concat(BitConverter.GetBytes(_ships.Count)).ToArray();
+        public void HandleGameEvent(GameEvent gameEvent, string playerName)
+        {
+            var ship = _ships.FirstOrDefault(s => s.Player.Name == playerName);
+            if (ship == null)
+                return;
 
-            result = _ships.Aggregate(result, (current, ship) => current.Concat(ship.Serialize()).ToArray());
+            // Если поворот корабля
+            if (gameEvent.Type == EventType.TurnLeftBegin ||
+                gameEvent.Type == EventType.TurnLeftEnd ||
+                gameEvent.Type == EventType.TurnRightBegin ||
+                gameEvent.Type == EventType.TurnRightEnd)
+            {
+                ship.TurnTheShip(gameEvent);
+            }
+            
+            // Если операция с парусами
+            if (gameEvent.Type == EventType.SailsDown ||
+                gameEvent.Type == EventType.SailsUp)
+            {
+                ship.ShipSupplies.Sails.UpdateSailsState(gameEvent);
+            }
 
-            return result;
+            // Если выстрел
+            if (gameEvent.Type == EventType.Shoot)
+            {
+                ship.Shoot(_bullets, gameEvent);
+            }
         }
 
         #region private methods
@@ -111,7 +151,7 @@ namespace SeaBattle.Service.Session
             var rnd = new Random();
 
             ships.AddRange(LocalGameDescription.Players.Select(player =>
-                new Lugger(player)
+                new Corvette(player, WindVane)
                 {
                     Coordinates = new Vector2(rnd.Next(100, Constants.LevelWidth - 100), 
                         rnd.Next(100, Constants.LevelHeigh - 100))
@@ -120,6 +160,10 @@ namespace SeaBattle.Service.Session
             return ships;
         }
 
+        private void UpdateObjects(object obj)
+        {
+            CollizionDetector.Instance.UpdateObjects(_bullets, _ships);
+        }
         #endregion
     }
 }

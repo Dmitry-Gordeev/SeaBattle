@@ -28,6 +28,11 @@ namespace SeaBattle.Screens
             SpriteBatch.End();
         }
 
+        public override ScreenManager.ScreenEnum ScreenType
+        {
+            get { return ScreenManager.ScreenEnum.GameMenuScreen; }
+        }
+
         public override void LoadContent()
         {
             _texture = ContentManager.Load<Texture2D>("Textures/screens/main_back_ground_screen");

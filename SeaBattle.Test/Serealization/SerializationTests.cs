@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SeaBattle.Common;
 using SeaBattle.Common.Session;
@@ -13,12 +14,12 @@ namespace SeaBattle.Test.Serealization
         public void SerializanionTest()
         {
             var player = new Player("name", ShipType.Lugger, Guid.NewGuid());
-            var ship1 = new Lugger(player);
-            var bytes = ship1.Serialize();
+            var ship1 = new Corvette();
+            var bytes = ship1.Serialize().ToArray();
 
             int i = 0;
 
-            var ship2 = new Lugger(player);
+            var ship2 = new Corvette();
             ship2.DeSerialize(ref i, bytes);
 
             /*

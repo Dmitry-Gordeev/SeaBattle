@@ -52,17 +52,20 @@ namespace SeaBattle.Common.Service
         
         #region процесс игры
 
-        [OperationContract]
-        long GetServerGameTime();
-
-        [OperationContract]
-        byte[] GetInfo();
-
         /// <summary>
         /// возвращает список игроков
         /// </summary>
         [OperationContract]
         List<Player> PlayerListUpdate();
+
+        [OperationContract]
+        byte[] GetInfo();
+
+        /// <summary>
+        /// Отправляет данные о событии на сервер
+        /// </summary>
+        [OperationContract]
+        void AddClientGameEvent(GameEvent.GameEvent gameEvent);
 
         #endregion
     }

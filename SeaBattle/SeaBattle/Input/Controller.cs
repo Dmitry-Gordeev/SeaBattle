@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Nuclex.Input;
 using Nuclex.UserInterface.Controls;
 using Nuclex.UserInterface.Controls.Desktop;
@@ -25,11 +24,9 @@ namespace SeaBattle.Input
             InputManager = inputManager;
         }
 
-        public abstract Vector2? RunVector { get; }
-
         public abstract Vector2 SightPosition { get; }
 
-        public abstract ButtonState ShootButton { get; }
+        public abstract bool ShootButtonPressed { get; }
 
         protected GameScreen ActiveScreen
         {
@@ -91,7 +88,8 @@ namespace SeaBattle.Input
 
         protected void FocusChanged()
         {
-            ActiveScreen.FocusedControl = Controls[Index];
+            if (Controls.Count > Index)
+                ActiveScreen.FocusedControl = Controls[Index];
         }
 
         protected void NotifyListeners(Control control)
@@ -107,7 +105,8 @@ namespace SeaBattle.Input
 
         protected void NotifyListeners(int index)
         {
-            NotifyListeners(Controls[index]);
+            if (Controls.Count > index)
+                NotifyListeners(Controls[index]);
         }
     }
 }

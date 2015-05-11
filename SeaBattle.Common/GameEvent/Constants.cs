@@ -2,12 +2,12 @@
 {
     public enum EventType
     {
-        NewObjectEvent,
-        ObjectDirectionChangedEvent,
-        ObjectShootEvent,
-        ObjectDeletedEvent,
-        WeaponChangedEvent,
-        ObjectHealthChanged,
-        RequestForEvents
+        SailsUp,
+        SailsDown,
+        TurnRightBegin,
+        TurnLeftBegin,
+        TurnRightEnd,
+        TurnLeftEnd,
+        Shoot
     }
 }

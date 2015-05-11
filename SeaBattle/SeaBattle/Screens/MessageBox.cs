@@ -22,6 +22,11 @@ namespace SeaBattle.Screens
 
         public static string Message { get; set; }
 
+        public override ScreenManager.ScreenEnum ScreenType
+        {
+            get { return ScreenManager.ScreenEnum.MessageBoxScreen; }
+        }
+
         public override void LoadContent()
         {
             _texture = ContentManager.Load<Texture2D>("Textures/screens/message_box");

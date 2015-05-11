@@ -11,7 +11,7 @@ namespace SeaBattle.View
         public static GraphicsDevice GraphicsDevice;
 
         // Landscape textures
-        public static Texture2D SeaFromAir;
+        public static Texture2D GameplayBackground;
 
         // Ships
         public static Texture2D Lugger;
@@ -24,6 +24,8 @@ namespace SeaBattle.View
 
         // other textures
         public static Texture2D CompassArrow;
+        public static Texture2D Bullet;
+
 
         public static Texture2D HealthRect(int width, int heigth, Color c)
         {
