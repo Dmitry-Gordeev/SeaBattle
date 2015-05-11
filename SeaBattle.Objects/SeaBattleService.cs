@@ -6,7 +6,6 @@ using SeaBattle.Common;
 using SeaBattle.Common.GameEvent;
 using SeaBattle.Common.Service;
 using SeaBattle.Common.Session;
-using SeaBattle.Common.Utils;
 using SeaBattle.Service.DA;
 using SeaBattle.Service.Session;
 

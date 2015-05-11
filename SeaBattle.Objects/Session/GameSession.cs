@@ -151,7 +151,7 @@ namespace SeaBattle.Service.Session
             var rnd = new Random();
 
             ships.AddRange(LocalGameDescription.Players.Select(player =>
-                new Lugger(player, WindVane)
+                new Corvette(player, WindVane)
                 {
                     Coordinates = new Vector2(rnd.Next(100, Constants.LevelWidth - 100), 
                         rnd.Next(100, Constants.LevelHeigh - 100))

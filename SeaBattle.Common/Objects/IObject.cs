@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SeaBattle.Common.Objects
+﻿namespace SeaBattle.Common.Objects
 {
     public interface IObject
     {

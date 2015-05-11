@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using SeaBattle.Common.Objects;
 using SeaBattle.Common.Service;

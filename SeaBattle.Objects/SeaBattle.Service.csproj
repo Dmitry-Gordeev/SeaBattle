@@ -82,7 +82,7 @@
     <Compile Include="ShipSupplies\ShipHold.cs" />
     <Compile Include="ShipSupplies\Supplies.cs" />
     <Compile Include="ShipSupplies\Compass.cs" />
-    <Compile Include="Ships\Lugger.cs" />
+    <Compile Include="Ships\Corvette.cs" />
     <Compile Include="Ships\ShipBase.cs" />
     <Compile Include="StaticObjects\Border.cs" />
   </ItemGroup>

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Nuclex.UserInterface;
 using SeaBattle.Common.Session;
+using SeaBattle.Common.Utils;
 using SeaBattle.Input;
 using SeaBattle.View;
 
@@ -15,6 +16,8 @@ namespace SeaBattle.Screens
         protected ContentManager ContentManager { get; private set; }
 
         protected SpriteFont SpriteFont { get; set; }
+        protected GarbageCollector GarbageCollector;
+
 
         protected GameScreen()
         {
@@ -56,6 +59,9 @@ namespace SeaBattle.Screens
 
         public virtual void Update(GameTime gameTime)
         {
+            if (GarbageCollector == null)
+                return;
+            GarbageCollector.Update();
         }
 
         public virtual void HandleInput(Controller controller)

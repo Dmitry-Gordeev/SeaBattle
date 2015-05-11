@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SeaBattle.Common.Utils;
 using SeaBattle.Game;
 using SeaBattle.Input;
 using SeaBattle.NetWork;
@@ -17,6 +18,7 @@ namespace SeaBattle.Screens
         public GameplayScreen()
         {
             Camera2D = new Camera2D();
+            GarbageCollector = new GarbageCollector(20);
         }
 
         public override ScreenManager.ScreenEnum ScreenType
@@ -28,7 +30,7 @@ namespace SeaBattle.Screens
         {
             Textures.GameplayBackground = ContentManager.Load<Texture2D>("Textures/Landscapes/SeaBackground");
             Textures.CompassArrow = ContentManager.Load<Texture2D>("Textures/OtherObjects/CompassArrow");
-            Textures.Lugger = ContentManager.Load<Texture2D>("Textures/Ships/Lugger");
+            Textures.Lugger = ContentManager.Load<Texture2D>("Textures/Ships/Corvette");
             Textures.Bullet = ContentManager.Load<Texture2D>("Textures/Landscapes/Stone1");
 
             ScreenManager.Instance.Game.ResetElapsedTime();
@@ -48,7 +50,7 @@ namespace SeaBattle.Screens
 
             byte[] dataBytes = null;
 
-            if (_countOfUpdates++%5 == 0)
+            if (_countOfUpdates++ % 5 == 0)
             {
                 dataBytes = ConnectionManager.Instance.GetInfo();
             }

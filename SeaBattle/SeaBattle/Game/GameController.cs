@@ -13,7 +13,6 @@ using SeaBattle.NetWork;
 using SeaBattle.Screens;
 using SeaBattle.Service.Ships;
 using SeaBattle.Service.ShipSupplies;
-using SeaBattle.Service.StaticObjects;
 using SeaBattle.Ships;
 using SeaBattle.ShipSupplies;
 using SeaBattle.View;
@@ -96,7 +95,7 @@ namespace SeaBattle.Game
             {
                 if (Ships[i] == null)
                 {
-                    Ships[i] = new ClientShip(new Lugger());
+                    Ships[i] = new ClientShip(new Corvette());
                 }
                 Ships[i].Ship.DeSerialize(ref pos, dataBytes);
             }

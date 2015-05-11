@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using SeaBattle.Common;
-using SeaBattle.Common.GameEvent;
-using SeaBattle.Common.Objects;
-using SeaBattle.Common.Service;
-using SeaBattle.Common.Utils;
+﻿using SeaBattle.Common;
 using SeaBattle.Service.ShipSupplies;
 using XnaAdapter;
 
 namespace SeaBattle.Service.Ships
 {
-    public sealed class Lugger : ShipBase
+    public sealed class Corvette : ShipBase
     {
-        public Lugger(Player player, WindVane windVane)
+        public Corvette(Player player, WindVane windVane)
             : base(player, windVane)
         {
             InicializeFields(windVane);
         }
 
-        public Lugger()
+        public Corvette()
         {
             InicializeFields(null);
         }
@@ -36,7 +29,7 @@ namespace SeaBattle.Service.Ships
         protected override void InicializeFields(WindVane windVane)
         {
             ShipCrew = new ShipCrew(10, 24, 16, 8);
-            Name = "Lugger";
+            Name = "Corvette";
             ShipWeight = 1000;
             Health = 2000f;
             ShipSupplies = new Supplies(new Cannons(4, 4, 2, 2), new ShipHold(), new Sails(), windVane);

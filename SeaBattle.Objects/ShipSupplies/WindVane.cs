@@ -24,7 +24,7 @@ namespace SeaBattle.Service.ShipSupplies
             //Direction = new Vector2((float)Math.Cos(_angleOfDirection), (float)Math.Sin(_angleOfDirection));
             if (isNeedToSetTimer)
             {
-                _updateDirectionTimer = new Timer(UpdateAngleAndForce, null, 0, 5000);
+                _updateDirectionTimer = new Timer(UpdateAngleAndForce, null, 0, 60000);
             }
         }
 
