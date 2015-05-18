@@ -244,6 +244,11 @@ namespace SeaBattle.Game
                 var diffCoords = ServerShips[i].Ship.Coordinates - CurrentShips[i].Ship.Coordinates;
                 var diffAngle = PolarCoordinateHelper.GetAngle(ServerShips[i].Ship.MoveVector, CurrentShips[i].Ship.MoveVector);
 
+                if (Math.Abs(diffAngle) > Math.PI)
+                {
+                    diffAngle = -(float)(2 * Math.PI - Math.Abs(diffAngle)) * (Math.Sign(diffAngle));
+                }
+
                 CurrentShips[i].Ship.Coordinates += diffCoords/(5 - step);
                 CurrentShips[i].Ship.MoveVector = PolarCoordinateHelper.TurnVector2(CurrentShips[i].Ship.MoveVector, diffAngle/(5 - step));
             }
