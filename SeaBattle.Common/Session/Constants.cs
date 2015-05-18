@@ -11,6 +11,8 @@
         public const int BackgroundWidth = 1024;
         public const int BackgroundHeigh = 1024;
 
+        public const int BackgroundFramesCount = 1024;
+
         public const float TEXT_TEXTURE_LAYER = 0f;
 
         public const float MOVING_GAME_OBJECTS_TEXTURE_LAYER = 0.2f;

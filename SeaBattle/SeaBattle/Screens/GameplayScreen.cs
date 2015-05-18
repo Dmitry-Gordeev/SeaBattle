@@ -15,11 +15,15 @@ namespace SeaBattle.Screens
     {
         public Camera2D Camera2D { get; private set; }
         public GameplayBackground GameplayBackground { get; private set; }
+        private bool _isStarted;
 
         public GameplayScreen()
         {
             Camera2D = new Camera2D();
             GarbageCollector = new GarbageCollector(20);
+            Textures.GameplayBackgroundAnimation = new Animation2D();
+            GameplayBackground = new GameplayBackground(Textures.GameplayBackgroundTexture,
+                                                        Textures.GameplayBackgroundAnimation);
         }
 
         public override ScreenManager.ScreenEnum ScreenType
@@ -33,6 +37,12 @@ namespace SeaBattle.Screens
             Textures.CompassArrow = ContentManager.Load<Texture2D>("Textures/OtherObjects/CompassArrow");
             Textures.Corvette = ContentManager.Load<Texture2D>("Textures/Ships/120");
             Textures.Bullet = ContentManager.Load<Texture2D>("Textures/Landscapes/Bullet");
+
+            for (int i = 1; i < 22; i++)
+            {
+                Textures.GameplayBackgroundAnimation.AddFrame(
+                    ContentManager.Load<Texture2D>("Textures/Landscapes/Animation/0" + i.ToString("D2")));
+            }
 
             ScreenManager.Instance.Game.ResetElapsedTime();
         }
@@ -48,23 +58,26 @@ namespace SeaBattle.Screens
         {
             base.Update(gameTime);
             GameController.Instance.UpdateWorld(gameTime);
+            GameplayBackground.BackgroundAnimation.Update(gameTime);
 
             byte[] dataBytes = null;
 
-            if (_countOfUpdates++ % 5 == 0)
+            if (_countOfUpdates % 5 == 0)
             {
                 dataBytes = ConnectionManager.Instance.GetInfo();
             }
+            
+            GameController.Instance.UpdateWorld(dataBytes, _countOfUpdates++ % 5, _isStarted);
 
-            GameController.Instance.UpdateWorld(dataBytes);
             Camera2D.Update();
 
-            if (GameplayBackground == null)
+            if (!_isStarted)
             {
-                GameplayBackground = new GameplayBackground(Textures.GameplayBackgroundTexture, 
-                                                            Textures.GameplayBackgroundAnimation,
-                                                            new Point((int)GameController.Instance.MyShip.Coordinates.X,
-                                                            (int)GameController.Instance.MyShip.Coordinates.Y));
+                GameplayBackground.Initialize(new Point((int)GameController.Instance.MyShip.Coordinates.X,
+                                              (int)GameController.Instance.MyShip.Coordinates.Y));
+                GameplayBackground.BackgroundAnimation.Initialize(100, true);
+
+                _isStarted = !_isStarted;
             }
             GameplayBackground.Update(new Point((int)GameController.Instance.MyShip.Coordinates.X, 
                                         (int)GameController.Instance.MyShip.Coordinates.Y));
@@ -90,25 +103,25 @@ namespace SeaBattle.Screens
             GameController.Instance.ClientWindVane.Draw(SpriteBatch);
 
             // Корабли
-            for (int i = 0; i < GameController.Instance.Ships.Count(); i++)
+            for (int i = 0; i < GameController.Instance.CurrentShips.Count(); i++)
             {
-                if (GameController.Instance.Ships[i] == null) continue;
-                GameController.Instance.Ships[i].Draw(SpriteBatch);
+                if (GameController.Instance.CurrentShips[i] == null) continue;
+                GameController.Instance.CurrentShips[i].Draw(SpriteBatch);
 
                 // Если наш корабль - отображаем данные
-                if (GameController.Instance.Ships[i].Ship.Player.Name != GameController.Instance.MyLogin)
+                if (GameController.Instance.CurrentShips[i].Ship.Player.Name != GameController.Instance.MyLogin)
                 {
-                    DrawString(GameController.Instance.Ships[i].Ship.Player.Name, 10f, 835f, Color.Red, 0.8f);
-                    DrawString(PolarCoordinateHelper.Vector2ToString(GameController.Instance.Ships[i].Ship.Coordinates), 5f, 860f, Color.Red, 0.8f);
+                    DrawString(GameController.Instance.CurrentShips[i].Ship.Player.Name, 10f, 835f, Color.Red, 0.8f);
+                    DrawString(PolarCoordinateHelper.Vector2ToString(GameController.Instance.CurrentShips[i].Ship.Coordinates), 5f, 860f, Color.Red, 0.8f);
                     continue;
                 }
-                
-                DrawSalsState(GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[0],
-                    GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[1]);
-                DrawHealth(GameController.Instance.Ships[i].Ship.Health);
+
+                DrawSalsState(GameController.Instance.CurrentShips[i].Ship.ShipSupplies.Sails.SailsState[0],
+                    GameController.Instance.CurrentShips[i].Ship.ShipSupplies.Sails.SailsState[1]);
+                DrawHealth(GameController.Instance.CurrentShips[i].Ship.Health);
                 // Координаты
                 DrawString("Coordinates", 10f, 70f, Color.Red, 0.8f);
-                DrawString(PolarCoordinateHelper.Vector2ToString(GameController.Instance.Ships[i].Ship.Coordinates), 10f, 100f, Color.Red, 0.8f);
+                DrawString(PolarCoordinateHelper.Vector2ToString(GameController.Instance.CurrentShips[i].Ship.Coordinates), 10f, 100f, Color.Red, 0.8f);
             }
             
             if (GameController.Instance.Bullets != null)

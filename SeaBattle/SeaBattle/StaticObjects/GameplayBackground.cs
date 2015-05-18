@@ -9,7 +9,7 @@ namespace SeaBattle.StaticObjects
     {
         public Texture2D BackgroundTexture;
         public Animation2D BackgroundAnimation;
-
+        
         public Rectangle BackgrounRectangle1;
         public Rectangle BackgrounRectangle2;
         public Rectangle BackgrounRectangle3;
@@ -18,11 +18,14 @@ namespace SeaBattle.StaticObjects
         private bool _isFirstVerticalPosition;
         private bool _isFirstHorizontallyPosition;
 
-        public GameplayBackground(Texture2D backgroundTexture, Animation2D backgroundAnimation, Point currentCoordinates)
+        public GameplayBackground(Texture2D backgroundTexture, Animation2D backgroundAnimation)
         {
             BackgroundTexture = backgroundTexture;
             BackgroundAnimation = backgroundAnimation;
+        }
 
+        public void Initialize(Point currentCoordinates)
+        {
             BackgrounRectangle1 = new Rectangle(currentCoordinates.X - Constants.BackgroundWidth, currentCoordinates.Y - Constants.BackgroundHeigh, Constants.BackgroundWidth, Constants.BackgroundHeigh);
             BackgrounRectangle2 = new Rectangle(currentCoordinates.X, currentCoordinates.Y - Constants.BackgroundHeigh, Constants.BackgroundWidth, Constants.BackgroundHeigh);
             BackgrounRectangle3 = new Rectangle(currentCoordinates.X, currentCoordinates.Y, Constants.BackgroundWidth, Constants.BackgroundHeigh);
@@ -34,10 +37,10 @@ namespace SeaBattle.StaticObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(BackgroundTexture, BackgrounRectangle1, Color.White);
-            spriteBatch.Draw(BackgroundTexture, BackgrounRectangle2, Color.White);
-            spriteBatch.Draw(BackgroundTexture, BackgrounRectangle3, Color.White);
-            spriteBatch.Draw(BackgroundTexture, BackgrounRectangle4, Color.White);
+            spriteBatch.Draw(BackgroundAnimation.CurrentTexture, BackgrounRectangle1, Color.White);
+            spriteBatch.Draw(BackgroundAnimation.CurrentTexture, BackgrounRectangle2, Color.White);
+            spriteBatch.Draw(BackgroundAnimation.CurrentTexture, BackgrounRectangle3, Color.White);
+            spriteBatch.Draw(BackgroundAnimation.CurrentTexture, BackgrounRectangle4, Color.White);
         }
 
         public void Update(Point currentCoords)

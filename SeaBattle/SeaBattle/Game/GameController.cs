@@ -16,6 +16,7 @@ using SeaBattle.Service.ShipSupplies;
 using SeaBattle.Ships;
 using SeaBattle.ShipSupplies;
 using SeaBattle.View;
+using XnaAdapter;
 
 namespace SeaBattle.Game
 {
@@ -33,7 +34,9 @@ namespace SeaBattle.Game
         private GameController()
         {
             Borders = new IStaticObject[4];
-            Ships = new ClientShip[10];
+            ServerShips = new ClientShip[10];
+            CurrentShips = new ClientShip[10];
+            ClientWindVane = new ClientWindVane();
         }
 
         #endregion
@@ -51,12 +54,15 @@ namespace SeaBattle.Game
         {
             get
             {
-                return Ships.FirstOrDefault(ship => ship.Ship.Player.Name == MyLogin);
+                return CurrentShips.FirstOrDefault(ship => ship.Ship.Player.Name == MyLogin);
             }
         }
 
         public IStaticObject[] Borders;
-        public ClientShip[] Ships;
+
+        public ClientShip[] ServerShips;
+        public ClientShip[] CurrentShips;
+
         public List<ClientBullet> Bullets;
         public ClientWindVane ClientWindVane;
 
@@ -73,7 +79,7 @@ namespace SeaBattle.Game
         public void StartGame(int gameId, byte[] dataBytes)
         {
             var timeHelper = new TimeHelper(StartTime);
-            UpdateWorld(dataBytes);
+            //UpdateWorld(dataBytes);
             
             // GameModel initialized, set boolean flag
             IsGameStarted = true;
@@ -83,38 +89,47 @@ namespace SeaBattle.Game
             ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.GameplayScreen);
         }
 
-        public void UpdateWorld(byte[] dataBytes)
+        public void UpdateWorld(byte[] dataBytes, int step, bool isStarted)
         {
             if (dataBytes == null) return;
 
-            int pos = 0;
-
-            // Корабли
-            int countOfShips = CommonSerializer.GetInt(ref pos, dataBytes);
-            for (int i = 0; i < countOfShips; i++)
+            if (step == 0)
             {
-                if (Ships[i] == null)
+                int pos = 0;
+
+                // Корабли
+                int countOfShips = CommonSerializer.GetInt(ref pos, dataBytes);
+                for (int i = 0; i < countOfShips; i++)
                 {
-                    Ships[i] = new ClientShip(new Corvette());
+                    if (ServerShips[i] == null)
+                    {
+                        ServerShips[i] = new ClientShip(new Corvette());
+                        CurrentShips[i] = new ClientShip(new Corvette());
+                    }
+                    ServerShips[i].Ship.DeSerialize(ref pos, dataBytes);
                 }
-                Ships[i].Ship.DeSerialize(ref pos, dataBytes);
+
+                // Флюгер
+                ClientWindVane.WindVane.DeSerialize(ref pos, dataBytes);
+
+                // Ядра
+                Bullets = new List<ClientBullet>();
+                int countOfBullets = CommonSerializer.GetInt(ref pos, dataBytes);
+                for (int i = 0; i < countOfBullets; i++)
+                {
+                    var bullet = new Bullet();
+                    bullet.DeSerialize(ref pos, dataBytes);
+                    Bullets.Add(new ClientBullet(bullet));
+                }
             }
 
-            // Флюгер
-            if (ClientWindVane == null)
+            if (!isStarted)
             {
-                ClientWindVane = new ClientWindVane();
+                InitCurrentShips();
             }
-            ClientWindVane.WindVane.DeSerialize(ref pos, dataBytes);
-
-            // Ядра
-            Bullets = new List<ClientBullet>();
-            int countOfBullets = CommonSerializer.GetInt(ref pos, dataBytes);
-            for (int i = 0; i < countOfBullets; i++)
+            else
             {
-                var bullet = new Bullet();
-                bullet.DeSerialize(ref pos, dataBytes);
-                Bullets.Add(new ClientBullet(bullet));
+                UpdateCurrentShips(step);
             }
         }
 
@@ -198,6 +213,39 @@ namespace SeaBattle.Game
             {
                 var coords = CommonSerializer.Vector2ToBytes(Camera2D.RelativePosition(mouse.SightPosition)).ToArray();
                 ConnectionManager.Instance.AddClientGameEvent(new GameEvent(0, EventType.Shoot, coords));
+            }
+        }
+
+        #endregion
+
+        #region Move
+
+        private void InitCurrentShips()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                if (ServerShips[i] == null)
+                    return;
+
+                CurrentShips[i].Ship.Coordinates = ServerShips[i].Ship.Coordinates;
+                CurrentShips[i].Ship.MoveVector = ServerShips[i].Ship.MoveVector;
+                CurrentShips[i].Ship.Player = ServerShips[i].Ship.Player;
+                CurrentShips[i].Ship.ShipSupplies = ServerShips[i].Ship.ShipSupplies;
+            }
+        }
+
+        private void UpdateCurrentShips(int step)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                if (ServerShips[i] == null || CurrentShips[i] == null)
+                    return;
+
+                var diffCoords = ServerShips[i].Ship.Coordinates - CurrentShips[i].Ship.Coordinates;
+                var diffAngle = PolarCoordinateHelper.GetAngle(ServerShips[i].Ship.MoveVector, CurrentShips[i].Ship.MoveVector);
+
+                CurrentShips[i].Ship.Coordinates += diffCoords/(5 - step);
+                CurrentShips[i].Ship.MoveVector = PolarCoordinateHelper.TurnVector2(CurrentShips[i].Ship.MoveVector, diffAngle/(5 - step));
             }
         }
 
