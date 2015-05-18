@@ -161,7 +161,13 @@ namespace SeaBattle.Game
         {
             var keyboard = controller as KeyboardAndMouse;
             if (keyboard == null) return;
-            
+
+            if (keyboard.IsNewKeyPressed(Keys.Escape))
+            {
+                ConnectionManager.Instance.LeaveGame();
+                ScreenManager.Instance.SetActiveScreen(ScreenManager.ScreenEnum.MainMenuScreen);
+            }
+
             switch (Settings.Default.KeyboardLayout)
             {
                 case 0:

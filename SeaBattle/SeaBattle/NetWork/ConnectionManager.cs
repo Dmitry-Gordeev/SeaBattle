@@ -137,7 +137,7 @@ namespace SeaBattle.NetWork
 
             #endregion
 
-            #region Регистрация, аутентификация
+            #region Регистрация, авторизация
 
             public AccountManagerErrorCode Register(string username, string password)
             {

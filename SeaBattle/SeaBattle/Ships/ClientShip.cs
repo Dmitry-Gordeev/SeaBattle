@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using SeaBattle.Service.Ships;
 using SeaBattle.View;
+using XnaAdapter;
 
 namespace SeaBattle.Ships
 {
@@ -13,12 +15,12 @@ namespace SeaBattle.Ships
             get { return Ship.Coordinates; }
         }
 
-        public override Vector2 MoveVector { get { return Ship.MoveVector; } }
+        public override Vector2 MoveVector { get { return PolarCoordinateHelper.TurnVector2(Ship.MoveVector, (float)(Math.PI/2)); } }
 
         internal ClientShip(ShipBase ship)
         {
             Ship = ship;
-            StaticTexture = Textures.Lugger;
+            StaticTexture = Textures.Corvette;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace SeaBattle.ShipSupplies
 
         public override Vector2 Coordinates
         {
-            get { return Camera2D.RelativePosition(new Vector2(890f, 75f)); }
+            get { return Camera2D.RelativePosition(new Vector2(935f, 90f)); }
         }
 
         public override Vector2 MoveVector
@@ -49,15 +49,15 @@ namespace SeaBattle.ShipSupplies
             spriteBatch.DrawString(
                 ScreenManager.Instance.Font,
                 "WindVane",
-                Camera2D.RelativePosition(new Vector2(865f, 10f)),
-                Color.Red, 0, new Vector2(0f, 0f), 0.5f, SpriteEffects.None,
+                Camera2D.RelativePosition(new Vector2(885f, 10f)),
+                Color.Red, 0, new Vector2(0f, 0f), 0.8f, SpriteEffects.None,
                 layerDepth: Constants.TEXT_TEXTURE_LAYER);
 
             spriteBatch.DrawString(
                 ScreenManager.Instance.Font,
                 GameController.Instance.ClientWindVane.WindVane.ForceOfWind.ToString("F"),
-                Camera2D.RelativePosition(new Vector2(880f, 30f)),
-                Color.Red, 0, new Vector2(0f, 0f), 0.5f, SpriteEffects.None,
+                Camera2D.RelativePosition(new Vector2(910f, 35f)),
+                Color.Red, 0, new Vector2(0f, 0f), 0.8f, SpriteEffects.None,
                 layerDepth: Constants.TEXT_TEXTURE_LAYER);
         }
     }

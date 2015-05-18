@@ -44,7 +44,7 @@ namespace SeaBattle.Service
             _globalServiceID++;
 		}
 
-        #region регистрация, аутентификация
+        #region регистрация, авторизация
 
         public AccountManagerErrorCode Register(string username, string password)
         {
@@ -74,7 +74,7 @@ namespace SeaBattle.Service
 
         public List<GameDescription> GetGameList()
         {
-            return GamesList;
+            return GamesList.Where(game => !game.IsGameStarted).ToList();
         }
 
         public int CreateGame(GameModes mode, int maxPlayers, MapSet mapType)
@@ -142,6 +142,13 @@ namespace SeaBattle.Service
             return true;
         }
 
+        public List<Player> PlayerListUpdate()
+        {
+            var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
+
+            return currentGame != null ? currentGame.Players : null;
+        }
+
         #endregion
 
         #region процесс игры
@@ -149,13 +156,6 @@ namespace SeaBattle.Service
         public byte[] GetInfo()
         {
             return _currentGameId == -1 ? null : SessionManager.Instance.GetInfo(_currentGameId);
-        }
-
-        public List<Player> PlayerListUpdate()
-        {
-            var currentGame = GamesList.FirstOrDefault(game => game.GameId == _currentGameId);
-
-            return currentGame != null ? currentGame.Players : null;
         }
 
         public void AddClientGameEvent(GameEvent gameEvent)

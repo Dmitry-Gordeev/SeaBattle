@@ -19,7 +19,6 @@ namespace SeaBattle.Service.ShipSupplies
             SailsState = new byte[] {0, 0};
         }
         public bool SomethingChanged { get; set; }
-        public object Lock { get; set; }
 
         #region Properties
 

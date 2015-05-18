@@ -34,5 +34,10 @@ namespace XnaAdapter
         {
             return (B - A);
         }
+
+        public static string Vector2ToString(Vector2 vector)
+        {
+            return string.Format("({0} ; {1})", vector.X.ToString("F"), vector.Y.ToString("F"));
+        }
     }
 }

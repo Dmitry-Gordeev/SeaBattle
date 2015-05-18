@@ -162,7 +162,7 @@ namespace SeaBattle.Screens
             {
                 Text = "Create",
                 Bounds =
-                    new UniRectangle(new UniScalar(0.5f, 178f), new UniScalar(0.4f, -15f), 110, 32)
+                    new UniRectangle(new UniScalar(0.5f, -200f), new UniScalar(0.4f, 190f), 120, 32)
             };
 
             // Back Button
@@ -170,7 +170,7 @@ namespace SeaBattle.Screens
             {
                 Text = "Back",
                 Bounds =
-                    new UniRectangle(new UniScalar(0.5f, -380f), new UniScalar(0.4f, 170f), 120, 32)
+                    new UniRectangle(new UniScalar(0.5f, -378f), new UniScalar(0.4f, 190f), 120, 32)
             };
         }
 

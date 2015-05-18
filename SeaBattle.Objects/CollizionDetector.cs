@@ -13,12 +13,12 @@ namespace SeaBattle.Service
             {
                 if (_collizionDetector != null) return _collizionDetector;
 
-                _collizionDetector = new CollizionDetector();;
+                _collizionDetector = new CollizionDetector();
                 return _collizionDetector;
             }
         }
 
-        public void CollizionForBulletAndShip(IBullet bullet, ShipBase ship)
+        private void CollizionForBulletAndShip(IBullet bullet, ShipBase ship)
         {
             if (((bullet.Coordinates - ship.Coordinates).Length() > 32) || (bullet.Shooter == ship.Player.Name)) return;
 
@@ -32,15 +32,13 @@ namespace SeaBattle.Service
 
         public void UpdateObjects(List<IBullet> bullets, List<ShipBase> ships)
         {
-            foreach (var ship in ships)
+            foreach (var bullet in bullets)
             {
-                foreach (var bullet in bullets)
+                foreach (var ship in ships)
                 {
                     CollizionForBulletAndShip(bullet, ship);
                 }   
             }
         }
-
-
     }
 }

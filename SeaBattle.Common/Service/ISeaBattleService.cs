@@ -7,7 +7,7 @@ namespace SeaBattle.Common.Service
     [ServiceContract]
     public interface ISeaBattleService
     {
-        #region регистрация, аутентификация
+        #region регистрация, авторизация
 
         [OperationContract(IsInitiating = true)]
         AccountManagerErrorCode Register(string username, string password);

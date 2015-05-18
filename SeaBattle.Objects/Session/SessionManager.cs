@@ -27,12 +27,10 @@ namespace SeaBattle.Service.Session
         /// <summary>
         /// Создаем новую игру
         /// </summary>
-        public byte[] CreateGame(GameDescription gameDescription)
+        public void CreateGame(GameDescription gameDescription)
         {
             var gameSession = new GameSession(gameDescription);
             _gameSessions.Add(gameSession);
-
-            return gameSession.GetInfo();
         }
 
         public byte[] GetInfo(int gameId)

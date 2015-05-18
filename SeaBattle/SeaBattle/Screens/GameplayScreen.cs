@@ -7,6 +7,7 @@ using SeaBattle.Input;
 using SeaBattle.NetWork;
 using SeaBattle.StaticObjects;
 using SeaBattle.View;
+using XnaAdapter;
 
 namespace SeaBattle.Screens
 {
@@ -28,10 +29,10 @@ namespace SeaBattle.Screens
 
         public override void LoadContent()
         {
-            Textures.GameplayBackground = ContentManager.Load<Texture2D>("Textures/Landscapes/SeaBackground");
+            Textures.GameplayBackgroundTexture = ContentManager.Load<Texture2D>("Textures/Landscapes/SeaBackground");
             Textures.CompassArrow = ContentManager.Load<Texture2D>("Textures/OtherObjects/CompassArrow");
-            Textures.Lugger = ContentManager.Load<Texture2D>("Textures/Ships/Corvette");
-            Textures.Bullet = ContentManager.Load<Texture2D>("Textures/Landscapes/Stone1");
+            Textures.Corvette = ContentManager.Load<Texture2D>("Textures/Ships/120");
+            Textures.Bullet = ContentManager.Load<Texture2D>("Textures/Landscapes/Bullet");
 
             ScreenManager.Instance.Game.ResetElapsedTime();
         }
@@ -60,9 +61,10 @@ namespace SeaBattle.Screens
 
             if (GameplayBackground == null)
             {
-                GameplayBackground = new GameplayBackground(Textures.GameplayBackground, 
-                    new Point((int)GameController.Instance.MyShip.Coordinates.X,
-                    (int)GameController.Instance.MyShip.Coordinates.Y));
+                GameplayBackground = new GameplayBackground(Textures.GameplayBackgroundTexture, 
+                                                            Textures.GameplayBackgroundAnimation,
+                                                            new Point((int)GameController.Instance.MyShip.Coordinates.X,
+                                                            (int)GameController.Instance.MyShip.Coordinates.Y));
             }
             GameplayBackground.Update(new Point((int)GameController.Instance.MyShip.Coordinates.X, 
                                         (int)GameController.Instance.MyShip.Coordinates.Y));
@@ -96,8 +98,8 @@ namespace SeaBattle.Screens
                 // Если наш корабль - отображаем данные
                 if (GameController.Instance.Ships[i].Ship.Player.Name != GameController.Instance.MyLogin)
                 {
-                    DrawString(GameController.Instance.Ships[i].Ship.Player.Name, 10f, 560f, Color.Red, 0.5f);
-                    DrawString(GameController.Instance.Ships[i].Ship.Coordinates.ToString(), 5f, 580f, Color.Red, 0.5f);
+                    DrawString(GameController.Instance.Ships[i].Ship.Player.Name, 10f, 835f, Color.Red, 0.8f);
+                    DrawString(PolarCoordinateHelper.Vector2ToString(GameController.Instance.Ships[i].Ship.Coordinates), 5f, 860f, Color.Red, 0.8f);
                     continue;
                 }
                 
@@ -105,8 +107,8 @@ namespace SeaBattle.Screens
                     GameController.Instance.Ships[i].Ship.ShipSupplies.Sails.SailsState[1]);
                 DrawHealth(GameController.Instance.Ships[i].Ship.Health);
                 // Координаты
-                DrawString("Coordinates", 10f, 60f, Color.Red, 0.5f);
-                DrawString(GameController.Instance.Ships[i].Ship.Coordinates.ToString(), 10f, 80f, Color.Red, 0.5f);
+                DrawString("Coordinates", 10f, 70f, Color.Red, 0.8f);
+                DrawString(PolarCoordinateHelper.Vector2ToString(GameController.Instance.Ships[i].Ship.Coordinates), 10f, 100f, Color.Red, 0.8f);
             }
             
             if (GameController.Instance.Bullets != null)
@@ -117,22 +119,20 @@ namespace SeaBattle.Screens
                 }
             }
 
-
-            
             SpriteBatch.End();
         }
 
         private void DrawHealth(float health)
         {
-            DrawString("Health:", 20f, 10f, Color.Red, 0.5f);
-            DrawString(health.ToString(), 30f, 30f, Color.Red, 0.5f);
+            DrawString("Health", 20f, 10f, Color.Red, 0.8f);
+            DrawString(health.ToString(), 30f, 35f, Color.Red, 0.8f);
         }
 
         private void DrawSalsState(int firstSail, int secondSail)
         {
-            DrawString("Sails state:", 860f, 100f, Color.Red, 0.5f);
-            DrawString(firstSail.ToString(), 895f, 120f, Color.Red, 0.5f);
-            DrawString(secondSail.ToString(), 895f, 140f, Color.Red, 0.5f);
+            DrawString("Sails state", 870f, 110f, Color.Red, 0.8f);
+            DrawString(firstSail.ToString(), 925f, 135f, Color.Red, 0.8f);
+            DrawString(secondSail.ToString(), 925f, 160f, Color.Red, 0.8f);
         }
 
         public override void Destroy()

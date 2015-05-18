@@ -23,6 +23,7 @@ namespace SeaBattle.Service.Ships
         private Timer _cooldounOfShootTimer;
 
         #endregion
+
         #region Constructors
 
         protected ShipBase()
@@ -80,6 +81,8 @@ namespace SeaBattle.Service.Ships
                 var angle = PolarCoordinateHelper.GetAngle(ShipSupplies.WindVane.Direction, MoveVector);
                 var relativeSpeed = ShipSupplies.WindVane.ForceOfWind * (float)Math.Cos(angle);
                 relativeSpeed *= ShipSupplies.Sails.SailsSpeed;
+                // Сила трения и сопротивления
+                relativeSpeed *= 0.7f;
                 return relativeSpeed > 0 ? relativeSpeed : 0;
             }
         }
@@ -107,7 +110,7 @@ namespace SeaBattle.Service.Ships
             if (!_isEnableForShoot)
                 return;
 
-            //_isEnableForShoot = false;
+            _isEnableForShoot = false;
             _cooldounOfShootTimer = new Timer(ShootingTimer, null, 3000, 10000);
             int pos = 0;
             var vectorTo = CommonSerializer.GetVector2(ref pos, gameEvent.ExtraData);
